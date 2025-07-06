@@ -1,0 +1,705 @@
+###############################
+(1) What is Spring boot ?
+################################
+
+Spring Boot is an open-source Java-based framework used to create stand-alone applications quickly and easily with minimal configuration.
+
+
+Spring Boot Stand-Alone Application:
+-------------------------------------------
+-> You just run a main() method like any regular Java program.
+-> It includes an embedded server (e.g., Tomcat) in the application itself.
+-> No need to install or configure any external server separately.
+-> When you run above program:
+	a. Starts up the embedded server.
+	b. Deploys your app on it.
+	c. Listens to HTTP requests (like a web server).
+
+Note: Since Spring boot is stand alone application, we package the application as jar file
+
+###################################
+(2) EXPLAIN SPRING VS SPRING BOOT?
+####################################
+Spring and spring boot both are the part of spring framework but they have different purpose as,
+SPRING:
+•	In spring, developer requires manually configure and manage the dependencies.
+•	Need xml configuration
+•	No embedded tomcat server
+•	It doesn’t have starter tags
+SPRING BOOT:
+•	In spring boot, it simplify the development of spring boot application by providing defaults and auto-configuration by scanning components.
+•	Application. Properties file
+•	Embedded tomcat server
+•	It has starter tags
+
+
+######################################
+(3) EXPLAIN FEATURES OF SPRING BOOT?
+######################################
+Spring boot features like,
+• AUTO CONFIGURATION
+• STAND ALONE APPLICATION: because it includes tomcat server.
+• SPRING BOOT STARTER: like, pre-configured dependencies
+• ACTUATOR: it exposes endpoints which allow us to monitor application health
+• MICROSERVICES SUPPORT:  spring boot is well-suited for building microservices.
+• PRODUCTION READY FEATURES:  it offers comprehensive logging, exception handling, security configuration
+• EASY TESTING : like, j unit + Mockito 
+. DEVTOOLS: provide live loading of projects.
+
+###############################################
+(4)What is repository layer in spring boot?
+##############################################
+
+-> The Repository Layer provides utility methods,
+-> Using this utility method we can perform database CRUD Operations
+-> Example of some utility methods save(), findById(), delete(), etc.
+
+
+#######################################################
+(5) What is Dependency Injection (DI) in Spring Boot?
+#######################################################
+-> Dependency Injection is a design pattern used by Spring Boot to automatically create and manage objects (dependencies) your classes need — without you manually creating them.
+-> Dependency Injection is a technique where objects (dependencies) are injected into a class by the framework (Spring) at runtime
+
+Anology:
+------------
+Imagine you're building a house. You don’t make the bricks yourself — you ask someone to provide them.
+Similarly, Spring Boot provides the objects your app needs.
+
+
+#####################
+(6) Why Use DI?
+##################
+a. Loose coupling between components
+b. Automatic lifecycle management (Spring manages the objects)
+
+
+########################
+(7) What is Spring IOC?
+#########################
+-> Spring IOC Container is the core of the Spring Framework where the logical implementation of dependency injection done.
+-> It manages the lifecycle and Creation of application objects (called beans).
+-> It creates, configures, and wires objects automatically based on configuration
+-> Helps implement Dependency Injection (DI) easily.
+-> Promotes loose coupling because your classes don’t instantiate their dependencies directly.
+
+There are two main types of IoC containers provided by Spring:
+ a. BeanFactory
+ b. ApplicationContext
+
+    DIFFERENCE BETWEEN BEANFACTORY VS ApplicationContext:
+
+BEANFACTORY :
+-------------
+A basic IoC container that is part of the core module in Spring,
+It provides fundamental support for dependency injection and bean lifecycle management.
+Features:
+•	Lazy Initialization: Beans are created only when they are requested.
+•	Lightweight: It is simple and has minimal overhead.
+•	Use Case: Suitable for applications with limited resources or where advanced features like event handling are not required.
+•	Interface: org.springframework.beans.factory.BeanFactory.
+ApplicationContext:
+-------------------
+A more advanced IoC container built on top of the BeanFactory. It includes all BeanFactory features plus additional enterprise-level functionalities.
+Features:
+•	Eager Initialization: Beans are created during container startup by default (except for @Lazy annotated beans)
+•	Advanced Features: Supports internationalization, event propagation, declarative mechanisms, and AOP.
+•	Multiple Implementations:
+                      ->  ClassPathXmlApplicationContext: Loads configuration from an XML file in the classpath.
+                      -> FileSystemXmlApplicationContext: Loads configuration from an XML file in the file system.
+                      -> AnnotationConfigApplicationContext: Loads configuration from Java-based annotations.
+•	Use Case: Preferred for most applications because of its rich feature set
+•	Interface: org.springframework.context.ApplicationContext.
+
+
+
+
+##################################
+(8) Bean life cycle
+##################################
+
+Bean is Created---->Dependencies Injected (@Autowired)----->Execution(Bean is use by the application)------>Destruction of the bean
+
+
+##########################
+(9) What is Spring MVC?
+##########################
+-> Spring MVC stands for Spring Model-View-Controller.
+—> It's a web framework in the Spring used to build web applications using the MVC design pattern.
+
+How Spring MVC Works:
+--------------------------
+a. User sends a request (/home) or from html form.
+b. DispatcherServlet (front controller) catches the request.
+c. Finds the matching controller method using annotations like @GetMapping.
+d. Executes logic and prepares data (Model).
+c. Returns a view.
+
+#########################################################
+(10) EXPLAIN TECHNICAL FOLLOW OF SPRING BOOT PROJECT?
+#########################################################
+Postman->controller(DTO CLASS)->service->Repository->database and vice versa
+
+
+#################################################################
+(11) HOW WILL YOU USE EXTERNAL LIBERARY IN SPRING BOOT PROJECT?
+#################################################################
+  Adding external dependency in pom.xml file and then do further coding.
+
+
+##############################################
+(12) HOW MANY WAYS TO DO DEPENDENCY INJECTION?
+##############################################
+There are many ways like,
+•	Field based
+•	Constructor based
+•	Setter based
+
+
+
+
+######################################################################
+(13) EXPLAIN DIFFERENCE BETWEEN CONSTRUCTOR INJ VS SETTER INJECTION?
+#######################################################################
+CONSTRUCTOR INJECTION:
+•	It promotes immutablity
+•	Dependencies injected through the constructor are considered mandatory, meaning the object cannot be fully functional without them.
+•	An object created with constructor injection is always in a valid state because 
+        all required dependencies are provided at the time of creation.
+•	Considered more testable and predictable because the dependencies are clearly defined and always provided at object creation
+SETTER INJECTION:
+•	Dependencies injected through setters can be optional, allowing you to set them later or not at all depending on the situation.
+•	An object created with setter injection might be in an invalid state initially if not all necessary dependencies are set using setters
+•	Can be less predictable as the state of an object might change depending on when and if the setter methods are called.
+
+
+
+
+
+##################################################################################
+(14) IS THIS POSSIBLE TO CHANGE THE PORT OF EMBADED TOMCAT SERVER IN SPRING BOOT?
+###################################################################################
+YES, USING SERVER.PORT=9090
+
+
+
+##############################################
+(15)  EXPLAIN SCOPE OF BEAN IN SPRING ?
+##############################################
+
+Scope       	Description                            	Lifetime                     	Use Case
+------------------------------------------------------------------------------------------------------------
+Singleton   	Single instance shared across the container	Entire application lifecycle	Stateless shared beans
+Prototype   	New instance per request                 	Until no longer referenced  	Stateful or per-use beans
+Request     	New instance per HTTP request            	One HTTP request            	Request-scoped web data
+Session     	New instance per HTTP session            	One HTTP session            	Session-scoped user data
+Application 	Single instance across the ServletContext	Entire web application      	Application-wide configurations
+
+
+
+##############################################
+(16) DIFFERENCE BETWEEN POST VS PUT METHOD?
+##############################################
+POST:
+•	Used to create a new resource.
+•	Multiple POST requests may create multiple resources with different identifiers.
+•	Usually returns 201 Created
+PUT:
+•	Used to update an existing resource or create one if it doesn't exist.
+•	Multiple PUT requests with the same data result in the same resource state.
+•	Typically returns 200 OK (for update) or 201 Created (if a new resource was created).
+
+
+
+##############################################
+(17) DIFFERENCE BETWEEN GET AND POST ?
+##############################################
+GET:
+•	Retrieves data from the server.
+•	Data is appended to the URL as query parameters.
+•	Data is visible in the URL and can be bookmarked.
+•	Less secure as data is exposed in the URL.
+•	Repeated requests yield the same result.
+•	Typically returns 200 OK.
+POST:
+•	Sends data to the server to create or process resources.
+•	Data is included in the request body.
+•	Data is hidden and not visible in the URL.
+•	More secure as data is sent in the body. However, HTTPS is needed for full security.
+•	Repeated requests may result in multiple actions (e.g., duplicate submissions).
+•	Typically returns 201 Created for successful creation or 200 OK for successful processing.
+
+
+
+##############################################
+(18) DIFFERENCE BETWEEN PUT AND PATCH ?
+##############################################
+PUT:
+•	Used to replace the entire resource with a new representation.
+PATCH:
+•	Used to partially update a resource.
+
+
+
+###########################################################
+(19) WHAT IS HTTP STATUS CODE & CATEGORIES OF HTTP CODES?
+###########################################################
+HTTP status code are three digits numbers which help to communicate whether a request was successfully processed, 
+resulted in an error, or requires further action.
+
+CATEGORIES OF HTTP CODES:
+
+Category	Range    	Description
+---------------------------------------------------------------
+1xx     	100–199 	Informational: Request received, continuing process.
+2xx     	200–299 	Success: Request was successfully processed.
+3xx     	300–399 	Redirection: Client must take additional action.
+4xx     	400–499 	Client Error: Request contains incorrect syntax or cannot be fulfilled.
+5xx     	500–599 	Server Error: Server failed to fulfill a valid request.
+
+
+
+
+
+######################################################
+(20) DIFFERENCE BETWEEN CRUD REPO VS JPA REPOSITORY?
+#######################################################
+Both CrudRepository and JpaRepository are interfaces provided by Spring Data to interact with a database.
+
+Aspect                 	CrudRepository                                           	JpaRepository
+---------------------------------------------------------------------------------------------------------------
+Definition             	A basic interface for CRUD operations.                  	An extension of CrudRepository with JPA-specific features.
+Inheritance            	Superinterface for JpaRepository.                       	Extends CrudRepository and PagingAndSortingRepository.
+Pagination & Sorting   	No built-in support for pagination or sorting.          	Provides built-in methods for pagination and sorting.
+Query Execution        	Supports basic CRUD operations.                         	Supports JPA-specific features like batch processing, flushing.
+Additional Methods     	Provides save(), findById(), delete(), etc.             	Adds methods like findAll(Pageable), saveAndFlush(), getOne().
+findAll()              	Returns Iterable                                         	Returns List
+
+#############################################
+(21) EXPLAIN WORKING OF SPRING BOOT ?
+#############################################
+Spring Boot starts by scanning the dependencies listed in the pom.xml or build.gradle, such as spring-boot-starter-web, 
+and downloads all the required libraries (e.g., Spring MVC, embedded Tomcat, etc.).
+It then auto-configures the application based on the dependencies, like setting up controllers, services, 
+and a web server for a web application or configuring a database connection if a database dependency is present. 
+This automation reduces the need for manual configuration and makes the application ready to run with minimal setup.
+
+#############################################
+(22) WHAT ARE SPRING BOOT STARTERS?
+#############################################
+Spring Boot starters are a collection of pre-configured dependencies bundled together to simplify,
+project setup. They automatically include all the necessary libraries for a specific functionality (e.g., web development or database access), 
+reducing the need to manually add and configure each dependency
+
+
+#############################################
+(23) WHAT ARE SPRING-BOOT-STARTER-PARENT?
+#############################################
+spring-boot-starter-parent is a special starter provided by Spring Boot that acts as the parent for your project in Maven. 
+It simplifies project configuration by providing a set of default settings and versions for dependencies, plugins, and Java compatibility
+ WHAT IT DOES:
+•	Manages Dependency Versions: Ensures consistent and compatible versions of libraries and frameworks, so you don’t have to specify them manually
+•	Default Plugin Configuration: Pre-configures common Maven plugins (like maven-compiler-plugin) for tasks like compiling and packaging.
+•	Default Java Version: Sets a default Java version (e.g., 17 or 8, depending on the Spring Boot version).
+
+
+####################################################
+(24) WHAT ARE THE KEY DEPENDENCIES OF SPRING BOOT ?
+####################################################
+•	Spring-boot-starter-parent
+•	Spring-boot-starter-web
+•	Spring-boot-starter-security
+•	Spring-boot-starter-actuator
+•	Spring-boot-starter-test
+•	Spring-boot-starter-plugin
+
+
+
+#############################################
+(25) WHAT ARE THE DIFFERENT MODULES IN SPRING?
+#############################################
+Module        	Includes
+---------------------------------------------------------------
+Core          	Context, Beans, Core, SpEL
+Web           	Spring Web, Spring MVC, WebFlux
+Data Access   	JDBC, ORM (Hibernate, JPA), Transactions
+AOP           	Aspect-Oriented Programming (e.g., Logging, Security)
+Security      	Authentication, Authorization, OAuth2, JWT
+Testing       	Mocking, JUnit/TestNG, Integration Testing
+
+##############################################################
+(26) EXPLAIN DIFFERENCE BETWEEN SPRING BOOT VS SPRING CLOUD?
+##############################################################
+Aspect                	Spring Boot                                                 	Spring Cloud
+-------------------------------------------------------------------------------------------------------------------------------
+Focus                 	Application development with minimal configuration.       	Cloud-native development and microservice orchestration.
+Core Features         	Embedded servers (Tomcat, Jetty), auto-configuration,      	Service discovery, load balancing, circuit breakers, 
+                      	starter dependencies.                                      	configuration management.
+Dependency Management 	Provides pre-configured starters like spring-boot-starter-web.	Provides tools to integrate Spring Boot with distributed 
+                                                                                  	systems features (e.g., spring-cloud-api-gateway).
+Configuration         	Focuses on single application configuration                 	Manages configuration across multiple services 
+                      	(e.g., application.properties).                            	(e.g., Spring Cloud Config).
+
+##########################################################################
+(27) HOW MANY REQUEST CAN HANDLE A SPRING BOOT PROJECT SIMULTINEOUSLY?
+##########################################################################
+Spring Boot project can handle simultaneously request  depends on various factors, including the server configuration,
+application design, hardware resources however Tomcat, the default maximum number of threads is 200.
+This means it can handle up to 200 simultaneous requests by default.
+
+##########################################################################
+(28)CAN WE OVERRIDE OR REPLACE THE EMBADED TOMCAT SERVER IN SPRING BOOT?
+##########################################################################
+YES, WE CAN REPLACE EMBADED TOMCAT SERVER WITH ANOTHER SERVER BY USING THE STARTER DEPENDECIES LIKE SPRING-BOOT-STARTER-JETTY 
+WITH THE HELP OF EXCULUSION AND INCLUSION TAG.
+
+############################################################################
+(29)CAN WE DISABLE THE DEFAULT WEB SERVER IN THE SPRING BOOT APPLICATION?
+#############################################################################
+YES, SPRING BOOT PROVIDE A FEATURE TO DISABLE THE WEB SERVER IN QUICK CONFIGURATION .
+WE CAN USE THE APPLICATION . PROPERTIES FILE TO CONFIGURE THE WEB APPLICATION TYPE 
+EX:- SPRING.MAIN.WEB.APPLICATION.TYPE=NONE.
+
+
+###########################################################
+(30) HOW TO DISABLE A SPECIFIC AUTO-CONFIGURATION CLASS?
+###########################################################
+YOU CAN USE THE EXCLUDE ATTRIBUTE OF @ENABLEAUTOCONFIGURATION, IF YOU FIND ANY SPECIFIC AUTO-CONFIGURATION CLASSES 
+THAT YOU DON’T WANT TO BEING APPLIED.
+EX- @ENABLEAUTOCONFIGURATION(EXCLUDE={DataSourceAutoConfiguration.Class)
+
+#############################################
+(31)WHAT IS THE USE OF PROFILES IN SPRING BOOT?
+#############################################
+WHEN DEVELOPING APPLICATION FOR ENTERPRISE,WE DEAL WITH MULTIPLE ENVIROMENTS SUCH AS DEV,QA AND PROD SO THE CONFIGURATION PROPERTIES FOR 
+THESE ENVIROMENTS ARE DIFFERENT:
+FOR EX- WE MIGHT BE USING AN EMBADDED H2 DATABASE FOR DEV, BUT PROD COULD HAVE ORACLE DB2 TO MAKE THIS EASY AND CLEAN , 
+SPRING HAS PROVISION OF PROFILES TO HELP SEPARATE CONFIGURATION FOR EACH ENVIROMENT USING SPRING.PROFILES.ACTIVE.
+
+
+################################################################################
+(32) HOW JPAREPOSITORY OBJECTED CREATED IN SPRING BOOT EVENIF IT IS INTERFACE?
+#################################################################################
+JPA interface object automatically created and managed by Spring. This happens because of Spring Data JPA's dynamic proxy mechanism,
+custom interface extend JpaRepository (or CrudRepository), Spring automatically detects it during the application startup. 
+Once the proxy object is created, it is managed by the Spring container.
+
+#############################################
+(33) WHAT IS WEBSERVICES?
+#############################################
+A web service is a software system designed to support compatible machine-to-machine interaction over a network. 
+It can be called from anywhere and accessed using any technology, such as Java, C++, or Python.
+The most common methods for sharing data in web services are:
+SOAP (Simple Object Access Protocol) Web Services:
+•	Data Format: XML (Extensible Markup Language)
+•	Transmission Protocol: HTTP, HTTPS, SMTP, etc.
+REST (Representational State Transfer) Web Services:
+•	Data Format: Typically JSON (JavaScript Object Notation), but also XML or other formats.
+•	Transmission Protocol: HTTP (GET, POST, PUT, DELETE, PATCH)
+
+#############################################
+(34) HOW MANY TYPES OF HTTP METHOD?
+#############################################
+> get
+> post
+> put
+> patch
+> delete
+> option
+> trace
+> head
+
+###########################################################################
+(35) can we create restful API without using @RestController annotation?
+############################################################################
+Yes, it is possible to create restful API using combination of @controller and @ResponseBody annotation.
+
+############################################################
+(36) DIFFERENCE BETWEEN @AUTOWIRED VS NEW KEYWORD?
+############################################################
+@Autowired provides loose coupling by allowing spring to manage dependencies while new keyword creates tight coupling by directly initiating a class.
+
+############################################################
+(37) HOW CAN WE OVERRIDE DEFAULT PROPERTIES IN SPRING BOOT?
+############################################################
+We can override default properties by providing our own properties in application.properties file
+
+############################################################
+(38) WHAT ARE HTTP HEADERS?
+############################################################
+a. HTTP Headers are an important part of the API request and response as they represent the meta-data associated with the API request and response.
+b. headers carry information for the request and response body
+
+COMMON HTTP HEADERS FOR REQUEST AND RESPONSE SENT BY CLIENT LIKE POSTMAN:
+COMMON HTTP REQUEST HEADER:
+---------------------------
+•	Accept: Specifies the content types the client can process (e.g., application/json).
+•	Authorization: Contains credentials for authentication, such as tokens (e.g., Bearer <token>).
+•	Content-Type: Indicates the media type of the resource being sent (e.g., application/json or application/x-www-form-urlencoded).
+•	User-Agent: Identifies the client making the request (e.g., Postman).
+•	Host: Specifies the hostname and port of the server being requested (e.g., example.com).
+•	Cookie: Sends cookies previously set by the server.
+•	Cache-Control: Directives for caching mechanisms (e.g., no-cache).
+•	Accept-Encoding: Lists acceptable compression algorithms (e.g., gzip, deflate).
+•	Referer: The URL of the referring page.
+•	Connection: Controls connection behavior (e.g., keep-alive or close).
+COMMON HTTP RESPONSE HEADER:
+-----------------------------
+•	Content-Type: Specifies the media type of the response (e.g., application/json).
+•	Content-Length: The size of the response body in bytes.
+•	Server: Identifies the software used by the server (e.g., Apache or nginx).
+•	Set-Cookie: Sends cookies to the client.
+•	Cache-Control: Caching directives (e.g., no-store, max-age=3600).
+•	Expires: The date/time after which the response is considered stale.
+•	Location: Redirects the client to a different URL.
+•	Access-Control-Allow-Origin: Controls CORS (Cross-Origin Resource Sharing) behavior.
+•	Content-Encoding: Specifies any compression used on the response (e.g., gzip).
+•	Date: The date and time the response was generated.
+
+
+############################################################
+(39) DIFFERENCE BETWEEN QUERY PARAMETER VS PATH PARAMETER?
+############################################################
+Aspect          	Query Parameter                                                                     	Path Parameter
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+Definition       	Key-value pairs appended to the URL after a question mark (?).                     	Variable parts of the URL path, often denoted with {}.
+Position in URL  	Appended at the end of the URL after ?, with & for multiple parameters.            	Included directly in the URL path, typically between slashes (/).
+Syntax           	?key=value&key2=value2                                                              	/resource/{id} or /resource/value
+Example URL      	https://example.com/products?category=books&sort=asc                               	https://example.com/products/12345
+When to Use      	When passing optional or filter-based data (e.g., search queries, filters).        	When identifying a specific resource (e.g., product ID, user ID).
+
+############################################################
+(40) EXPLAIN SOLID PRINCIPLE ?
+############################################################
+Solid principle are set of five design principle that help developers to build more maintainable, flexible and scalable software, these principle are widely used in object-oriented programming.
+
+FIVE DESIGN PRINCIPLES ARE :
+•	SRP(single Responsibility Principle):
+·  What it means: A class or a module should have only one job or responsibility. In other words, it should only be responsible for one thing. 
+                 This makes the code easier to maintain and update because changes in one area of functionality won't affect other parts 
+                 of the system.
+·  Example: Imagine a class called Employee. If this class is responsible for both storing employee details and generating employee reports, 
+            it's doing two different jobs. According to SRP, it should only do one thing, like storing employee details, 
+            while generating reports should be handled by another class.
+•	OCP(open/closed principle):
+·  What it means: Software entities (like classes, modules, functions) should be open for extension but closed for modification. 
+                  This means you should be able to add new features or change behavior without modifying the existing code, 
+                  which helps to keep the system stable and avoid breaking things that already work.
+·  Example: Suppose you have a PaymentProcessor class that processes different types of payments. If you want to add support for a new payment type,
+            you should be able to do that by extending the class (or implementing new functionality), without changing the existing code 
+            that handles other payment types.
+•	LSP(liskov Substitution Principle):
+·  What it means: This principle says that subtypes (like subclasses or child classes) should be able to replace their base types (parent classes) 
+                  without causing errors or unexpected behavior. In other words, an object of a subclass should behave in a way 
+                  that is compatible with the parent class.
+·  Example: Suppose you have a Bird class, and a Penguin class inherits from it. If you call a method like fly() on a Bird object, 
+            it should work for all birds. However, if you replace Bird with Penguin, and penguins can’t fly, it would break the behavior. 
+            To follow LSP, Penguin shouldn't inherit from Bird if fly() doesn't make sense for it. Instead, you could have different behaviors or 
+            use interfaces.
+•	ISP(interface segregation Principle):
+·  What it means: This principle says that clients (like classes or modules) should not be forced to depend on methods they do not use. 
+                  In simple terms, it's better to have many small, focused interfaces instead of one large, general interface. This way, 
+                  clients only implement the methods they actually need.
+·  Example: Imagine you have an interface Vehicle with methods like startEngine(), stopEngine(), fly(), and sail(). Now, 
+            a Car class needs startEngine() and stopEngine(), but a Boat class needs sail(), and an Airplane class needs fly(). 
+            Instead of forcing all classes to implement all methods in Vehicle, you should create smaller, 
+            specific interfaces like EngineOperable, Flyable, and Sailable so each class only implements the ones it needs.
+•	DIP(dependency inversion Principle):
+·  What it means: High-level modules (like the core of your application) should not depend on low-level modules
+                  (like specific classes or implementations). Both should depend on abstractions (like interfaces or abstract classes). 
+                  This allows you to change or replace low-level modules without affecting the high-level logic.
+·  Example: Let’s say you have a class Car that depends on a GasEngine class. Instead of Car depending directly on GasEngine, 
+            you should define an interface Engine that both GasEngine and ElectricEngine implement. Then, 
+            Car can depend on the Engine interface, and you can easily swap GasEngine with ElectricEngine without changing the Car class.
+
+
+############################################################
+(41) WHAR ARE SPRING ACTUATOR ? WHAT ARE IT’S ADVANTAGES?
+############################################################
+SPRING ACTUATOR IS A MANUFACTURING TERM THAT REFERS TO A MECHANICAL DEVICE  FOR CONTROLLING SOMETHING,
+IN SPRING BOOT, SPRING ACTUATOR IS A ADDITIONAL FEATURE THAT HELP YOU TO MONITOR AND MANAGE YOUR APPLICATION WHEN YOU PUSH IT TO PRODUCTION,
+THESE FEATURES INCLUDE AUDITING,HEALTH,AND MATRICS GATEHRING AND MAY MORE FEATURES THAT CAN BE AUTOMATICALLY APPLIED TO YOUR APPLICATION.
+YOU CAN ENABLE THIS FEATURE BY ADDING SPRING BOOT STARTER ACTUATOR DEPENDENCY.
+
+HOW TO USE SPRING ACTUATOR IN SPRING BOOT:
+ADD DEPENDENCY , HIT URL LIKE: HTTP://LOCALHOST:8080/ACTUATOR/HEALTH/**
+
+ACTUATOR ENDPOINT:
+
+-> by default endpoints can be seen at : http://localhost:8080/actuator/
+-> expose all endpoints use this in properties file : management.endpoints.web.exposure.include=*
+-> to expose only selected endpoints : management.endpoints.jmx.exposure.include=health,info,env,beans
+-> to get enviromental configuration about server : http://localhost:8080/actuator/env
+-> to get all spring beans loaded in the context : http://localhost:8080/actuator/beans
+
+HOW WILL YOU CUSTOMIZE THE MANAGEMENT SERVER PORT FOR ACTUATOR:
+MANAGEMENT.SERVER.PORT=9090
+
+Note : SUPPOSE BY DEFAULT ALL ENDPOINTS COMES IN DEFAULT CONTEXT PATH OF THE APPLICATION, SUFFIXED WITH ACTUATOR, IF FOR SOME REASON , 
+       WE HAVE SOME EXISTING ENDSPOINT IN THE APPLICATION STARTING WITH /ACTUATOR THEN HOW CAN WE CUSTOMIZE THE BASE PATH TO SOMETHING ELSE.
+
+MANAGEMENT.ENDPOINTS.WEB.BASE-PATH=/INSTEAD OF ACTUATOR USE ANYTHING
+EX-/MANAGE/HEALTH
+ 
+
+
+#####################################################################
+(42) HOW WILL YOU EXPOSE YOUR CUSTOM ENDPOINTS IN SPRING ACTUATOR?
+#####################################################################
+This can be achieved by the adding following anotations:
+@Endpoint and @Component to class and
+@ReadOperation, @WriteOperation or @DeleteOperation on method level
+
+@ReadOperation maps to httpGet
+@WriteOperation maps to httpPost
+@DeleteOperation maps to httpDelete
+
+Note : by adding @Bean annotated with @Endpoint , any methods annotated with @ReadOperation , @WriteOperation or @DeleteOperation are
+       automatically exposed over JMX or http.
+
+eg-
+
+@Component
+@Endpoint(id="customActuator")
+public class customActuator{
+
+
+@ReadOperation
+public String returnString(){
+return "hello";
+}
+}
+
+
+
+
+
+############################################################
+(43) What is HTTP Trace in Spring Boot?
+############################################################
+HTTP Trace is a Spring Boot Actuator feature that provides detailed information about the recent HTTP requests received by the application. 
+It helps in debugging and monitoring by showing request and response details, including headers, status codes, and execution times.
+The trace includes information like:
+•	HTTP method (GET, POST, etc.)
+•	URL and headers
+•	Response status code
+•	Request and response time
+•	Remote IP address
+
+How HTTP Trace Works:
+When enabled, Spring Boot captures the last N HTTP requests (default: 100).
+HOW TO Enabling HTTP Trace in Spring Boot?
+For Spring Boot 3.x:
+STEP 1=>  Enable httpexchanges in application.properties: 
+management.endpoints.web.exposure.include=httpexchanges
+STEP 2: Add the required bean
+@Bean
+public HttpExchangeRepository httpExchangeRepository() {
+    return new InMemoryHttpExchangeRepository();
+}
+STEP 3: HIT THE URL (GET) 
+http://localhost:8080/actuator/httpexchanges
+
+
+
+
+
+------------------------X---------------------------X-------------------------------X--------------------------------X------------------------------
+
+
+                                                                                  SPRING SECURITY                                                                             
+
+##################################################################
+(1) What is difference between Authentication and Authorization ?
+##################################################################
+Spring Security is a framework within the Spring ecosystem designed to provide authentication, authorization which helps to protect against attack.
+
+AUTHENTICATION: authentication is the process of validating your credential ( such as username and password) to verify your identity whether 
+                you are the person who is claiming or not.
+AUTHERIZATION: authorization is the process to determine whether you have right to access what you want or not.
+
+
+############################################################
+(2) EXPLAIN SPRING SECURITY INTERNAL FOLLOW?
+############################################################
+
+
+############################################################
+What is JWT TOKEN?
+############################################################
+
+
+
+
+
+
+############################################################
+
+############################################################
+
+
+
+############################################################
+
+############################################################
+
+
+
+
+
+
+############################################################
+
+############################################################
+
+
+
+
+
+
+############################################################
+
+############################################################
+
+
+
+
+
+############################################################
+
+############################################################
+
+
+
+
+############################################################
+
+############################################################
+
+
+
+
+############################################################
+
+############################################################
+
+
+############################################################
+
+############################################################
+
+
+
+
+############################################################
+
+############################################################
+
+
+
+
+
+() WHAT IS SPRING INTIALIZER?
+Spring initializer is a web-based tool that help us to create project structure.
+
+

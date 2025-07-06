@@ -1,0 +1,248 @@
+ ** SEE PROJECT STEP BELOW ** 
+
+                                         
+                                                               FOR MICROSERVICE CREATION
+######################################################################################################################################################################
+
+
+PRACTICLE-1                        Steps to Create Eureka Server / Service Registry
+---------------------------------------------------------------------------------------------
+
+STEP-1 : Create Eureka Server (Service Registry) 
+(a). Create a Spring Boot project 
+(b). Add dependency: 'spring-cloud-starter-netflix-eureka-server' | Dev tool Dependencies
+(c). Add @EnableEurekaServer in main class
+(d). Configure application.properties: 
+                                    server.port=8761  
+                                    eureka.client.register-with-eureka=false 
+                                    eureka.client.fetch-registry=false
+STEP-2 : Run Eureka Server
+Access: http://localhost:8761
+
+
+PRACTICLE-2                        Set Up Spring Boot Admin Server
+---------------------------------------------------------------------------------------------
+
+STEP-1 : Create Admin Server
+(a). Create a Spring Boot Project for the Admin Server
+(b). Add Dependencies :
+<dependency>
+  <groupId>de.codecentric</groupId>
+  <artifactId>spring-boot-admin-starter-server</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+(c). Enable Admin Server by adding @EnableAdminServer annotation to your main class
+(d). Configure application.properties for Admin Server: 
+                                                server.port=8080
+                                                spring.boot.admin.ui.title=Spring Boot Admin Server
+STEP-2 : Run Admin Server
+Access : http://localhost:8080
+
+
+PRACTICLE-3                        Step to Install Zipikin Server
+---------------------------------------------------------------------------------------------
+(a)  Download Zipkin Servers: https://zipkin.io/pages/quickstart.
+(b) go to that file where zipkin install and To run jar file : java -jar <file-name>
+(d) Access that on port 9411
+
+
+
+#############################################
+PRACTICLE-4        First Microservices App
+############################################
+
+(a) Create Spring Boot With following dependency:
+
+==================================================================================================================
+| Dependency Name               | Maven Artifact ID                      | Purpose                             |
+==================================================================================================================
+| Eureka Discovery Client       | spring-cloud-starter-netflix-eureka-client | Registers service in Eureka     |
+| Spring Boot Admin Client     | spring-boot-admin-starter-client       | Sends monitoring data to Admin UI   |
+| Spring Web                   | spring-boot-starter-web                | Enables REST API support             |
+| DevTools                     | spring-boot-devtools                   | Enables auto-restart and live reload|
+| Spring Actuator              | spring-boot-starter-actuator           | Exposes health/metrics endpoints     |
+| Zipkin Tracing               | spring-cloud-starter-zipkin            | Sends tracing data to Zipkin         |
+| Sleuth (auto tracing)        | spring-cloud-starter-sleuth            | Generates trace & span IDs           |
+==================================================================================================================
+
+(b) Annotate the Main Class with @EnableDiscoveryClient
+
+(c) Configure application.properties file: 
+# Basic Info
+spring.application.name=my-service
+server.port=8081
+
+# Eureka - Optional if you are running eureka on port 8671
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+
+# Admin Server
+spring.boot.admin.client.url=http://localhost:8080
+management.endpoints.web.exposure.include=*
+
+# Zipkin - Optional to mention. It will register with ZIPKIN Automatically
+spring.zipkin.base-url=http://localhost:9411
+spring.sleuth.sampler.probability=1.0
+
+
+######################################################################################################################
+PRACTICAL-5                       Create Micro service 2 - Use Inter microservices communication --> Use Feign Client
+######################################################################################################################
+
+Step 1: Create Micro Service 2 Spring boot project
+Step 2: Add Following Dependencies
+
+==================================================================================================================
+| Dependency Name               | Maven Artifact ID                      | Purpose                             |
+==================================================================================================================
+| Eureka Discovery Client       | spring-cloud-starter-netflix-eureka-client | Registers service in Eureka     |
+| Spring Boot Admin Client     | spring-boot-admin-starter-client       | Sends monitoring data to Admin UI   |
+| Spring Web                   | spring-boot-starter-web                | Enables REST API support             |
+| DevTools                     | spring-boot-devtools                   | Enables auto-restart and live reload|
+| Spring Actuator              | spring-boot-starter-actuator           | Exposes health/metrics endpoints     |
+| Zipkin Tracing               | spring-cloud-starter-zipkin            | Sends tracing data to Zipkin         |
+| Sleuth (auto tracing)        | spring-cloud-starter-sleuth            | Generates trace & span IDs           |
+| OpenFeign(Client)            | org.springframework.cloud              | Performs Communication with other microservice|
+==================================================================================================================
+
+Step 3: Create Fiegn Interface
+
+
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@FeignClient(name = "MICROSERVICES-1") 
+public interface Client {
+	
+	@GetMapping("/message")
+	public String getData();
+
+}
+
+
+
+Step-4 :
+
+@RestController
+public class SecondController {
+	
+	@Autowired
+	private Client client;
+	
+	@GetMapping("/fromsecondcontroller")
+	public String getMessageFromMicroservices1() {
+		return client.getData();
+	}
+
+}
+
+
+
+Step 5: Add the following to yaml file:
+
+spring:
+  application:
+    name: microservices-3
+  boot:
+    admin:
+      client:
+        url: http://localhost:8080
+
+server:
+  port: 8085
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+
+6.  est using this url: http://localhost:8085/fromsecondcontroller
+
+
+
+######################################################################################################################
+PRACTICAL-6                       to implement API gateway
+######################################################################################################################
+
+Step 1. create APi gateway Spring boot project with following dependencies:
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+
+Step 2: Mention routing in yaml file:
+
+server:
+  port: 5555
+  
+spring:
+  application:
+    name: API-Gateway
+
+  cloud:
+    gateway:
+      routes:
+        - id: microservice-api-1
+          uri: lb://MICROSERVICES-1
+          predicates:
+            - Path=/micro1/**
+          filters:
+            - RewritePath=/micro1/(?<segment>.*), /${segment}
+        
+        - id: microservice-api-3
+          uri: lb://MICROSERVICES-3
+          predicates:
+            - Path=/micro3/**
+          filters:
+            - RewritePath=/micro3/(?<segment>.*), /${segment}
+
+Step-3 : annotated main class with @EnableDiscoveryClient
+
+Step 4: Perform testing: http://localhost:5555/micro2/fromsecondcontroller
+
+##########################################################################################################################################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

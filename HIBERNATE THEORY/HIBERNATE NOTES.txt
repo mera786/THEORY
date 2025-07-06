@@ -1,0 +1,434 @@
+
+(1) WHAT IS HIBERNATE ?
+-> Hibernate is an ORM (Object relation mapping) tool
+-> It helps developers map Java classes to database tables and automate CRUD operations (Create, Read, Update, Delete) 
+    without writing complex SQL queries. 
+
+(2) WHAT IS THE DIFFERENCE BETWEEN JDBC & HIBERNATE ?
+  JDBC:
+-	It is database dependent.
+-	It doesn’t support lazy loading.
+-	We need to maintain database explicitly, connection and transaction.
+-	Low performance
+ HIBERNATE:
+-	It is database independent.
+-	Hibernate support lazy loading.
+-	Hibernate itself manage all transaction.
+-	High performance.
+-	HIBERNATE SUPPORT CACHING FOR BETTER PERFORMANCE.
+
+(3) #######################################
+     Difference between Hibernate and Jpa 
+    #######################################
+
+What is JPA?
+JPA (Java Persistence API) is only a specification — meaning it is a set of interfaces and incomplete annotations
+
+What is hibernate?
+The Implementation of JPA is done in hibernate and other ORM tools like EclipseLink, OpenJPA, DataNucleus
+
+Note:
+
+🔹 JPA = What to do
+🔹 Hibernate = How to do it (plus extra power)
+
+    ######################################
+(4)  HOW MANY TYPES OF Hibernate Mappings
+    ######################################
+
+a. OneToOne Mapping - One Record in Table A matches with exactly One Record in Table B
+-> @OneToOne
+For Example:
+One Person can have one KYC
+
+b. OneToMany Mapping - One record in Table A matches with multiple record in Table B
+-> @OneToMany
+Example:
+1. One Post has many Comments
+2. One Hotel can have many reviews
+3. One Hotel can have many Bookings
+4. One Customer can place many Orders
+
+c. ManyToOne Mapping - Multiple records in Table A matches with one record in Table B
+-> @ManyToOne
+
+d. ManyToMany Mapping - In Hibernate, a Many-to-Many relationship is used when each record in one table can be associated with multiple records in another table and vice versa. 
+For example, 
+a. Student can enroll in many Courses, and a Course can have many Students.
+b. One Bus can travel to many stops, and one stop can have many buses
+
+    ###########################
+(5)   Normalization
+    ############################
+
+1. 1NF (First Normal Form)
+-> Should have atomic values
+-> Identify each record uniquely
+-> No repeating groups
+
+2. 2NF (Second Normal Form)
+-> Group the columns based on entity & seperate that to different tables
+
+3. 3 NF (Third Normal Form)]
+-> Remove all duplicate/redundant values
+-> Ensure each record is uniquely identified by a Primary Key
+-> Create relations between tables using Foreign Keys
+
+
+
+(6) WHICH ALL IMPORTANT INTERFACES USED IN HIBERNATE?
+
+SESSIONFACTORY:  SessionFactory is a core interface in Hibernate responsible for:
+       -> Connecting to the database
+       -> Creating Session objects to perform operations like insert, update, delete, and query
+
+SESSION:     ITS FACTORY FOR TRANSACTION, IT IS USED FOR CONNECTING APPLICATION WITH PERSISTANCE STORE LIKE HIBERNATE FRAMEWORK/DB,  
+             IT IS USED TO GET A PYSHICAL CONNECTION WITH DATABASE , IT ALSO PROVIDE METHODS FOR CRUD OPERATIONS
+TRANSACTION:  THIS SPECIFY SINGLE UNIT OF WORK.
+
+
+(7) What are finder methods in hibernate?
+Finder methods in Hibernate (or JPA) are custom methods used to find or fetch records from the database, based on certain conditions.
+eg-   User findByUsernameAndEmail(String username, String email);
+
+
+    ####################################################
+(8) JPQL (Java Persistence Query Language) in Hibernate
+    #####################################################
+
+JPQL stands for Java Persistence Query Language. It is similar to SQL, but:
+-> It works with Java entity objects, not directly with database tables.
+-> It uses entity names and field/property names, not table or column names.
+eg :-
+	@Query("Select e from Employee e where e.mobile=:m")
+	Optional<Employee> searchByMobile(@Param("m") String mobile);
+	
+	@Query("select e from Employee e where e.emailId=:x and e.mobile=:m")
+	Optional<Employee> searchByEmailAndMobile( String email,@Param("m") String mobile);
+	
+	@Query("select e from Employee e where e.emailId=:x or e.mobile=:m")
+	List<Employee> searchByEmailIdOrMobile(@Param("x") String email,@Param("m") String mobile);
+
+
+
+    ############################
+(9) Native SQl Query
+    ##########################
+ -> Raw SQL can be written with hibernate
+Add this in repsoitory layer
+--------------------------------
+        @Query(value = "SELECT * FROM employees WHERE email_id = ?1", nativeQuery = true)
+	Optional<Employee> findByEmailUsingSQl(String email);
+	
+	@Query(value = "SELECT * FROM employees WHERE mobile = ?1", nativeQuery = true)
+	Optional<Employee> findByMobileUsingSQl(String mobile);
+	
+	@Query(value = "SELECT * FROM employees WHERE email_id = ?1 and mobile = ?2", nativeQuery = true)
+	Optional<Employee> findByEmailandMobileUsingSQl(String email, String mobile);
+
+
+(10) TELL FEW IMPORTANT ANNOTATION WHICH IS USED IN HIBERNATE?
+
+| **Annotation**       | **Explanation**                                                                                                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Entity`            | Declares the class as a JPA entity. It will be mapped to a table in the database.                              |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Table`             | Specifies the name of the database table to which the entity is mapped.                                        |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Id`                | Marks the field as the **primary key** of the entity.                                                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@GeneratedValue`    | Specifies how the primary key should be generated (e.g., auto-increment, IDENTITY, SEQUENCE).                  |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Column`            | Specifies details of a column, such as name, nullable, length, and unique constraints.                         |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Transient`         | Marks a field to be ignored by Hibernate (not persisted in the database).                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@OneToOne`          | Defines a one-to-one relationship between two entities.(e.g., one person has one KYC).                         |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@OneToMany`         | Specifies a one-to-many relationship between two entities (e.g., one post has many comments).                  |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@ManyToOne`         | Specifies a many-to-one relationship (e.g., many comments belong to one post).                                 |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@ManyToMany`        | Specifies a many-to-many relationship (e.g., student ↔ courses).                                               |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@JoinColumn`        | Defines the foreign key column in the child table that maps to the parent table.                               |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@JoinTable`         | Defines the join table for many-to-many relationships, specifying join columns.                                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Embedded`          | Marks a class as embeddable, allowing its fields to be included in the parent entity.                          |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Embeddable`        | Marks a class as embeddable, indicating it can be used as a component of another entity.                       |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Lob`               | Specifies that a field should be treated as a large object (e.g., BLOB or CLOB).                               |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Temporal`          | Specifies the type of Date or Calendar fields (DATE, TIME, or TIMESTAMP).                                      |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Fetch`             | Customizes the fetching strategy (EAGER or LAZY) for relationships.                                            |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Cascade`           | Specifies cascading operations (e.g., ALL, MERGE, REMOVE) for associated entities (Hibernate-specific).        |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@OrderBy`           | Orders a collection of entities based on a specified column.                                                   |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@NamedQuery`        | Defines a static, named query written in HQL or JPQL for reuse.                                                |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Query`             | Allows writing custom JPQL or native SQL queries inside repository methods.                                    |
+| -------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `@Cache`             | Enables second-level caching for an entity.                                                                    |
+|----------------------|----------------------------------------------------------------------------------------------------------------|
+| `@Transactional`     | Manages the database transaction for the method or class.                                                      | 
+|                                           Automatically commits on success and rolls back on exceptions.                              |
+|----------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+       #####################################################
+(11)   DIFFERENCE BETWEEN FIRST LEVEL & SECOND LEVEL CACHE? 
+       ######################################################
+
+Hibernate Cache is a mechanism in Hibernate ORM to reduce database access by storing frequently used data in memory.
+Note: Hibernate Cache = In-Memory (Temporary) Storage in RAM
+
+It helps improve performance by:
+a. Avoiding repetitive SQL queries
+b. Reducing latency
+c. Minimizing DB load
+
+Types of Hibernate Caching
+1. First-Level Cache (Enabled by default)
+Scope: Per Hibernate Session. In a typical web application, each user request (such as a login) gets its own Hibernate Session
+Behavior: Same object is never queried twice in a single session
+
+Example:
+
+Session session = sessionFactory.openSession();
+User user1 = session.get(User.class, 1L); // hits DB
+User user2 = session.get(User.class, 1L); // served from cache
+This is always enabled and cannot be disabled.
+
+2. Second-Level Cache (Optional)
+Scope: Across multiple Sessions (shared globally)
+Requires configuration
+Stores entities between sessions
+Uses cache providers like:
+Ehcache
+Caffeine
+Infinispan
+Redis
+
+Example:
+---------------------
+Shared Caching Works Like This:
+-> If User A logs in and loads user profile with ID 1:
+-> First DB hit → stores in second-level cache.
+-> If User B logs in and loads user with ID 1:
+-> No DB hit — served from cache!
+
+
+
+(12) WHAT ARE HIBERNATE CONFIGURATION FILE?
+   IT IS TYPE OF FILE WHICH CONTAINS DATABASE SPECIFIC CONFIGURATION AND USED TO INITIALIZE SESSION FACTORY. CONVENTIONALLY IT NAME SHOULD BE HIBERNATE.CFG.XML
+   IF YOU NEED TO CONNECT TO SQL THEN CREATE ANOTHER ONE HERE..
+
+(13) WHAT ARE HIBERNATE MAPPING FILE?
+     A Hibernate Mapping File (.hbm.xml) is an XML file that tells Hibernate how to save Java objects (entities) into database tables and retrieve them. 
+     It defines which class maps to which table and how fields connect to columns.
+
+(14) STEPS TO CREATE SAMPLE APP OF HIBERNATE?
+  CREATE POJO CLASS (EMPLOYEE) -> CREATE MAPPING FILE -> CREATE CONFIGURATION FILE -> CREATE CLASS FOR RETERIVING OR STORING POJO -> RUN APPLICATION TO SEE RESULTS.
+
+(15) DIFERENCE BETWEEN CURRENTSESSION AND OPENSESSION?
+
+| Feature                    | `getCurrentSession()`                              | `openSession()`                                               |
+| -------------------------- | -------------------------------------------------- | ------------------------------------------------------------- |
+| **Session Scope**          | Bound to the **current transaction** or **thread** | Not bound to transaction; it's **manual** and **independent** |
+| **Session Closing**        | Automatically closed when transaction ends         | Needs to be **explicitly closed** by the developer            |
+| **Recommended For**        | Use with **transaction management** (e.g. Spring)  | Use when managing session manually                            |
+| **Session Sharing**        | Reuses the same session in the same thread         | Always opens a **new session** each time                      |
+| **Performance**            | Better suited for standard request-response models | Less efficient if misused (more overhead)                     |
+| **Requires Configuration** | Yes (`hibernate.current_session_context_class`)    | No special configuration needed                               |
+
+(16) DIFFERENCE BETWEEN SESSION LOAD() AND GET() METHOD?
+
+| Feature                 | `get()`                                       | `load()`                                        |
+| ----------------------- | --------------------------------------------- | ----------------------------------------------- |
+| **Return Type**         | Returns the actual object                     | Returns a **proxy** (fake object at first)      |
+| **When Data Not Found** | Returns `null` if object not found            | Throws **ObjectNotFoundException** if not found |
+| **When Query Runs**     | Query runs **immediately**                    | Query runs **when you access object fields**    |
+| **Use Case**            | Use when you're not sure if the object exists | Use when you're sure the object exists          |
+| **Performance**         | Slightly slower (fetches immediately)         | Slightly better (lazy loading with proxy)       |
+
+
+
+
+(17) DIFFERENCE BETWEEN SAVE & PERSIST METHOD?
+
+| Feature                 | `save()` Method                                        | `persist()` Method                              |
+| ----------------------- | ------------------------------------------------------ | ----------------------------------------------- |
+| **Belongs to**          | Hibernate-specific (native method)                     | JPA standard method (recommended for JPA usage) |
+| **Return type**         | ✅ Returns the **generated ID** (Serializable)         | ❌ Returns **nothing (void)**                   |
+| **When can we use it?** | Even **outside a transaction**, it still works         | Must be called **within a transaction**         |
+| **Adds object to...**   | Adds it to **persistence context + returns ID**        | Adds it to **persistence context only**         |
+| **Duplicates allowed?** | Yes, can cause **duplicates** if object already has ID | Throws **Exception** if object has assigned ID  |
+| **Flush timing**        | Can flush immediately                                  | Flushes only when transaction commits           |
+| **Used with**           | Only in **Hibernate**                                  | Can be used with **JPA or Hibernate**           |
+
+(18) DIFFERENCE BETWEEN SESSION AND SESSIONFACTORY?
+
+| Feature             | `SessionFactory`                                 | `Session`                                           |
+| ------------------- | ------------------------------------------------ | --------------------------------------------------- |
+| **What is it?**     | A factory (creator) that makes `Session` objects | A single session used to interact with the database |
+| **Creation**        | Created **only once** for the whole application  | Created **every time** we need to work with DB      |
+| **Heavy or Light?** | ✅ Heavy object (expensive to create)            | ✅ Lightweight object (cheap to create)             |
+| **Thread Safe?**    | ✅ Yes — can be shared across threads            | ❌ No — use only in one thread at a time            |
+| **Used For**        | Creating `Session`, managing DB config           | CRUD operations: save, update, delete, query        |
+| **Lifecycle**       | Exists until the application stops               | Exists only during one DB conversation/transaction  |
+| **Analogy**         | Like a **Car Factory**                           | Like the **Car** made by the factory                |
+
+(19) WHAT IS ORM (OBJECT -RELATIONAL MAPPING)?
+ORM is a concept to map java objects to database tables and vice versa, 
+it take cares of translating java code into required SQL. Popular ORM tool like, hibernate.
+
+(20) WHAT IS DIALECT IN HIBERNATE?
+Dialect is a concept related to configuration of database where It tells Hibernate how to generate appropriate SQL statements for the specific database.
+
+(21) WHAT HAPPENS IF DIALECT IS MISSING?
+Hibernate Tries to Guess the Dialect but this is not recommended if Failure to Guess Dialect it will throw a HibernateException with related message.
+
+(22) DIFFERENCE BETWEEN LAZY LOADING AND EAGER LOADING?
+
+| Feature                   | **Lazy Loading**                                    | **Eager Loading**                               |
+| ------------------------- | --------------------------------------------------- | ----------------------------------------------- |
+| **Meaning**               | Loads data **only when needed** (on-demand)         | Loads data **immediately** with the main object |
+| **Performance**           | ✅ Faster at first (less DB hits)                    | ❌ Slower at first (more DB hits)                |
+| **When is data loaded?**  | When you **access** the related object              | As soon as you **fetch the main object**        |
+| **Default in Hibernate?** | ✅ Yes, for collections (`@OneToMany`, etc.)         | ❌ No (must set `fetch = FetchType.EAGER`)       |
+| **Use Case**              | When you don't always need related data             | When you always need all data together          |
+| **Risk**                  | ❌ Lazy loading can cause **errors outside session** | ❌ Eager loading can **slow down** queries       |
+
+(23) How will you join two tables in Hibernate?
+You can join two tables in Hibernate using two main approaches:
+(a)  Through Entity Mappings using Annotations :
+-> @OneToOne
+-> @OneToMany
+-> @ManyToOne
+->@ManyToMany
+Note:-Use @JoinColumn to specify the foreign key column.
+
+(b) Using HQL (Hibernate Query Language) or JPQL :
+ex- @Query("SELECT e FROM Employee e JOIN e.address a WHERE a.city = :city")
+List<Employee> findEmployeesByCity(@Param("city") String city);
+
+(24) WHAT ARE THE FEATURES OF HIBERNATE?
+
+- lightweight 
+- open source
+- ORM BASED
+- high performance
+- HQL Support
+- caching 
+- lazy loading
+- database independent
+
+(25) How do we define a Composite Primary Key in Hibernate?
+
+STEP-1 :
+A separate class annotated with @Embeddable
+.
+eg.** having two id of different -different. ** 
+@Embeddable
+public class OrderId implements Serializable {
+    private Long orderId;
+    private Long productId;
+
+    // getters, setters, equals(), hashCode()
+}
+
+STEP-2 :
+Using @EmbeddedId in the main entity class
+eg. ** Create a class for the composite key **.
+@Embeddable
+public class OrderId implements Serializable {
+    private Long orderId;
+    private Long productId;
+
+    // getters, setters, equals(), hashCode()
+}
+
+
+(26) EXPLAIN LIFE CYCLE OF HIBERNATE / STATE OF HIBERNATE?
+
+TRANSIENT: 
+->	When object is created using new keyword , it is in transient state.
+PERSISTENT STATE:
+->	When a transient object is associated with hibernate session by calling the save () or persist() method it enters in the persistent state.
+DETACHED STATE:
+->	When persistent object is no longer associated with hibernate session because of session closed. It enters in the detached state.
+REMOVE STATE:
+->	When a persistent object is explicitly marked for the deletion using delete or remove () method it enters in removal state.
+
+
+(27) HOW CAN YOU DETACH AN OBJECT IN HIBERNATE?
+Detaching an object refers to removing its association with current hibernate session so there are several ways to detach using session interface’s method:
+-	Evict()
+-	Clear()
+-	Detach()
+-	Close()
+
+(28) WHAT IS TRANSACTION?
+
+A transaction is a group of operations performed as a single unit to ensure data integrity in the database.
+Hibernate provides the Transaction interface to manage database transactions.
+| **Property**        | **Meaning**                                                             |
+| ------------------- | ----------------------------------------------------------------------- |
+| **A – Atomicity**   | All steps succeed or all fail — no partial change.                      |
+| **C – Consistency** | Keeps the database in a valid, expected state before & after execution. |
+| **I – Isolation**   | Each transaction is separate; no mixing of data between them.           |
+| **D – Durability**  | Once saved (committed), the change stays even after power failure.      |
+
+** Transaction Handling in Hibernate vs JPA vs Spring Boot **
+
+| **Aspect**              | **Hibernate**                          | **JPA**                          | **Spring Boot (Spring)**                    |
+| ----------------------- | -------------------------------------- | -------------------------------- | ------------------------------------------- |
+| **Transaction API**     | `Transaction`                          | `EntityTransaction`              | `@Transactional` annotation                 |
+| **Abstraction Level**   | Hibernate-specific                     | JPA specification-level          | Framework-level abstraction                 |
+| **Declarative Support** | ❌ Not built-in                         | ❌ Not built-in                   | ✅ Yes, using annotations (`@Transactional`) |
+| **Manual Handling**     | Required (`tx.begin()`, `tx.commit()`) | Required (`begin()`, `commit()`) | Optional (can be auto-managed)              |
+| **Ease of Use**         | Medium                                 | Medium                           | ✅ Very easy with annotations                |
+| **Example**             | `session.beginTransaction()`           | `entityManager.getTransaction()` | `@Transactional` on method/class            |
+
+     ############################
+(29) What is Spring Data JPA?
+     ############################
+
+a. Spring Data JPA makes working with JPA easier by eliminating boilerplate code required for common database operations like saving, updating, deleting, and finding entities.
+
+d. By default, Spring Data JPA uses Hibernate as the ORM (Object Relational Mapping) tool in Spring Boot applications (unless you configure another JPA provider manually).
+
+################################################
+(30) HOW WILL YOU MAKE IDENTIFIER IN ENTITY?
+#################################################
+Using @Id with generation type.
+If you're using a composite key, use the @EmbeddedId or @IdClass annotations
+
+
+#####################################
+(31)WHAT IS PROJECT LOMBOK ?
+#####################################
+PROJECT LOMBOK IS A JAVA LIBRARY TOOL WHICH IS USED TO REMOVE BOILER PLATE CODE DURING THE DEVELOPMENT .LIKE TO GENERATE GETTERS, SETTERS, CONSTRUCTOR,TOSTRING 
+BY USING SOME ANNOTATIONS PROVIDED BY LOMBOK LIKE @DATA, @SETTER , @GETTER, @NOARGSCONSTRUCTOR, @ALLARGSCONSTRUCTOR, @TOSTRING.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

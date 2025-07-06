@@ -1,0 +1,17 @@
+(1) What are Microservices?
+(2) Why Use Spring Boot for Microservices?
+(3) Benefits of Microservices with Spring Boot?
+(4) What is a Service Registry in Microservices?
+(5) Steps to Create Eureka Server / Service Registry?
+(6) What is Spring Boot Admin Server and How It Works?
+(7) Step to Set Up Spring Boot Admin Server?
+(8) What is Zipkin Server?
+(9) Step to setup Zipikin Server?
+(10) What are the tools that enable service-to-service communication using service names registered in Eureka?
+(11) Difference Between Rest Template, Webclient & Feign client?
+(12) What is API Gateway & Why API gateway?
+(13) Step to implement API gateway?
+(14) What is a Spring Cloud Config Server and Why is it needed?
+(15) How to secure microservice prject?
+(16) Synchronous call & Asynchronous Call?
+(17) 
