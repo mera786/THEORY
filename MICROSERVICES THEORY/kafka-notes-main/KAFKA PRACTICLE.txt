@@ -1,18 +1,67 @@
 
-                  KAFKA
-           ############################
+                                                           KAFKA
+########################################################################################################################################
 
 
-PRACTICAL -1    Steps to setup kafka in windows
+  Steps to setup kafka in windows
 -----------------------------------------------------
 (1) Download Zookeeper : https://dlcdn.apache.org/zookeeper/zookeeper-3.9.2/apache-zookeeper-3.9.2-bin.tar.gz
+                    -> extract -> Set Path of ZOOKEEPER in Environment variables upto bin folder. (in my pc done).
 (2) Download Apache Kafka : https://downloads.apache.org/kafka/3.8.0/kafka_2.12-3.8.0.tgz
-(3) Set Path of ZOOKEEPER in Environment variables upto bin folder. (in my pc done).
-(4) Copy "zookeeper.properties" and "server.properties" files from "kafka/config" folder to "kafka/bin/windows" folder. ( in my pc done).
-(5) Start Zookeeper server from "kafka/bin/windows" root folder using cmd and run this commands , zookeeper-server-start.bat zookeeper.properties
-(6) minimize cmd and open one more cmd by following Start Kafka Server using below command from "kafka/bin/windows" folder and run command kafka-server-start.bat server.properties
-(7) open one more cmd, Create Kakfa Topic from "kafka/bin/windows" root folder and run command  kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic order_topic_1
+                    -> only extract not set path of it.
+(3) Copy "zookeeper.properties" and "server.properties" files from "kafka/config" folder to "kafka/bin/windows" folder. ( in my pc done).
+(4) Start Zookeeper server from "kafka/bin/windows" root folder using cmd and run this commands , zookeeper-server-start.bat zookeeper.properties
+(5) minimize cmd and open one more cmd by following Start Kafka Server using below command from "kafka/bin/windows" folder and run command kafka-server-start.bat server.properties
+(6) open one more cmd, Create Kakfa Topic from "kafka/bin/windows" root folder and run command  kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic order_topic_1
 (8) View created Topics using below command , kafka-topics.bat --list --bootstrap-server localhost:9092
+
+_______________________________________________________ EXAMPLES ________________________________________________________________________
+
+Example-1 :                      CREATING A TOPIC 
+*********** 
+
+(1). Create test-topic : kafka-topics.bat --create --topic test-topic --bootstrap-server localhost:9092 --partitions 1 --replication-factor 1
+(2) To List All Topics: kafka-topics.bat --list --bootstrap-server localhost:9092
+(3)  How to Delete a Kafka Topic on Windows:  kafka-topics.bat --delete --topic <topic-name> --bootstrap-server localhost:9092
+
+Note :- To test producer and consumer by default configuration of kafka using kafka  files.
+
+producer run command: kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092 -> hit enter
+then write this message :
+Hello Kafka
+This is my first message
+
+consumer run command :
+kafka-console-consumer.bat --topic test-topic --from-beginning --bootstrap-server localhost:9092
+now You’ll immediately see the messages:
+Hello Kafka
+This is my first message
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 PRACTICAL -2     Creating publisher
