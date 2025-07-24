@@ -39,9 +39,11 @@ Hello Kafka
 This is my first message
 
 
+
 Example-2 :                      CREATING A TOPIC WITH 2 partitions and 2 consumer ( same group of consumers)
 *********** 
 Note: in this from producer whatever we will send msge along with key 
+
 
 (1) Create Topic With 2 partitions : 
 kafka-topics.bat --create --topic orders --bootstrap-server localhost:9092 --partitions 2 --replication-factor 1
@@ -66,6 +68,20 @@ kafka-consumer-groups.bat --bootstrap-server localhost:9092 --describe --group o
 
 
 
+Example-3 :                      1 PRODUCER MULTIPLE CONSUMER GROUPS
+*********** 
+Note: - in one group you can create multiple consumer group.
+
+(1) run producer :
+kafka-console-producer.bat --topic orders --bootstrap-server localhost:9092 --property parse.key=true --property key.separator=:
+
+(2) run consumer by creating group og1:
+kafka-console-consumer.bat --topic orders --from-beginning --bootstrap-server localhost:9092 --group og1
+
+(3) run consumer by creating group og2 :
+kafka-console-consumer.bat --topic orders --from-beginning --bootstrap-server localhost:9092 --group og2
+
+Note: now produce some message and see consumers.
 
 
 
