@@ -26,7 +26,8 @@ Example-1 :                      CREATING A TOPIC
 
 Note :- To test producer and consumer by default configuration of kafka using kafka  files.
 
-producer run command: kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092 -> hit enter
+producer run command: 
+kafka-console-producer.bat --topic test-topic --bootstrap-server localhost:9092 -> hit enter
 then write this message :
 Hello Kafka
 This is my first message
@@ -37,6 +38,30 @@ now You’ll immediately see the messages:
 Hello Kafka
 This is my first message
 
+
+Example-2 :                      CREATING A TOPIC WITH 2 partitions and 2 consumer ( same group of consumers)
+*********** 
+Note: in this from producer whatever we will send msge along with key 
+
+(1) Create Topic With 2 partitions : 
+kafka-topics.bat --create --topic orders --bootstrap-server localhost:9092 --partitions 2 --replication-factor 1
+
+(2) To verify created or not : 
+kafka-topics.bat --bootstrap-server localhost:9092 --topic orders --describe
+
+(3) Start producer and send msge using key :
+kafka-console-producer.bat --topic orders --bootstrap-server localhost:9092 --property parse.key=true --property key.separator=:
+
+(4) Create Two Consumers for the 'orders' Topic Using the Same Group :
+ POV: for better visibility open two screen exept for producer and run below command in both
+     a. (1st screen) : kafka-console-consumer.bat --topic orders --from-beginning --bootstrap-server localhost:9092 --group og
+     b. (2nd screen) : kafka-console-consumer.bat --topic orders --from-beginning --bootstrap-server localhost:9092 --group og
+
+(5) To Check All Groups :
+kafka-consumer-groups.bat --bootstrap-server localhost:9092 --list
+
+(6) Info about specific consumer group :
+kafka-consumer-groups.bat --bootstrap-server localhost:9092 --describe --group og
 
 
 
