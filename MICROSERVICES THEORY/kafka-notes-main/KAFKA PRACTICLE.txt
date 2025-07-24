@@ -17,6 +17,25 @@
 
 _______________________________________________________ EXAMPLES ________________________________________________________________________
 
+To check if Zookeeper is running or not
+
+Windows (CMD):
+netstat -aon | findstr 2181
+
+Linux / macOS:
+lsof -i :2181
+
+
+To check if kafka-server is running or not 
+
+Windows (CMD):
+netstat -aon | findstr 9092
+
+Linux / macOS:
+lsof -i :9092
+
+
+
 Example-1 :                      CREATING A TOPIC 
 *********** 
 
