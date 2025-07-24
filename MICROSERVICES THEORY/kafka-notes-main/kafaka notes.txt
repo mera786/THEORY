@@ -255,7 +255,7 @@ eg-2 :
 
 
 
-Steps to setup kafka in windows:
+(10) Steps to setup kafka in windows:
 
 
 Step-1 : Download Zookeeper:
@@ -291,5 +291,11 @@ Step-8 : View created Topics using below command
 
 
 Kafka Bootstrap Server URL : http://localhost:9092/ or http://192.30.43.2:9092/ for linux server created in cloud
+
+
+(11) What is Kafka UI ?
+web-based open source tool that provides an easy way to use interface for monitoring,managing and interacting with apache clusters,
+including topics, partitions,consumer groups and messages.
+
 
 
