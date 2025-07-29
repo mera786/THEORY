@@ -1,9 +1,9 @@
 (1) What is Apache Kafka ?
 ________________________________
 
--> It acts as mediator to exchange messages (Message Broker)
--> Kafka is very useful for real time data exchange
--> Publisher will publish the message and subscriber will consume the message
+-> Apache Kafka is a tool.
+-> It acts as mediator between services to exchange messages (Message Broker) where Publisher will publish the message and subscriber will consume the message.
+-> Kafka is very useful for real time data exchange.
 
 Example of Kafka:
 
@@ -51,7 +51,7 @@ ____________________________________________________
     What is KRaft ?
      --------------
      -> kraft(kafka raft) is a kafka's new way of handling coordintation and metadata without needing zookepeer.
-     -> it uses a built-in Raft concensus protocol so that kafka brokers  manange everything themselves.
+     -> it uses a built-in Raft concensus/(Raft-agreement-system) protocol so that kafka brokers manange everything themselves.
 
 2. Kafka Server / Kafka Brokers  - When you run kafka, you start one or more "broker" processes:
                                         -> to store messages.
@@ -296,6 +296,8 @@ Kafka Bootstrap Server URL : http://localhost:9092/ or http://192.30.43.2:9092/ 
 (11) What is Kafka UI ?
 web-based open source tool that provides an easy way to use interface for monitoring,managing and interacting with apache clusters,
 including topics, partitions,consumer groups and messages.
+
+
 
 
 
