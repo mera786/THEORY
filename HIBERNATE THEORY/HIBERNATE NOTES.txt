@@ -1,16 +1,23 @@
 
 (1) WHAT IS HIBERNATE ?
--> Hibernate is an ORM (Object relation mapping) tool
--> It helps developers map Java classes to database tables and automate CRUD operations (Create, Read, Update, Delete) 
-    without writing complex SQL queries. 
+-> Hibernate is an Object-Relational Mapping (ORM) framework in Java 
+-> it helps to map Java objects to relational database tables. 
+-> It simplifies database interactions by handling tasks like establishing connections, generating SQL queries, and managing transactions internally.
+-> Developers interact with Java objects, and Hibernate takes care of converting them into SQL operations.
 
 (2) WHAT IS THE DIFFERENCE BETWEEN JDBC & HIBERNATE ?
   JDBC:
+- JDBC is traditional/old Approach to connect and interact with relational databases. where
+Developers have to:
+   - Write SQL queries manually (INSERT, UPDATE, DELETE, SELECT).
+   - Handle ResultSet and map it to Java objects manually.
+   - Manage connections, statements, and transactions explicitly.
 -	It is database dependent.
 -	It doesn’t support lazy loading.
--	We need to maintain database explicitly, connection and transaction.
 -	Low performance
+-   include a lot of boilerplate code.
  HIBERNATE:
+-   Hibernate is a modern approach to connect and interact with relational databases.
 -	It is database independent.
 -	Hibernate support lazy loading.
 -	Hibernate itself manage all transaction.
@@ -22,19 +29,21 @@
     #######################################
 
 What is JPA?
-JPA (Java Persistence API) is only a specification — meaning it is a set of interfaces and incomplete annotations
+JPA (Java Persistence API) is only a specification — meaning it is a set of interfaces and annotations
 
 What is hibernate?
-The Implementation of JPA is done in hibernate and other ORM tools like EclipseLink, OpenJPA, DataNucleus
+The Implementation of JPA is done in hibernate and Other JPA implementations: like EclipseLink, OpenJPA, DataNucleus
 
 Note:
 
 🔹 JPA = What to do
-🔹 Hibernate = How to do it (plus extra power)
+🔹 Hibernate = How to do it (plus extra power e.g., caching, criteria queries, better dialect support, lazy loading strategies)
 
     ######################################
 (4)  HOW MANY TYPES OF Hibernate Mappings
     ######################################
+
+Note:- it’s better to design the parent first, then the child, and finally set up the mapping.
 
 a. OneToOne Mapping - One Record in Table A matches with exactly One Record in Table B
 -> @OneToOne
@@ -52,10 +61,13 @@ Example:
 c. ManyToOne Mapping - Multiple records in Table A matches with one record in Table B
 -> @ManyToOne
 
-d. ManyToMany Mapping - In Hibernate, a Many-to-Many relationship is used when each record in one table can be associated with multiple records in another table and vice versa. 
+d. ManyToMany Mapping - In Hibernate, a Many-to-Many relationship is used when Each record in Table A can be linked to multiple records in Table B, and vice versa. This requires a join table (association table) in relational databases.
 For example, 
-a. Student can enroll in many Courses, and a Course can have many Students.
-b. One Bus can travel to many stops, and one stop can have many buses
+a. Student ↔ Course
+  - One Student → Many Courses (One-to-Many).
+  - One Course → Many Students (Many-to-One).
+➡️ Together, this becomes Many Students ↔ Many Courses → Many-to-Many.
+b. One Bus ↔ many Stops, one Stop ↔ many Buses
 
     ###########################
 (5)   Normalization
