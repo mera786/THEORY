@@ -14,4 +14,5 @@
 (14) What is a Spring Cloud Config Server and Why is it needed?
 (15) How to secure microservice prject?
 (16) Synchronous call & Asynchronous Call?
-(17) 
+(17) Explain Microservices Architecture Components?
+(18) How does the API Gateway decide which microservice should handle a particular request?
