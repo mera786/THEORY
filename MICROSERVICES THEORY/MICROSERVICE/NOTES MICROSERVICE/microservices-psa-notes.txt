@@ -481,6 +481,34 @@ Asynchronous Call :
 eg. (a) WhatsApp Message: Send a message and continue with your work without waiting for a reply.
     (b) Online Food Order: You place an order and continue watching your show.
 
+(17) Explain Microservices Architecture Components?
+
+API Gateway
+|
+Microservices (Business Services)
+|
+Service Discovery
+|
+Database
+|
+Communication [Synchronous (HTTP/REST, gRPC)  ,   Asynchronous (Kafka, RabbitMQ, SQS)]
+|
+Security
+|
+Centralized Config & Monitoring
+|
+Deployment
+
+(18) How does the API Gateway decide which microservice should handle a particular request?
+
+-> Client request bhejta hai (e.g. /users/1).
+-> Request sabse pehle API Gateway me aati hai.
+-> Gateway apni routing rules check karta hai (e.g. /users/** → User Service).
+-> Gateway Service Discovery (Eureka/Consul) se check karta hai ki service kaunse IP/Port pe chal rahi hai.
+-> Request us microservice instance tak route hoti hai.
+-> Microservice apna database access karke response bhejta hai.
+-> Gateway response client ko return kar deta hai.
+
 
 
 
