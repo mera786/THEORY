@@ -16,3 +16,4 @@
 (16) Synchronous call & Asynchronous Call?
 (17) Explain Microservices Architecture Components?
 (18) How does the API Gateway decide which microservice should handle a particular request?
+(19) What is key principle of microservices?
