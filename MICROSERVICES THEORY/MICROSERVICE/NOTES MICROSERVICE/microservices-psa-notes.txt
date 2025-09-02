@@ -510,6 +510,12 @@ Deployment
 -> Gateway response client ko return kar deta hai.
 
 
+(19) What is key principle of microservices?
+
+-> Microservices break an application into small, focused services built around specific business functions.
+-> Each service runs independently, with its own data, and communicates lightly with others.
+
+
 
 
 
