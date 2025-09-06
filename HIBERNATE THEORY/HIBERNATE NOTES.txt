@@ -447,8 +447,26 @@ BY USING SOME ANNOTATIONS PROVIDED BY LOMBOK LIKE @DATA, @SETTER , @GETTER, @NOA
 | **Maintainability** | Easier to modify complex queries, as you can directly edit JPQL.                                              | Harder for complex queries because long method names become cumbersome.                                     |
 | **Return Types**    | Can return single entity, list, DTO projection, or scalar values.                                             | Can return entity, list, count, boolean, or optional types.                                                 |
 
+##########################################
+ (33) What is Criteria API in Hibernate ?
+##########################################
+The Criteria API in Hibernate (and JPA) is a programmatic way to build database queries instead of writing raw HQL/JPQL.
 
 
+#############################################
+(34) How Hibernate manages transactions ?
+###############################################
+
+In short, Hibernate manages transactions through JDBC connections (or JTA in enterprise apps) and its own Transaction API.
+
+Here’s the flow:
+- Open Session → Hibernate gets a database connection.
+- Begin Transaction → session.beginTransaction() tells Hibernate to disable auto-commit and start a DB transaction.
+- Perform Operations → Hibernate executes SQL (INSERT/UPDATE/DELETE/SELECT) but delays actual commit.
+- Commit / Rollback : 
+     tx.commit() → flushes changes to DB and commits the transaction.
+     tx.rollback() → undoes all pending operations.
+- Close Session → Hibernate releases the connection back to the pool.
 
 
 
