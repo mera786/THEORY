@@ -430,6 +430,25 @@ PROJECT LOMBOK IS A JAVA LIBRARY TOOL WHICH IS USED TO REMOVE BOILER PLATE CODE 
 BY USING SOME ANNOTATIONS PROVIDED BY LOMBOK LIKE @DATA, @SETTER , @GETTER, @NOARGSCONSTRUCTOR, @ALLARGSCONSTRUCTOR, @TOSTRING.
 
 
+##############################################################
+(32) DIFFERENCE BETWEEN JPQL AND DERIVED QUERY/ finder method
+##############################################################
+
+
+| Feature             | JPQL (Java Persistence Query Language)                                                                        | Derived Query (Method Name Query)                                                                           |
+| ------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| **Definition**      | JPQL is a query language similar to SQL but works with **entity objects** instead of database tables.         | Derived Queries are methods in Spring Data JPA repositories whose **names define the query automatically**. |
+| **Query Writing**   | Written explicitly using `@Query` annotation or `EntityManager.createQuery()`.                                | Written by defining **method names** in repository interface following Spring conventions.                  |
+| **Complexity**      | Can handle **complex queries** including joins, aggregation, subqueries, and functions.                       | Best for **simple queries** (like findBy, countBy, existsBy). Complex queries may become unreadable.        |
+| **Annotation**      | Often requires `@Query` annotation (optional if using EntityManager).                                         | No annotation needed; method name itself defines the query.                                                 |
+| **Example**         | `java @Query("SELECT u FROM User u WHERE u.email = :email") User findByEmail(@Param("email") String email); ` | `java User findByEmail(String email); `                                                                     |
+| **Flexibility**     | High flexibility; you can write any JPQL statement.                                                           | Limited flexibility; constrained by method naming conventions.                                              |
+| **Readability**     | Medium; query is written as a string (can be long).                                                           | High for simple queries; very readable if method names are simple.                                          |
+| **Maintainability** | Easier to modify complex queries, as you can directly edit JPQL.                                              | Harder for complex queries because long method names become cumbersome.                                     |
+| **Return Types**    | Can return single entity, list, DTO projection, or scalar values.                                             | Can return entity, list, count, boolean, or optional types.                                                 |
+
+
+
 
 
 
