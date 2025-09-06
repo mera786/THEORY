@@ -32,4 +32,6 @@
 (30) HOW WILL YOU MAKE IDENTIFIER IN ENTITY?
 (31) WHAT IS PROJECT LOMBOK ?
 (32) DIFFERENCE BETWEEN JPQL AND DERIVED QUERY/ finder method ?
+(33) What is Criteria API in Hibernate ?
+(34) How Hibernate manages transactions ?
 
