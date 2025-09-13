@@ -1,58 +1,4 @@
-###############################
-(1) What is Spring boot ?
-################################
 
-Spring Boot is an open-source Java-based framework used to create stand-alone applications quickly and easily with minimal configuration.
-
-
-Spring Boot Stand-Alone Application:
--------------------------------------------
--> You just run a main() method like any regular Java program.
--> It includes an embedded server (e.g., Tomcat) in the application itself.
--> No need to install or configure any external server separately.
--> When you run above program:
-	a. Starts up the embedded server.
-	b. Deploys your app on it.
-	c. Listens to HTTP requests (like a web server).
-
-Note: Since Spring boot is stand alone application, we package the application as jar file
-
-###################################
-(2) EXPLAIN SPRING VS SPRING BOOT?
-####################################
-Spring and spring boot both are the part of spring framework but they have different purpose as,
-SPRING:
-•	In spring, developer requires manually configure and manage the dependencies.
-•	Need xml configuration
-•	No embedded tomcat server
-•	It doesn’t have starter tags
-SPRING BOOT:
-•	In spring boot, it simplify the development of spring boot application by providing defaults and auto-configuration by scanning components.
-•	Application. Properties file
-•	Embedded tomcat server
-•	It has starter tags
-
-
-######################################
-(3) EXPLAIN FEATURES OF SPRING BOOT?
-######################################
-Spring boot features like,
-• AUTO CONFIGURATION
-• STAND ALONE APPLICATION: because it includes tomcat server.
-• SPRING BOOT STARTER: like, pre-configured dependencies
-• ACTUATOR: it exposes endpoints which allow us to monitor application health
-• MICROSERVICES SUPPORT:  spring boot is well-suited for building microservices.
-• PRODUCTION READY FEATURES:  it offers comprehensive logging, exception handling, security configuration
-• EASY TESTING : like, j unit + Mockito 
-. DEVTOOLS: provide live loading of projects.
-
-###############################################
-(4)What is repository layer in spring boot?
-##############################################
-
--> The Repository Layer provides utility methods,
--> Using this utility method we can perform database CRUD Operations
--> Example of some utility methods save(), findById(), delete(), etc.
 
 
 #######################################################
@@ -261,19 +207,7 @@ Category	Range    	Description
 
 
 
-######################################################
-(20) DIFFERENCE BETWEEN CRUD REPO VS JPA REPOSITORY?
-#######################################################
-Both CrudRepository and JpaRepository are interfaces provided by Spring Data to interact with a database.
 
-Aspect                 	CrudRepository                                           	JpaRepository
----------------------------------------------------------------------------------------------------------------
-Definition             	A basic interface for CRUD operations.                  	An extension of CrudRepository with JPA-specific features.
-Inheritance            	Superinterface for JpaRepository.                       	Extends CrudRepository and PagingAndSortingRepository.
-Pagination & Sorting   	No built-in support for pagination or sorting.          	Provides built-in methods for pagination and sorting.
-Query Execution        	Supports basic CRUD operations.                         	Supports JPA-specific features like batch processing, flushing.
-Additional Methods     	Provides save(), findById(), delete(), etc.             	Adds methods like findAll(Pageable), saveAndFlush(), getOne().
-findAll()              	Returns Iterable                                         	Returns List
 
 #############################################
 (21) EXPLAIN WORKING OF SPRING BOOT ?
@@ -284,12 +218,7 @@ It then auto-configures the application based on the dependencies, like setting 
 and a web server for a web application or configuring a database connection if a database dependency is present. 
 This automation reduces the need for manual configuration and makes the application ready to run with minimal setup.
 
-#############################################
-(22) WHAT ARE SPRING BOOT STARTERS?
-#############################################
-Spring Boot starters are a collection of pre-configured dependencies bundled together to simplify,
-project setup. They automatically include all the necessary libraries for a specific functionality (e.g., web development or database access), 
-reducing the need to manually add and configure each dependency
+
 
 
 #############################################
@@ -524,22 +453,8 @@ YOU CAN ENABLE THIS FEATURE BY ADDING SPRING BOOT STARTER ACTUATOR DEPENDENCY.
 HOW TO USE SPRING ACTUATOR IN SPRING BOOT:
 ADD DEPENDENCY , HIT URL LIKE: HTTP://LOCALHOST:8080/ACTUATOR/HEALTH/**
 
-ACTUATOR ENDPOINT:
 
--> by default endpoints can be seen at : http://localhost:8080/actuator/
--> expose all endpoints use this in properties file : management.endpoints.web.exposure.include=*
--> to expose only selected endpoints : management.endpoints.jmx.exposure.include=health,info,env,beans
--> to get enviromental configuration about server : http://localhost:8080/actuator/env
--> to get all spring beans loaded in the context : http://localhost:8080/actuator/beans
 
-HOW WILL YOU CUSTOMIZE THE MANAGEMENT SERVER PORT FOR ACTUATOR:
-MANAGEMENT.SERVER.PORT=9090
-
-Note : SUPPOSE BY DEFAULT ALL ENDPOINTS COMES IN DEFAULT CONTEXT PATH OF THE APPLICATION, SUFFIXED WITH ACTUATOR, IF FOR SOME REASON , 
-       WE HAVE SOME EXISTING ENDSPOINT IN THE APPLICATION STARTING WITH /ACTUATOR THEN HOW CAN WE CUSTOMIZE THE BASE PATH TO SOMETHING ELSE.
-
-MANAGEMENT.ENDPOINTS.WEB.BASE-PATH=/INSTEAD OF ACTUATOR USE ANYTHING
-EX-/MANAGE/HEALTH
  
 
 
@@ -607,16 +522,9 @@ http://localhost:8080/actuator/httpexchanges
 ------------------------X---------------------------X-------------------------------X--------------------------------X------------------------------
 
 
-                                                                                  SPRING SECURITY                                                                             
+                                                                                  SPRING SECURITY                                                               
 
-##################################################################
-(1) What is difference between Authentication and Authorization ?
-##################################################################
-Spring Security is a framework within the Spring ecosystem designed to provide authentication, authorization which helps to protect against attack.
 
-AUTHENTICATION: authentication is the process of validating your credential ( such as username and password) to verify your identity whether 
-                you are the person who is claiming or not.
-AUTHERIZATION: authorization is the process to determine whether you have right to access what you want or not.
 
 
 ############################################################
@@ -631,75 +539,5 @@ What is JWT TOKEN?
 
 
 
-
-
-############################################################
-
-############################################################
-
-
-
-############################################################
-
-############################################################
-
-
-
-
-
-
-############################################################
-
-############################################################
-
-
-
-
-
-
-############################################################
-
-############################################################
-
-
-
-
-
-############################################################
-
-############################################################
-
-
-
-
-############################################################
-
-############################################################
-
-
-
-
-############################################################
-
-############################################################
-
-
-############################################################
-
-############################################################
-
-
-
-
-############################################################
-
-############################################################
-
-
-
-
-
-() WHAT IS SPRING INTIALIZER?
-Spring initializer is a web-based tool that help us to create project structure.
 
 
