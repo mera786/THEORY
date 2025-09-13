@@ -1,0 +1,298 @@
+###############################
+(1) Basics of Spring Boot :
+################################
+ Q1. What is Spring Boot?
+Spring Boot is an open-source Java-based framework used to create stand-alone applications quickly and easily with minimal configuration.
+Spring Boot Stand-Alone Application:
+-------------------------------------------
+-> You just run a main() method like any regular Java program.
+-> It includes an embedded server (e.g., Tomcat) in the application itself.
+-> No need to install or configure any external server separately.
+-> When you run above program:
+	a. Starts up the embedded server.
+	b. Deploys your app on it.
+	c. Listens to HTTP requests (like a web server).
+
+Note: Since Spring boot is stand alone application, we package the application as jar file
+
+
+Q2. What are the main features of Spring Boot?
+- Auto-configuration
+- Embedded servers (Tomcat, Jetty, Undertow)
+- Starter dependencies
+- Spring Boot CLI
+- Actuator for monitoring
+
+Q3. What is the difference between Spring and Spring Boot?
+Spring and spring boot both are the part of spring framework but they have different purpose as,
+SPRING:
+•	In spring, developer requires manually configure and manage the dependencies.
+•	Need xml configuration
+•	No embedded tomcat server
+•	It doesn’t have starter tags
+SPRING BOOT:
+•	In spring boot, it simplify the development of spring boot application by providing defaults and auto-configuration by scanning components.
+•	Application. Properties file
+•	Embedded tomcat server
+•	It has starter dependencies
+
+Q4. What are Spring Boot Starters?
+Spring Boot starters are a collection of pre-configured dependencies bundled together to simplify,
+project setup. They automatically include all the necessary libraries for a specific functionality:
+- spring-boot-starter-web → for REST APIs
+- spring-boot-starter-data-jpa → for database + JPA
+- spring-boot-starter-security → for authentication/authorization
+
+Q5. How do you create a Spring Boot project?
+- Using Spring Initializr (start.spring.io)
+- Using Spring Boot CLI
+- Using Spring Tool Suite / IntelliJ / Eclipse
+
+
+##########################
+(2) configuration :
+########################
+Q1. How does Spring Boot handle configuration?
+👉 Using application.properties or application.yml.
+
+Q2. What is the difference between application.properties and application.yml?
+👉 Both are used for configuration:
+- .properties → key-value pair format
+- .yml → hierarchical structure, better readability
+
+Q3. How can you change the default port in Spring Boot?
+👉 In application.properties: server.port=9090
+
+
+
+###############################
+(3) REST & Controllers  :
+##############################
+
+Q11. How do you create a REST API in Spring Boot?
+👉 Use @RestController and map requests with @GetMapping, @PostMapping, etc.
+
+
+###############################
+(4) JPA & Database  :
+##############################
+
+Q1. How do you connect Spring Boot to a database?
+👉 Add spring-boot-starter-data-jpa + DB driver dependency, configure datasource in application.properties.
+
+Q2. What is the role of Repository in spring boot?
+👉 Provides CRUD methods like save(), findAll(), findById(), etc. 
+
+Q3. What is the difference between CrudRepository and JpaRepository?
+- CrudRepository → Basic CRUD methods, findAll() Returns Iterable 
+- JpaRepository → Extends CrudRepository, adds JPA-specific features (pagination, sorting), findAll() list 
+
+Q4. How do you define a custom query in Spring Boot JPA?
+👉 Using @Query
+
+Q17. How do you implement pagination in Spring Boot JPA?
+👉 Using Pageable:
+
+
+
+
+################################
+( ) Monitoring & Management :
+###############################
+
+Q1. What is Spring Boot Actuator?
+👉 A tool that provides production-ready features like monitoring, health checks, metrics, and auditing.
+
+Q2. What are the key endpoints provided by Spring Boot Actuator?
+ACTUATOR ENDPOINT:
+-> by default endpoints can be seen at : http://localhost:8080/actuator/
+-> expose all endpoints use this in properties file : management.endpoints.web.exposure.include=*
+-> to expose only selected endpoints : management.endpoints.jmx.exposure.include=health,info,env,beans
+-> to get enviromental configuration about server : http://localhost:8080/actuator/env
+-> to get all spring beans loaded in the context : http://localhost:8080/actuator/beans
+-> Provides metrics about memory, CPU, garbage collection, etc :   /metrics
+-> Shows and configures logging levels at runtime: /loggers 
+
+Q3. HOW WILL YOU CUSTOMIZE THE MANAGEMENT SERVER PORT FOR ACTUATOR?
+👉 MANAGEMENT.SERVER.PORT=9090
+
+Q4. How do you change the default /actuator base path for Spring Boot Actuator endpoints?
+👉 MANAGEMENT.ENDPOINTS.WEB.BASE-PATH=/INSTEAD OF ACTUATOR USE ANYTHING
+EX-/MANAGE/HEALTH
+
+Q5. How do you enable/disable specific Actuator endpoints in Spring Boot?
+You can manage Actuator endpoints using properties: management.endpoint.health.enabled=true
+
+Q6. How do you secure Actuator endpoints in Spring Boot?
+Using Spring Security (Recommended): Configure access rules in SecurityFilterChain
+
+Q7. How can Actuator integrate with tools like Prometheus and Grafana?
+
+
+
+
+#####################
+( ) Security  :
+#####################
+
+Q1. How do you secure a Spring Boot application?
+👉 Add spring-boot-starter-security. By default, it enables basic authentication with a generated password.
+
+Q2. What is the difference between Authentication and Authorization?
+👉
+- AUTHENTICATION: authentication is the process of validating your credential ( such as username and password) to verify your identity whether 
+                you are the person who is claiming or not. / Who are you? (login, password check)
+- AUTHERIZATION: authorization is the process to determine whether you have right to access what you want or not. / What can you do? (access control, roles)
+
+Q3. How do you configure custom user details in Spring Security?
+👉 Implement UserDetailsService and override loadUserByUsername().
+
+Q4. What is the role of UserDetailsService in Spring Security?
+UserDetailsService is a core interface in Spring Security used to fetch user-related data, It has a single method loadUserByUsername(String username) and Its job is to:
+Retrieve user information (username, password, roles/authorities) from a database or any custom source.Return a UserDetails object, which Spring Security uses for authentication and authorization.
+
+Q5. How do you store passwords securely in a Spring Boot app?
+In Spring Boot, we store passwords using PasswordEncoder, which applies a one-way hashing algorithm (so the original password can’t be retrieved).
+It also uses a salt — a random string added before hashing — to make each password hash unique and more secure.
+
+Q6. What is a SecurityFilterChain and how do you configure it in Spring Boot?
+SecurityFilterChain is an interface in Spring Security that defines the security filters (authentication, authorization, CSRF, CORS, etc.) applied to HTTP requests.
+we configure security by creating a @Bean method that takes HttpSecurity, sets up the rules, and then calls .build() to return a SecurityFilterChain.
+
+Q7. How do you secure REST APIs in Spring Boot?
+Secure APIs with Spring Security, typically using JWT for stateless auth + role-based access.
+
+Q8. How can you restrict access to specific endpoints in Spring Boot?
+- Using SecurityFilterChain :  .requestMatchers("/admin/**").hasRole("ADMIN")
+- Using Annotations @PreAuthorize or @Secured at method level : @PreAuthorize("hasRole('ADMIN')")
+
+
+
+#####################
+( ) JWT  :
+#####################
+
+Q1. What is JWT?
+JWT (JSON Web Token) is a way of doing token-based authentication. After a user logs in, the server gives a digitally signed token (JWT) instead of keeping a session. 
+The client then sends this token with each request, and the server checks it to confirm the user’s identity without storing session data.
+
+Q2. What are the parts of a JWT?
+-> Header – metadata, e.g., type (JWT) and algorithm (HS256).
+-> Payload – contains claims (user info, roles, expiration).
+-> Signature – like a stamp/sign that proves the token is real and not changed. contains : A hashed value created using (Header + Payload + Secret Key), check token was changed or not
+
+Q3. What is the difference between JWT and session-based authentication?
+Session-based : 
+- Server stores session data, client keeps session ID in cookie.
+- On each request, server checks session from its memory/database.
+- it is Stateful.
+JWT : 
+- Server gives a token (JWT) to client.
+- Client stores token in localStorage / cookie and sends it with each request.
+- it is Stateless
+
+Q4. What are claims in JWT?
+Claims are pieces of information in the payload.
+Types:
+-> Registered claims – iss (issuer), exp (expiry), sub (subject), etc.
+-> Public claims – custom claims like roles, email.
+-> Private claims – shared between parties, e.g., userId.
+
+Q5. How does JWT work in a Spring Boot application?
+- User logs in with username/password.
+- Server validates credentials.
+- Server generates a JWT and sends it to the client.
+- Client includes JWT in Authorization header for subsequent requests.
+- Server validates the token, extracts user info, and allows access.
+
+Q6. How do you generate a JWT in Java?
+- Start by creating a JWT builder.
+- Set the subject (e.g., username).
+- Add extra claims (like roles, email, etc.).
+- Define issued time and expiration time.
+- Sign the token using a secret key and algorithm (e.g., HS256).
+- Finally, generate (compact) the JWT string.
+
+Q7. How do you validate a JWT?
+- Use the same secret key that was used to sign it.
+- Parse the token and check: Signature is valid , Token is not expired , Claims are correct
+
+Q8. Where do you store JWT on the client side?
+HTTP-only cookie (for better security against XSS)
+
+Q9. How do you send JWT in API requests?
+Include in HTTP header: Authorization: Bearer <JWT_TOKEN>
+
+Q10. How do you secure REST APIs using JWT in Spring Boot?
+- Create a JWT filter extending OncePerRequestFilter.
+- Intercept requests, extract token from header, validate it, set authentication in SecurityContext.
+- Configure SecurityFilterChain to use the JWT filter before UsernamePasswordAuthenticationFilter.
+
+Q11. What is the difference between access token and refresh token?
+Access Token:
+- A short-lived token (e.g., 15 mins – 1 hour).
+- Sent with each API request to prove the user is logged in.
+- If stolen, it’s valid only for a short time.
+Refresh Token:
+- A long-lived token (e.g., days or weeks).
+- Not sent with every request, only used to get a new access token when it expires.
+- Helps the user stay logged in without entering credentials again.
+
+Q12. How do you include user roles in JWT and check them in Spring Security?
+- Add roles as a claim: .claim("roles", List.of("USER","ADMIN"))
+- During token validation, convert claims to GrantedAuthority and set in UsernamePasswordAuthenticationToken for role-based access.
+
+Q13. How do you handle token expiration?
+- Add an exp claim inside the JWT to set expiry time.
+- When a request comes, server checks if token is expired.
+- If expired → reject request and return 401 Unauthorized.
+- If refresh token is used → generate a new access token without asking user to log in again.
+
+Q14. What libraries are commonly used for JWT in Java/Spring Boot?
+-> Spring Security – for authentication and authorization framework.
+-> jjwt-api – main JWT interfaces and classes.
+-> jjwt-impl – implementation of the JJWT API.
+-> jjwt-jackson – for JSON processing inside JWT (requires Jackson).
+
+Q15. How do you refresh JWT tokens?
+- Client sends refresh token to /refresh endpoint.
+- Server validates refresh token.
+- Issue a new access token with updated expiry.
+
+Q16. How do you implement JWT filter in Spring Boot?
+- Extend OncePerRequestFilter.
+- Override doFilterInternal:
+- Extract token from Authorization header.
+- Validate token.
+- Set Authentication in SecurityContext.
+- Register filter before UsernamePasswordAuthenticationFilter.
+
+Q17. How do you test JWT-secured APIs?
+- Use Postman/Insomnia:
+- Login → get JWT.
+- Set Authorization: Bearer <token> header.
+- Access secured endpoints.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
