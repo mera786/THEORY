@@ -1,0 +1,31 @@
+Basics  :
+      Q1. What is Apache Kafka?
+      Q2. Why do we use Kafka?
+      Q3. Advantages and Disadvantage of kafka ?
+      Q4. Explain Kafka Architecture OR Key Component of Kafka ?
+      Q5. What is Zookeeper in Kafka?
+      Q6. What is KRaft in Kafka?
+      Q7. What is a Kafka Server OR  Kafka Brokers  ?
+      Q8. What is Kafka Topic ?
+      Q9. What is Partitions ?
+      Q10. What is Publisher/producer ?
+      Q11. What is Subscriber/consumer ?
+      Q12. What is a Consumer Group?
+      Q13. What is a Kafka Cluster?
+      Q14. What is a Kafka Producer Acknowledgment (acks)?
+      Q15. What is Kafka Replication?
+      Q16. What is an Offset in Kafka?
+      Q17. What is message key ?
+      Q18. What is Kafka Serialization?
+      Q19. What is Kafka Deserialization?
+      Q20. Real-time use cases of Kafka?
+      Q21. What happens if a consumer goes down?
+      Q22. What happens if a broker goes down?
+      Q23. What is Kafka Retention Policy?
+      Q24. What is Kafka Connect?
+      Q25. How do you monitor Kafka?
+      Q26. How do you integrate Kafka with Spring Boot?
+      Q27. What is Kafka UI ?
+      a.
+     
+      a.
