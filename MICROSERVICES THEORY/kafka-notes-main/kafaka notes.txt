@@ -1,67 +1,66 @@
-(1) What is Apache Kafka ?
-________________________________
+BASIC  :
+###################
 
+Q1. What is Apache Kafka?
+--------------------------
 -> Apache Kafka is a tool.
 -> It acts as mediator between services to exchange messages (Message Broker) where Publisher will publish the message and subscriber will consume the message.
 -> Kafka is very useful for real time data exchange.
 
-Example of Kafka:
+Q2. Why do we use Kafka?
+--------------------------
+👉 We use Kafka to move data quickly from one system to another (real-time data pipelines) and to process data immediately when it comes (real-time streaming).
+e.g., “like YouTube live chat messages"
 
-Scenario: 10 Customers Place Orders at Udupi Hotel
-
-Step 1: Customers Place Orders
-✅ Customer App (Producer) → Publishes each order to Kafka (order_topic).
-✅ Udupi Hotel (Consumer) → Subscribes to order_topic and consumes the orders in real-time.
-🔄 Kafka Flow:
-10 Customers ---> [Kafka: order_topic] ---> Udupi Hotel App
-
-Step 2: Udupi Hotel Accepts the Orders
-✅ Udupi Hotel (Producer) → Publishes an "Order Accepted" event to order_status_topic.
-✅ Customer App (Consumer) → Subscribes to order_status_topic and receives notifications.
-🔄 Kafka Flow:
-Udupi Hotel ---> [Kafka: order_status_topic] ---> 10 Customers
-
-🔹 Summary of the Pub/Sub Model
-Step	                     Producer   	Kafka Topic	        Consumer	       Purpose
-Customer places order	     Customer App	order_topic	        Udupi Hotel App       Order received at restaurant
-Udupi Hotel accepts order    Udupi Hotel App	order_status_topic      Customer App	      Order confirmation notification
-🔹 When to Store in Database?
-✔️ YES – When the customer places an order → Store in DB (orders table).
-✔️ YES – When the order is completed → Update order status in DB.
-❌ NO – For real-time updates (use Kafka instead).
+Q3.Advantages and Disadvantage of kafka ?
+-------------------------------------------
+Advantages of Kafka :
+- Scalability – Can easily handle very large amounts of data by adding more servers.
+- Fault Tolerance – Data is replicated (copied) across servers, so even if one fails, data is safe.
+- High Throughput – Can process millions of messages per second with very low delay.
+- Durability – Stores data reliably on disk, so messages are not lost.
+- Real-Time Processing – Best for real-time streaming (like live chats, stock prices, logs).
+Disadvantages of Kafka :
+- Complex Setup – Harder to install, configure, and maintain compared to simple queues.
+- High Learning Curve – Developers need to spend time learning concepts (brokers, topics, partitions).
+- Not Ideal for Small Data – Overkill if you only need to process small or simple workloads.
+- Resource Usage – Needs good CPU, memory, and storage for large-scale usage.
+- Limited Message Prioritization – All messages in a topic are treated equally; no built-in priority handling.
 
 
+Q4. Explain Kafka Architecture / Key Component of Kafka ?
+----------------------------------------------------------
+            a. Zookeeper/Kraft
+            b. Kafka Server / Kafka Brokers 
+            c. Kafka Topic
+            d. Partitions
+            e. Publisher/producer
+            f. Subscriber/consumer
 
-(2) BENIFIT OF USING KAFKA :
-___________________________________________
--> SCALABILIY: Handle large amount of data.
--> FAULT TOLERANCE : Replication of data.
--> HIGH THROUGHPUT : capable of processing millions of message per second.
--> DURABILITY : reliable storage of messages.
+Q5. What is Zookeeper in Kafka?
+--------------------------------
+Zookeeper (old way)
+👉 It is an external tool that manages the Kafka cluster. It keeps track of which brokers are alive, who is the leader of a partition, and stores cluster metadata.
+
+Q6. What is KRaft in Kafka?
+-----------------------------
+KRaft (new way)
+👉 It is Kafka’s own built-in system (no need for Zookeeper). It directly manages brokers, topics, partitions, and leaders inside Kafka itself, making Kafka simpler and faster.
 
 
-(3) Kafka Architecture / Key Component of Kafka:
-____________________________________________________
-1. Zookeeper/Kraft  - This provides environment to run kafka server
-                     -> zookeeper ensures high availability by electing partition leaders.
-                     -> Monitor broker health and reassign leadership on failures.
-                     -> stores cluster metadata, including topics, partitions and replicas.
-                     -> cordinates consumer groups for message ordering.
+Q7. What is a Kafka Server / Kafka Brokers  ?
+-----------------------------------------------
+Kafka Server / Kafka Brokers
+👉 A broker is just a Kafka server (machine running Kafka).
+👉 It stores the messages (data) and sends them to consumers when asked.
+👉 One broker alone can work, but usually we use many brokers together (this group is called a Kafka cluster) to share the load and keep data safe.
 
-    What is KRaft ?
-     --------------
-     -> kraft(kafka raft) is a kafka's new way of handling coordintation and metadata without needing zookepeer.
-     -> it uses a built-in Raft concensus/(Raft-agreement-system) protocol so that kafka brokers manange everything themselves.
 
-2. Kafka Server / Kafka Brokers  - When you run kafka, you start one or more "broker" processes:
-                                        -> to store messages.
-                                        -> handle Read/Write requests.
-3. Kafka Topic - It is Logical channel or catogery,where messages are published :
-                 -> when you send a message to kafka , you choose which topic to send it to.
-                 -> consumers then subscribe to that topic to recieve the messages.
-                 eg. kafka topic just like mysql database name and further create tables similar here. 
+Q8. What is Kafka Topic ?
+----------------------------
+👉 A category/channel where messages are stored.
+Example: Topic orders will have all order-related messages.
 Diagram :
-
 +-----------------------+
 |      Kafka Broker     |
 |                       |
@@ -75,10 +74,10 @@ Diagram :
 +-----------------------+
 
 
-4. Partitions - A partitions is a sub-section of a Kafka topic,each partition maintains a sequential order of messages, allowing prallel read and write for higher performance.
-
+Q9. What is Partitions ?
+-----------------------------
+A partitions is a sub-section of a Kafka topic,each partition maintains a sequential order of messages, allowing prallel read and write for higher performance.
 Diagram :
-
 +-----------------------+
 |      Kafka Broker     |
 |                       |
@@ -97,11 +96,16 @@ Diagram :
 |   +-------------+     |
 +-----------------------+
 
-6. Publisher/producer - an application or process that sends events to kafka topic, producers write data to kafka.
-7. Subscriber/consumer - an application or process that reads events from kafka topic, consumer subscribe to topics and process the data.
+Q10. What is Publisher/producer ?
+-----------------------------------
+👉 The application that sends data (messages) to Kafka topics.
+Example: E-commerce app sends new order details to Kafka.
 
+Q11. What is Subscriber/consumer ?
+------------------------------------
+👉 The application that reads data from Kafka topics.
+Example: Billing system consumes order messages to generate invoices.
 Diagram :
-
                         +-----------------------+     
                         |      Kafka Broker     |
                         |                       |
@@ -120,73 +124,28 @@ Diagram :
                         |   +-------------+     |
                         +-----------------------+
 
-
-(4) what is kafka offSet ?
-_____________________________
--> kafka offSet is a sequential number assigned to each message within partition.
-   eg. think of it like book page number
--> offSet are unique per partition
--> it help in tracking
--> it is assign by kafka broker not the producer.
--> maintain order(per partition) : messages are always read in order within a partition.
--> track consumer progress : consumer store their last read offset to resume processing. (jha stop hua whi se chalu)
-
-Diagram :
-
-              Topic: orders
-              Partition: 0
-
-+---------+---------+---------+---------+---------+---------+
-| Offset: |    0    |    1    |    2    |    3    |    4    |
-+---------+---------+---------+---------+---------+---------+
-| Message | "A"     | "B"     | "C"     | "D"     | "E"     |
-+---------+---------+---------+---------+---------+---------+
-                                        ↑
-                                  Consumer is here
-                              (Current offset = 3)
+Q12. What is a Consumer Group?
+--------------------------------
+👉 A group of consumers that share work of reading from a topic. Each partition is consumed by only one consumer in the group.
+Daigram :
+                 +-----------------------+
+                 |      Kafka Broker     |
+                 |                       |
+                 |   +-------------+     |
+                 |   |   TopicA    |     |
+                 |   |-------------|     |
+                 |   | Partition 0 |-----|----> Consumer 1
+                 |   | Partition 1 |-----|----> Consumer 2
+                 |   | Partition 2 |-----|----> Consumer 3
+                 |   | Partition 3 |-----|----> Consumer 4
+                 |   +-------------+     |
+                 +-----------------------+
+                        Consumer Group (Group ID = "Order-Service")
 
 
-(5) What is message key ?
-______________________________
--> used for partitioning : kafka uses the message key to decide which partition the message should go to.
--> ensure ordering :  message with the same key always go to the same partition.
--> optional : producer can send message with or without a key (if no key, kafka distributes messages in round-robin).
--> stored with message : the key is stored along with the message in kafka but doesn't effect the message content.
--> can be any data type: typically a string, but can be any serializable data.
-
-Diagram :
-
-                                  +----------------------------+
-                                  |           TopicA           |
-                                  |                            |
-                      |-- KeyA -->|  +----------------------+  |
-                      |           |  |    Partition 0       |  |
-+-------------+       |           |  +----------------------+  |
-|   Producer  | ------→           |                            |
-+-------------+       |           |  +----------------------+  |
-                      |-- KeyB -->|  |    Partition 1       |  |
-                                  |  +----------------------+  |
-                                  +----------------------------+
-
-
-
-(6) What is kafka serialization ?
-______________________________________
--> serialization in kafka is the process of converting data into bytes before sending it to kafka (producer side).
-
-(7) What is kafka Deserialization ?
-__________________________________________
--> it is also a process in kafka , in which deserializing it back when reading data from kafka ( consumer side ).
-
-
-(8) What is a consumer group in kafka ?
-_______________________________________________
--> a consumer group in kafka is a logical group of consumers that work together to consume messages from a kafka topic in parallel.
-
-
-(9) What is Kafka Cluster ?
+Q13. What is a Kafka Cluster?
+------------------------------
 -> A Kafka cluster is a group of Kafka brokers working together to manage message storage, distribution, and replication for high-throughput, fault-tolerant messaging.
-
 Diagram :
 
           +===================================================================+
@@ -252,11 +211,116 @@ eg-2 :
             +===================================================================+
 
 
+Q14. What is a Kafka Producer Acknowledgment (acks)?
+--------------------------------------------------------
+👉 A setting to control durability:
+- acks=0 → fire and forget.
+- acks=1 → leader must ack.
+- acks=all → leader + replicas must ack (safest).
+
+
+Q15. What is Kafka Replication?
+---------------------------------
+👉 Each partition can be replicated across brokers for fault tolerance. One replica is leader, others are followers.
+
+
+Q16. What is an Offset in Kafka?
+----------------------------------
+👉 A unique number (like an index) for each message in a partition. Consumers use it to track where they left off.
+Diagram :
+              Topic: orders
+              Partition: 0
+
++---------+---------+---------+---------+---------+---------+
+| Offset: |    0    |    1    |    2    |    3    |    4    |
++---------+---------+---------+---------+---------+---------+
+| Message | "A"     | "B"     | "C"     | "D"     | "E"     |
++---------+---------+---------+---------+---------+---------+
+                                        ↑
+                                  Consumer is here
+                              (Current offset = 3)
+
+
+Q17. What is message key ?
+-------------------------------
+-> used for partitioning : kafka uses the message key to decide which partition the message should go to.
+-> ensure ordering :  message with the same key always go to the same partition.
+-> optional : producer can send message with or without a key (if no key, kafka distributes messages in round-robin).
+-> stored with message : the key is stored along with the message in kafka but doesn't effect the message content.
+-> can be any data type: typically a string, but can be any serializable data.
+Diagram :
+
+                                  +----------------------------+
+                                  |           TopicA           |
+                                  |                            |
+                      |-- KeyA -->|  +----------------------+  |
+                      |           |  |    Partition 0       |  |
++-------------+       |           |  +----------------------+  |
+|   Producer  | ------→           |                            |
++-------------+       |           |  +----------------------+  |
+                      |-- KeyB -->|  |    Partition 1       |  |
+                                  |  +----------------------+  |
+                                  +----------------------------+
+
+
+
+Q18. What is Kafka Serialization?
+-----------------------------------
+👉 Serialization in Kafka means converting objects/data into a byte array before sending it to Kafka (Producer → Broker).
+- Kafka works with bytes only.
+- So if you send a String, Integer, or even a Java object, it must first be serialized into bytes.
+- Example:
+   a. A StringSerializer converts "Hello" → [72, 101, 108, 108, 111] (bytes).
+   b. An IntegerSerializer converts 100 → [0,0,0,100].
+
+Q19. What is Kafka Deserialization?
+---------------------------------------
+👉 Deserialization in Kafka means converting byte array back into an object when a Consumer reads data from Kafka.
+Example:
+     a. If Consumer uses StringDeserializer, it converts [72, 101, 108, 108, 111] → "Hello".
+     b. If Consumer uses IntegerDeserializer, it converts [0,0,0,100] → 100.
+
+
+Q20. Real-time use cases of Kafka?
+-----------------------------------
+👉 Logging, monitoring, payment processing, fraud detection, real-time analytics, event-driven microservices.
+
+Q21. What happens if a consumer goes down?
+-------------------------------------------
+👉 Another consumer in the group will take over its partitions (rebalance).
+
+Q22. What happens if a broker goes down?
+------------------------------------------
+👉 Partition leader shifts to another replica (if replication is enabled).
+
+Q23. What is Kafka Retention Policy?
+--------------------------------------
+👉 How long Kafka keeps messages (based on time or size). Even if consumed, messages are retained.
+
+Q24. What is Kafka Connect?
+----------------------------
+👉 A tool for integrating Kafka with external systems (databases, Elasticsearch, etc.).
+
+
+Q25. How do you monitor Kafka?
+--------------------------------
+👉 Using Prometheus, Grafana, Confluent Control Center, Kafka Manager, or Spring Boot Actuator + Micrometer.
+
+Q26. How do you integrate Kafka with Spring Boot?
+--------------------------------------------------
+👉 Using spring-kafka dependency, with @KafkaListener for consumers and KafkaTemplate for producer.
+
+
+Q27. What is Kafka UI ?
+---------------------------
+web-based open source tool that provides an easy way to use interface for monitoring,managing and interacting with apache clusters,
+including topics, partitions,consumer groups and messages.
+
+
 
 
 
 (10) Steps to setup kafka in windows:
-
 
 Step-1 : Download Zookeeper:
 
@@ -293,9 +357,7 @@ Step-8 : View created Topics using below command
 Kafka Bootstrap Server URL : http://localhost:9092/ or http://192.30.43.2:9092/ for linux server created in cloud
 
 
-(11) What is Kafka UI ?
-web-based open source tool that provides an easy way to use interface for monitoring,managing and interacting with apache clusters,
-including topics, partitions,consumer groups and messages.
+
 
 
 
