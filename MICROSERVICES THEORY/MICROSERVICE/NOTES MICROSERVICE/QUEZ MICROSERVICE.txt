@@ -7,6 +7,7 @@
 (7) What is the difference between a monolithic application and a microservices architecture?
 (8) How do microservices communicate with each other?
 (9) In monolithic apps you just need a server and DB, what extra things are required in microservices?
+(9.1) What is the difference between RestTemplate, Feign Client and WebClient ?
 (10) Service Discovery (Eureka, Consul) :
                               Q1. What is service discovery in microservices?
                               Q2. Why do we need service discovery?
@@ -58,25 +59,42 @@
                                       Q5. What backends can Zipkin use for storing traces?
                                       Q6. Have you faced performance issues with tracing?
 (15). Fault Tolerance (Resilience4j, Hystrix, Circuit Breaker) :
-                                      Q1. What is Zipkin?
-                                      Q2. Why do we need distributed tracing?
-                                      Q3. How do services send trace info to Zipkin?
-                                      Q4. Difference between logging and tracing?
-                                      Q5. What backends can Zipkin use for storing traces?
-                                      Q6. Have you faced performance issues with tracing?
+                                      Q1. What is fault tolerance?
+                                      Q2. What is a Circuit Breaker pattern?
+                                      Q3. Example of a fault tolerance library?
+                                      Q4. What is the difference between Retry and Circuit Breaker?
+                                      Q5. How do you implement fallback in case a service is down?
+                                      Q6. How do you handle rate limiting in microservices?
+                                      Q7. Can you explain a real issue where fault tolerance saved your system?
+                                      Q8. What is the difference between Hystrix and Resilience4j?
+                                      Q9. What is Bulkhead pattern?
+                                      Q10. What is the Timeout pattern and why is it important?
+                                      Q11. In terms of fault tolerance, what is the difference between Fail-Fast and Fail-Safe?
+                                      Q12. How do you monitor Circuit Breakers in production?
+                                      Q13. What is the Saga Pattern in microservices?
+                                      Q14. What are the two ways to implement Saga?
+                                      Q15. Can you give a real example of Saga?
+                                      Q16. Difference between 2PC (Two-Phase Commit) and Saga?
+                                      Q17. How does Saga help in fault tolerance?
+                                      Q18. Why do we need a Circuit Breaker if we already have Saga?
+                                      Q19. How do you decide between Retry, Circuit Breaker, and Saga?
+                                      Q20. What tools can you use to implement Saga in Spring Boot?
+                                      Q21. Can Saga work with Resilience4j/Hystrix?
 
 
-(4) What is a Service Registry in Microservices?
+
+
 (5) Steps to Create Eureka Server / Service Registry?
-(6) What is Spring Boot Admin Server and How It Works?
+
 (7) Step to Set Up Spring Boot Admin Server?
-(8) What is Zipkin Server?
+
 (9) Step to setup Zipikin Server?
-(10) What are the tools that enable service-to-service communication using service names registered in Eureka?
-(11) Difference Between Rest Template, Webclient & Feign client?
-(12) What is API Gateway & Why API gateway?
+
+
 (13) Step to implement API gateway?
-(14) What is a Spring Cloud Config Server and Why is it needed?
+
+(14) STEPS TO IMPLEMENTS Spring Cloud Config Server?
+
 (15) How to secure microservice prject?
 
 
