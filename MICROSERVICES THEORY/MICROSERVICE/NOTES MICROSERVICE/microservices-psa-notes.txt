@@ -135,6 +135,30 @@ Monitoring & Resilience :
  c. Logging & Tracing → Centralized logs (ELK Stack, Zipkin, Jaeger).
  d. Health Checks → Each service exposes a health endpoint.
 
+
+9.1 What is the difference between RestTemplate, Feign Client and WebClient ?
+##################################################################################
+Feature                         | RestTemplate (with setup)  | WebClient (with setup)  | Feign Client (automatic)
+------------------------------- | -------------------------- | ----------------------- | --------------------------
+Can use microservice name       | Yes                        | Yes                     | Yes
+Requires manual configuration   | Yes (@LoadBalanced)        | Yes (@LoadBalanced)     | No
+Built-in load balancing         | Yes                        | Yes                     | Yes
+URL hardcoded by default        | Yes                        | Yes                     | No
+Effort level                    | Medium                     | Medium                  | Low
+
+
+Example:
+Tool            | Call Example                                                                     
+--------------- | --------------------------------------------------------------------------------
+RestTemplate    | restTemplate.getForObject("http://MICROSERVICES-1/api/data", String.class);   
+  
+WebClient       | webClient.get().uri("http://MICROSERVICES-1/api/data").retrieve().bodyToMono(); 
+
+Feign Client    | @FeignClient(name = "MICROSERVICES-1") 
+                  public interface Client { 
+                  @GetMapping("/api/data") String getData(); 
+                  }
+
 (10) Service Discovery (Eureka, Consul) :
 ##########################################
 
@@ -159,6 +183,8 @@ Q5. What is Eureka self-preservation mode?
 Q6. What is the difference between client-side load balancing and server-side load balancing in the context of a service discovery server?
 👉 Client-side load balancing → The client itself checks the service registry and picks a service instance to call. (E.g., Eureka Client + Ribbon)
 👉 Server-side load balancing → The client just calls a load balancer, and the load balancer decides which service instance to forward the request to. (E.g., Kubernetes)
+
+
 
 
 (11) Config Server (Spring Cloud Config) :
@@ -306,10 +332,10 @@ Q6. Have you faced performance issues with tracing?
 ###################################################################
 
 Q1. What is fault tolerance?
-👉 Ability of the system to continue working even if some services fail.
+👉 it is a concept/principle , which define Ability of the system to continue working even if some services fail.
 
 Q2. What is a Circuit Breaker pattern?
-👉 It stops sending requests to a service that is failing for some time, so that the problem does not spread to other services.
+👉 It's design pattern, It stops sending requests to a service that is failing for some time, so that the problem does not spread to other services.
 
 Q3. Example of a fault tolerance library?
 👉 Resilience4j, Hystrix (now deprecated).
@@ -345,6 +371,43 @@ Q11. In terms of fault tolerance, what is the difference between Fail-Fast and F
 
 Q12. How do you monitor Circuit Breakers in production?
 👉 Using Micrometer + Prometheus + Grafana dashboards, or by exposing metrics via Actuator endpoints.
+
+Q13. What is the Saga Pattern in microservices?
+👉 Saga Pattern is a design pattern used in microservices to handle transactions.
+Instead of having one big transaction across many services, it breaks it into smaller local transactions.
+If one of the steps fails, it uses compensation steps (undo actions) to keep the system consistent.
+
+Q14. What are the two ways to implement Saga?
+👉 Choreography (services communicate via events)
+👉 Orchestration (a central Saga orchestrator controls the flow).
+
+Q15. Can you give a real example of Saga?
+👉 In e-commerce: Order → Payment → Inventory → Shipping. If inventory fails, trigger compensation (refund + cancel order).
+
+Q16. Difference between 2PC (Two-Phase Commit) and Saga?
+👉 2PC tries to lock all resources → bad for scalability.
+👉 Saga is async, uses compensation instead of locking → better for microservices.
+
+Q17. How does Saga help in fault tolerance?
+👉 Even if one service fails, Saga ensures system consistency by rolling back earlier steps.
+
+Q18. Why do we need a Circuit Breaker if we already have Saga?
+👉 Saga ensures data consistency across services.
+👉 Circuit Breaker prevents cascading failures when a service is down.
+👉 Both solve different fault tolerance problems.
+
+Q19. How do you decide between Retry, Circuit Breaker, and Saga?
+👉 Retry → when failure is temporary (like network glitch).
+👉 Circuit Breaker → when service is unhealthy, stop sending requests.
+👉 Saga → when multiple services form a business transaction.
+
+Q20. What tools can you use to implement Saga in Spring Boot?
+👉 - Axon Framework, Camunda, Eventuate Tram Saga, or custom using Kafka/RabbitMQ + Choreography.
+
+Q21. Can Saga work with Resilience4j/Hystrix?
+👉 Yes, you can use Circuit Breaker + Saga together:
+👉 Saga ensures rollback on failure.
+👉 Circuit Breaker prevents repeated calls to failing services.
 
 
 
@@ -536,26 +599,7 @@ using microservice names from eureka server.
 ##############################################################
 
 
-Feature                         | RestTemplate (with setup)  | WebClient (with setup)  | Feign Client (automatic)
-------------------------------- | -------------------------- | ----------------------- | --------------------------
-Can use microservice name       | Yes                        | Yes                     | Yes
-Requires manual configuration   | Yes (@LoadBalanced)        | Yes (@LoadBalanced)     | No
-Built-in load balancing         | Yes                        | Yes                     | Yes
-URL hardcoded by default        | Yes                        | Yes                     | No
-Effort level                    | Medium                     | Medium                  | Low
 
-
-Example:
-Tool            | Call Example                                                                     
---------------- | --------------------------------------------------------------------------------
-RestTemplate    | restTemplate.getForObject("http://MICROSERVICES-1/api/data", String.class);   
-  
-WebClient       | webClient.get().uri("http://MICROSERVICES-1/api/data").retrieve().bodyToMono(); 
-
-Feign Client    | @FeignClient(name = "MICROSERVICES-1") 
-                  public interface Client { 
-                  @GetMapping("/api/data") String getData(); 
-                  }
 
 ####################################################################################
 Create Micro service 2 - Use Inter microservices communication --> Use Feign Client
