@@ -35,3 +35,6 @@
 (33) What is Criteria API in Hibernate ?
 (34) How Hibernate manages transactions ?
 
+
+(39) Hibernate/ JPA   :    IF I WANT SOME FIELD TO STORE INTO DATABASE AS ENCRYPTED FORM HOW WILL BE DONE?
+
