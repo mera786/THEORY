@@ -1,16 +1,47 @@
                              HIBERNATE QUEZ
 
-(1) WHAT IS HIBERNATE?
-(2) WHAT IS THE DIFFERENCE BETWEEN JDBC & HIBERNATE ?
-(3) Difference between Hibernate and Jpa ?
-(4) HOW MANY TYPES OF Hibernate Mappings Explain each one with examples?
+Basics  :
+---------
+           Q1. What is Hibernate?
+           Q2. What is The Difference Between JDBC and Hibernate ?
+           Q3. Difference between Hibernate and JPA?
+           Q4. What is an Entity in JPA/Hibernate?
+           Q5. What are the core annotations of JPA?
+           a.
+           a.
+           a.
+Primary Keys & Persistence :
+----------------------------
+           Q1. What are the ID generation strategies in Hibernate?
+           Q2. What are the states of an entity in Hibernate?
+           a.
+           a.
+           a.
+Relationships :
+---------------
+           Q1. Explain different types of associations in Hibernate ?
+           Q2. How do you handle bidirectional relationships in JPA?
+           Q3. What is mappedBy?
+           Q4. What is the difference between cascade and fetch in relationships?
+           a.
+           a.
+Caching & Performance :
+-----------------------
+           Q1. What is Hibernate caching? and what are the Types of Hibernate Caching ?
+           Q2. What is lazy loading and eager loading?
+           a.
+           a.
+Transactions & Queries :
+------------------------
+           Q1. What is the role of EntityManager in JPA?
+           Q2. Difference between JPQL and Criteria API?
+           Q3. Difference between HQL and JPQL?
+           a.
+           a.
+           a.
+
 (5) What is Normalization ?
 (6) WHICH ALL IMPORTANT INTERFACES USED IN HIBERNATE?
-(7) What are finder methods in hibernate?
-(8) JPQL (Java Persistence Query Language) in Hibernate?
-(9) Native SQl Query ?
-(10) TELL FEW IMPORTANT ANNOTATION WHICH IS USED IN HIBERNATE?
-(11) DIFFERENCE BETWEEN FIRST LEVEL & SECOND LEVEL CACHE? 
 (12) WHAT ARE HIBERNATE CONFIGURATION FILE?
 (13) WHAT ARE HIBERNATE MAPPING FILE?
 (14) STEPS TO CREATE SAMPLE APP OF HIBERNATE?
@@ -21,20 +52,14 @@
 (19) WHAT IS ORM (OBJECT -RELATIONAL MAPPING)?
 (20) WHAT IS DIALECT IN HIBERNATE?
 (21) WHAT HAPPENS IF DIALECT IS MISSING?
-(22) DIFFERENCE BETWEEN LAZY LOADING AND EAGER LOADING?
 (23) How will you join two tables in Hibernate?
 (24) WHAT ARE THE FEATURES OF HIBERNATE?
 (25) How do we define a Composite Primary Key in Hibernate?
-(26) EXPLAIN LIFE CYCLE OF HIBERNATE / STATE OF HIBERNATE?
 (27) HOW CAN YOU DETACH AN OBJECT IN HIBERNATE?
 (28) WHAT IS TRANSACTION?
 (29) What is Spring Data JPA?
 (30) HOW WILL YOU MAKE IDENTIFIER IN ENTITY?
 (31) WHAT IS PROJECT LOMBOK ?
-(32) DIFFERENCE BETWEEN JPQL AND DERIVED QUERY/ finder method ?
-(33) What is Criteria API in Hibernate ?
 (34) How Hibernate manages transactions ?
-
-
 (39) Hibernate/ JPA   :    IF I WANT SOME FIELD TO STORE INTO DATABASE AS ENCRYPTED FORM HOW WILL BE DONE?
 
