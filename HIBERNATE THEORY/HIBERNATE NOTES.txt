@@ -52,6 +52,52 @@ Q5. What are the core annotations of JPA?
     - @Transient → Exclude field from persistence.
     - @Version → Optimistic locking version field.
 
+Q6. Which All Important Interfaces Used in Hibernate ?
+SESSIONFACTORY:  SessionFactory is a core interface in Hibernate responsible for:
+       -> Connecting to the database
+       -> Creating Session objects to perform operations like insert, update, delete, and query
+
+SESSION:     ITS FACTORY FOR TRANSACTION, IT IS USED FOR CONNECTING APPLICATION WITH PERSISTANCE STORE LIKE HIBERNATE FRAMEWORK/DB,  
+             IT IS USED TO GET A PYSHICAL CONNECTION WITH DATABASE , IT ALSO PROVIDE METHODS FOR CRUD OPERATIONS
+TRANSACTION:  THIS SPECIFY SINGLE UNIT OF WORK.
+
+Q7. Steps to create Sample App of Hibernate ?  
+  CREATE POJO CLASS (EMPLOYEE) -> CREATE MAPPING FILE -> CREATE CONFIGURATION FILE -> CREATE CLASS FOR RETERIVING OR STORING POJO -> RUN APPLICATION TO SEE RESULTS.
+
+Q8. What are Hibernate Configuration File ?
+ - It is type of file which contains database specific configuration ,
+ - It contains database-specific configurations like:
+                     - JDBC URL
+                     - Username & password
+                     - Driver class
+                     - Dialect
+                     - Mapping resources (entity classes)
+ - Hibernate uses this file to initialize the SessionFactory, 
+ - and conventionally it name should be hibernate.cfg.xml but you can use any name
+ - if you need to connect to sql then this file is important.
+
+Q9. What are Hibernate Mapping file ? 
+     A Hibernate Mapping File (.hbm.xml) is an XML file that tells Hibernate how to save Java objects (entities) into database tables and retrieve them. 
+     It defines which class maps to which table and how fields connect to columns.
+
+Q10. What is Orm ? 
+ORM is a concept to map java objects to database tables and vice versa, 
+it take cares of translating java code into required SQL. Popular ORM tool like, hibernate.
+
+Q11. What are the Features of Hibernate ?
+- lightweight 
+- open source
+- ORM BASED
+- high performance
+- HQL Support
+- caching 
+- lazy loading
+- database independent
+
+Q12. What is Project Lombok ?
+Project Lombok is a java library which is used to remove boiler plate code during development like, to generate getter, setters, constructors, to-string by
+using some annotations provided by lombok like, @Data, @Setter, @Getter, @NoArgsConstructor, @AllArgsConstructor, @ToString.
+
 
 
 Primary Keys & Persistence :
@@ -72,6 +118,21 @@ DETACHED STATE:
 ->	When persistent object is no longer associated with hibernate session because of session closed. It enters in the detached state.
 REMOVED STATE:
 ->	When a persistent object is explicitly marked for the deletion using delete or remove () method it enters in removal state.
+
+Q3. How Will you make Identifier in entity ?
+Using @Id with generation type.
+If you're using a composite key, use the @EmbeddedId or @IdClass annotations
+
+
+Q4. How do we define a Composite Primary Key in Hibernate?
+Step 1: Create a separate class for the key.
+    - Annotate with @Embeddable.
+    - Implement Serializable.
+    - Add key fields.
+    - Override equals() and hashCode().
+Step 2: Use this key class in the entity.
+    - In the main entity, declare a field of that class.
+    - Annotate it with @EmbeddedId.
 
 
 
@@ -197,34 +258,6 @@ Q4. How to handle optimistic vs pessimistic locking in Hibernate?
 -> Create relations between tables using Foreign Keys
 
 
-
-(6) WHICH ALL IMPORTANT INTERFACES USED IN HIBERNATE?
-
-SESSIONFACTORY:  SessionFactory is a core interface in Hibernate responsible for:
-       -> Connecting to the database
-       -> Creating Session objects to perform operations like insert, update, delete, and query
-
-SESSION:     ITS FACTORY FOR TRANSACTION, IT IS USED FOR CONNECTING APPLICATION WITH PERSISTANCE STORE LIKE HIBERNATE FRAMEWORK/DB,  
-             IT IS USED TO GET A PYSHICAL CONNECTION WITH DATABASE , IT ALSO PROVIDE METHODS FOR CRUD OPERATIONS
-TRANSACTION:  THIS SPECIFY SINGLE UNIT OF WORK.
-
-
-
-
-
-
-
-(12) WHAT ARE HIBERNATE CONFIGURATION FILE?
-   IT IS TYPE OF FILE WHICH CONTAINS DATABASE SPECIFIC CONFIGURATION AND USED TO INITIALIZE SESSION FACTORY. CONVENTIONALLY IT NAME SHOULD BE HIBERNATE.CFG.XML
-   IF YOU NEED TO CONNECT TO SQL THEN CREATE ANOTHER ONE HERE..
-
-(13) WHAT ARE HIBERNATE MAPPING FILE?
-     A Hibernate Mapping File (.hbm.xml) is an XML file that tells Hibernate how to save Java objects (entities) into database tables and retrieve them. 
-     It defines which class maps to which table and how fields connect to columns.
-
-(14) STEPS TO CREATE SAMPLE APP OF HIBERNATE?
-  CREATE POJO CLASS (EMPLOYEE) -> CREATE MAPPING FILE -> CREATE CONFIGURATION FILE -> CREATE CLASS FOR RETERIVING OR STORING POJO -> RUN APPLICATION TO SEE RESULTS.
-
 (15) DIFERENCE BETWEEN CURRENTSESSION AND OPENSESSION?
 
 | Feature                    | `getCurrentSession()`                              | `openSession()`                                               |
@@ -273,9 +306,6 @@ TRANSACTION:  THIS SPECIFY SINGLE UNIT OF WORK.
 | **Lifecycle**       | Exists until the application stops               | Exists only during one DB conversation/transaction  |
 | **Analogy**         | Like a **Car Factory**                           | Like the **Car** made by the factory                |
 
-(19) WHAT IS ORM (OBJECT -RELATIONAL MAPPING)?
-ORM is a concept to map java objects to database tables and vice versa, 
-it take cares of translating java code into required SQL. Popular ORM tool like, hibernate.
 
 (20) WHAT IS DIALECT IN HIBERNATE?
 Dialect is a concept related to configuration of database where It tells Hibernate how to generate appropriate SQL statements for the specific database.
@@ -297,45 +327,6 @@ Note:-Use @JoinColumn to specify the foreign key column.
 (b) Using HQL (Hibernate Query Language) or JPQL :
 ex- @Query("SELECT e FROM Employee e JOIN e.address a WHERE a.city = :city")
 List<Employee> findEmployeesByCity(@Param("city") String city);
-
-(24) WHAT ARE THE FEATURES OF HIBERNATE?
-
-- lightweight 
-- open source
-- ORM BASED
-- high performance
-- HQL Support
-- caching 
-- lazy loading
-- database independent
-
-(25) How do we define a Composite Primary Key in Hibernate?
-
-STEP-1 :
-A separate class annotated with @Embeddable
-.
-eg.** having two id of different -different. ** 
-@Embeddable
-public class OrderId implements Serializable {
-    private Long orderId;
-    private Long productId;
-
-    // getters, setters, equals(), hashCode()
-}
-
-STEP-2 :
-Using @EmbeddedId in the main entity class
-eg. ** Create a class for the composite key **.
-@Embeddable
-public class OrderId implements Serializable {
-    private Long orderId;
-    private Long productId;
-
-    // getters, setters, equals(), hashCode()
-}
-
-
-
 
 
 
@@ -375,19 +366,6 @@ Hibernate provides the Transaction interface to manage database transactions.
 a. Spring Data JPA makes working with JPA easier by eliminating boilerplate code required for common database operations like saving, updating, deleting, and finding entities.
 
 d. By default, Spring Data JPA uses Hibernate as the ORM (Object Relational Mapping) tool in Spring Boot applications (unless you configure another JPA provider manually).
-
-################################################
-(30) HOW WILL YOU MAKE IDENTIFIER IN ENTITY?
-#################################################
-Using @Id with generation type.
-If you're using a composite key, use the @EmbeddedId or @IdClass annotations
-
-
-#####################################
-(31)WHAT IS PROJECT LOMBOK ?
-#####################################
-PROJECT LOMBOK IS A JAVA LIBRARY TOOL WHICH IS USED TO REMOVE BOILER PLATE CODE DURING THE DEVELOPMENT .LIKE TO GENERATE GETTERS, SETTERS, CONSTRUCTOR,TOSTRING 
-BY USING SOME ANNOTATIONS PROVIDED BY LOMBOK LIKE @DATA, @SETTER , @GETTER, @NOARGSCONSTRUCTOR, @ALLARGSCONSTRUCTOR, @TOSTRING.
 
 
 ##############################################################
