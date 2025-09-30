@@ -7,13 +7,21 @@ Basics  :
            Q3. Difference between Hibernate and JPA?
            Q4. What is an Entity in JPA/Hibernate?
            Q5. What are the core annotations of JPA?
-           a.
+           Q6. Which All Important Interfaces Used in Hibernate ?
+           Q7. Steps to create Sample App of Hibernate ? 
+           Q8. What are Hibernate Configuration File ?
+           Q9. What are Hibernate Mapping file ? 
+           Q10. What is Orm ? 
+           Q11. What are the Features of Hibernate ?
+           Q12. What is Project Lombok ?
            a.
            a.
 Primary Keys & Persistence :
 ----------------------------
            Q1. What are the ID generation strategies in Hibernate?
            Q2. What are the states of an entity in Hibernate?
+           Q3. How Will you make Identifier in entity ?
+           Q4. How do we define a Composite Primary Key in Hibernate?
            a.
            a.
            a.
@@ -41,25 +49,16 @@ Transactions & Queries :
            a.
 
 (5) What is Normalization ?
-(6) WHICH ALL IMPORTANT INTERFACES USED IN HIBERNATE?
-(12) WHAT ARE HIBERNATE CONFIGURATION FILE?
-(13) WHAT ARE HIBERNATE MAPPING FILE?
-(14) STEPS TO CREATE SAMPLE APP OF HIBERNATE?
 (15) DIFERENCE BETWEEN CURRENTSESSION AND OPENSESSION?
 (16) DIFFERENCE BETWEEN SESSION LOAD() AND GET() METHOD?
 (17) DIFFERENCE BETWEEN SAVE & PERSIST METHOD?
 (18) DIFFERENCE BETWEEN SESSION AND SESSIONFACTORY?
-(19) WHAT IS ORM (OBJECT -RELATIONAL MAPPING)?
 (20) WHAT IS DIALECT IN HIBERNATE?
 (21) WHAT HAPPENS IF DIALECT IS MISSING?
 (23) How will you join two tables in Hibernate?
-(24) WHAT ARE THE FEATURES OF HIBERNATE?
-(25) How do we define a Composite Primary Key in Hibernate?
 (27) HOW CAN YOU DETACH AN OBJECT IN HIBERNATE?
 (28) WHAT IS TRANSACTION?
 (29) What is Spring Data JPA?
-(30) HOW WILL YOU MAKE IDENTIFIER IN ENTITY?
-(31) WHAT IS PROJECT LOMBOK ?
 (34) How Hibernate manages transactions ?
 (39) Hibernate/ JPA   :    IF I WANT SOME FIELD TO STORE INTO DATABASE AS ENCRYPTED FORM HOW WILL BE DONE?
 
