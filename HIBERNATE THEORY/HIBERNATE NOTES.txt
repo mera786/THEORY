@@ -99,6 +99,24 @@ Project Lombok is a java library which is used to remove boiler plate code durin
 using some annotations provided by lombok like, @Data, @Setter, @Getter, @NoArgsConstructor, @AllArgsConstructor, @ToString.
 
 
+Q13. What is Normalization?
+Normalization is a database design technique that organizes tables to reduce redundancy and avoid data problems (or inconsistencies). It is done in different stages called Normal Forms. Each normal form defines a set of rules. The most commonly used are 1NF, 2NF, and 3NF.
+👉 1. 1NF (First Normal Form)
+-> Should have atomic values
+-> Identify each record uniquely
+-> No repeating groups
+
+👉 2. 2NF (Second Normal Form)
+-> Group the columns based on entity & seperate that to different tables
+
+👉 3. 3NF (Third Normal Form)]
+-> Remove all duplicate/redundant values
+-> Ensure each record is uniquely identified by a Primary Key
+-> Create relations between tables using Foreign Keys
+
+
+
+
 
 Primary Keys & Persistence :
 ----------------------------
@@ -135,6 +153,31 @@ Step 2: Use this key class in the entity.
     - Annotate it with @EmbeddedId.
 
 
+Q5. What are the difference between get and load method ?
+| Feature                 | `get()`                                       | `load()`                                        |
+| ----------------------- | --------------------------------------------- | ----------------------------------------------- |
+| **Return Type**         | Returns the actual object                     | Returns a **proxy** (fake object at first)      |
+| **When Data Not Found** | Returns `null` if object not found            | Throws **ObjectNotFoundException** if not found |
+| **When Query Runs**     | Query runs **immediately**                    | Query runs **when you access object fields**    |
+| **Use Case**            | Use when you're not sure if the object exists | Use when you're sure the object exists          |
+| **Performance**         | Slightly slower (fetches immediately)         | Slightly better (lazy loading with proxy)       |
+
+Q6. Difference between save() & persist() method?
+👉 save() is Hibernate-specific and returns the generated ID, while persist() is JPA standard, returns nothing, and needs an active transaction.
+
+Q7. How can you detach an object in Hibernate?
+Detaching an object refers to removing its association with current hibernate session so there are several ways to detach using session interface’s method:
+-	Evict()
+-	Clear()
+-	Detach()
+-	Close()
+
+Q8. IF I WANT SOME FIELD TO STORE INTO DATABASE AS ENCRYPTED FORM HOW WILL BE DONE?
+You can encrypt a field before saving it and decrypt it when reading. In Hibernate/JPA, this can be done using @Convert with AttributeConverter.
+
+
+
+
 
 Relationships :
 ---------------
@@ -168,6 +211,20 @@ Q3. What is mappedBy?
 Q4. What is the difference between cascade and fetch in relationships?
      - cascade → operations that propagate (e.g., PERSIST, REMOVE)
      - fetch → how related entities are loaded (LAZY or EAGER)
+
+Q5. How will you join two tables in Hibernate?
+You can join two tables in Hibernate using two main approaches:
+(a)  Through Entity Mappings using Annotations :
+-> @OneToOne
+-> @OneToMany
+-> @ManyToOne
+->@ManyToMany
+Note:-Use @JoinColumn to specify the foreign key column.
+
+(b) Using HQL (Hibernate Query Language) or JPQL :
+ex- @Query("SELECT e FROM Employee e JOIN e.address a WHERE a.city = :city")
+List<Employee> findEmployeesByCity(@Param("city") String city);
+
 
 
 Caching & Performance :
@@ -227,120 +284,23 @@ Example : In Spring Boot repositories
 | **@Query with JPQL**        | Yes                 | JPQL                             | `@Query("SELECT u FROM User u WHERE u.email = :email")|
 | **@Query with native SQL**  | Yes                 | SQL                              | `@Query(value="SELECT * FROM users WHERE email=:email",                                                                                                                                            nativeQuery=true)` |
 
-Q4. How to handle optimistic vs pessimistic locking in Hibernate?
+Q4. Explain Difference between OpenSession and CurrentSession ?
+👉 openSession() → Always creates a new Session, you must close it manually.
+👉 getCurrentSession() → Returns a Session bound to the current context/transaction, and it closes automatically.
 
+Q5. Difference between Session and SessionFactory?
+👉 SessionFactory → A heavyweight object created once, used to make Sessions.
+👉 Session → A lightweight object created from SessionFactory to interact with the database (CRUD).
 
-
-
-
-
-
-
-
-
-
-
-    ###########################
-(5)   Normalization
-    ############################
-
-1. 1NF (First Normal Form)
--> Should have atomic values
--> Identify each record uniquely
--> No repeating groups
-
-2. 2NF (Second Normal Form)
--> Group the columns based on entity & seperate that to different tables
-
-3. 3 NF (Third Normal Form)]
--> Remove all duplicate/redundant values
--> Ensure each record is uniquely identified by a Primary Key
--> Create relations between tables using Foreign Keys
-
-
-(15) DIFERENCE BETWEEN CURRENTSESSION AND OPENSESSION?
-
-| Feature                    | `getCurrentSession()`                              | `openSession()`                                               |
-| -------------------------- | -------------------------------------------------- | ------------------------------------------------------------- |
-| **Session Scope**          | Bound to the **current transaction** or **thread** | Not bound to transaction; it's **manual** and **independent** |
-| **Session Closing**        | Automatically closed when transaction ends         | Needs to be **explicitly closed** by the developer            |
-| **Recommended For**        | Use with **transaction management** (e.g. Spring)  | Use when managing session manually                            |
-| **Session Sharing**        | Reuses the same session in the same thread         | Always opens a **new session** each time                      |
-| **Performance**            | Better suited for standard request-response models | Less efficient if misused (more overhead)                     |
-| **Requires Configuration** | Yes (`hibernate.current_session_context_class`)    | No special configuration needed                               |
-
-(16) DIFFERENCE BETWEEN SESSION LOAD() AND GET() METHOD?
-
-| Feature                 | `get()`                                       | `load()`                                        |
-| ----------------------- | --------------------------------------------- | ----------------------------------------------- |
-| **Return Type**         | Returns the actual object                     | Returns a **proxy** (fake object at first)      |
-| **When Data Not Found** | Returns `null` if object not found            | Throws **ObjectNotFoundException** if not found |
-| **When Query Runs**     | Query runs **immediately**                    | Query runs **when you access object fields**    |
-| **Use Case**            | Use when you're not sure if the object exists | Use when you're sure the object exists          |
-| **Performance**         | Slightly slower (fetches immediately)         | Slightly better (lazy loading with proxy)       |
-
-
-
-
-(17) DIFFERENCE BETWEEN SAVE & PERSIST METHOD?
-
-| Feature                 | `save()` Method                                        | `persist()` Method                              |
-| ----------------------- | ------------------------------------------------------ | ----------------------------------------------- |
-| **Belongs to**          | Hibernate-specific (native method)                     | JPA standard method (recommended for JPA usage) |
-| **Return type**         | ✅ Returns the **generated ID** (Serializable)         | ❌ Returns **nothing (void)**                   |
-| **When can we use it?** | Even **outside a transaction**, it still works         | Must be called **within a transaction**         |
-| **Adds object to...**   | Adds it to **persistence context + returns ID**        | Adds it to **persistence context only**         |
-| **Duplicates allowed?** | Yes, can cause **duplicates** if object already has ID | Throws **Exception** if object has assigned ID  |
-| **Flush timing**        | Can flush immediately                                  | Flushes only when transaction commits           |
-| **Used with**           | Only in **Hibernate**                                  | Can be used with **JPA or Hibernate**           |
-
-(18) DIFFERENCE BETWEEN SESSION AND SESSIONFACTORY?
-
-| Feature             | `SessionFactory`                                 | `Session`                                           |
-| ------------------- | ------------------------------------------------ | --------------------------------------------------- |
-| **What is it?**     | A factory (creator) that makes `Session` objects | A single session used to interact with the database |
-| **Creation**        | Created **only once** for the whole application  | Created **every time** we need to work with DB      |
-| **Heavy or Light?** | ✅ Heavy object (expensive to create)            | ✅ Lightweight object (cheap to create)             |
-| **Thread Safe?**    | ✅ Yes — can be shared across threads            | ❌ No — use only in one thread at a time            |
-| **Used For**        | Creating `Session`, managing DB config           | CRUD operations: save, update, delete, query        |
-| **Lifecycle**       | Exists until the application stops               | Exists only during one DB conversation/transaction  |
-| **Analogy**         | Like a **Car Factory**                           | Like the **Car** made by the factory                |
-
-
-(20) WHAT IS DIALECT IN HIBERNATE?
+Q6. What is Dialect in Hibernate?
 Dialect is a concept related to configuration of database where It tells Hibernate how to generate appropriate SQL statements for the specific database.
 
-(21) WHAT HAPPENS IF DIALECT IS MISSING?
+Q7. What happens if Dialect is missing?
 Hibernate Tries to Guess the Dialect but this is not recommended if Failure to Guess Dialect it will throw a HibernateException with related message.
 
-
-
-(23) How will you join two tables in Hibernate?
-You can join two tables in Hibernate using two main approaches:
-(a)  Through Entity Mappings using Annotations :
--> @OneToOne
--> @OneToMany
--> @ManyToOne
-->@ManyToMany
-Note:-Use @JoinColumn to specify the foreign key column.
-
-(b) Using HQL (Hibernate Query Language) or JPQL :
-ex- @Query("SELECT e FROM Employee e JOIN e.address a WHERE a.city = :city")
-List<Employee> findEmployeesByCity(@Param("city") String city);
-
-
-
-(27) HOW CAN YOU DETACH AN OBJECT IN HIBERNATE?
-Detaching an object refers to removing its association with current hibernate session so there are several ways to detach using session interface’s method:
--	Evict()
--	Clear()
--	Detach()
--	Close()
-
-(28) WHAT IS TRANSACTION?
-
+Q8. What is Transaction?
 A transaction is a group of operations performed as a single unit to ensure data integrity in the database.
-Hibernate provides the Transaction interface to manage database transactions.
+there are 4 properties (ACID) of a transactions :
 | **Property**        | **Meaning**                                                             |
 | ------------------- | ----------------------------------------------------------------------- |
 | **A – Atomicity**   | All steps succeed or all fail — no partial change.                      |
@@ -348,68 +308,25 @@ Hibernate provides the Transaction interface to manage database transactions.
 | **I – Isolation**   | Each transaction is separate; no mixing of data between them.           |
 | **D – Durability**  | Once saved (committed), the change stays even after power failure.      |
 
-** Transaction Handling in Hibernate vs JPA vs Spring Boot **
 
-| **Aspect**              | **Hibernate**                          | **JPA**                          | **Spring Boot (Spring)**                    |
-| ----------------------- | -------------------------------------- | -------------------------------- | ------------------------------------------- |
-| **Transaction API**     | `Transaction`                          | `EntityTransaction`              | `@Transactional` annotation                 |
-| **Abstraction Level**   | Hibernate-specific                     | JPA specification-level          | Framework-level abstraction                 |
-| **Declarative Support** | ❌ Not built-in                         | ❌ Not built-in                   | ✅ Yes, using annotations (`@Transactional`) |
-| **Manual Handling**     | Required (`tx.begin()`, `tx.commit()`) | Required (`begin()`, `commit()`) | Optional (can be auto-managed)              |
-| **Ease of Use**         | Medium                                 | Medium                           | ✅ Very easy with annotations                |
-| **Example**             | `session.beginTransaction()`           | `entityManager.getTransaction()` | `@Transactional` on method/class            |
-
-     ############################
-(29) What is Spring Data JPA?
-     ############################
-
-a. Spring Data JPA makes working with JPA easier by eliminating boilerplate code required for common database operations like saving, updating, deleting, and finding entities.
-
-d. By default, Spring Data JPA uses Hibernate as the ORM (Object Relational Mapping) tool in Spring Boot applications (unless you configure another JPA provider manually).
-
-
-##############################################################
-(32) DIFFERENCE BETWEEN JPQL AND DERIVED QUERY/ finder method
-##############################################################
-
-
-| Feature             | JPQL (Java Persistence Query Language)                                                                        | Derived Query (Method Name Query)                                                                           |
-| ------------------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **Definition**      | JPQL is a query language similar to SQL but works with **entity objects** instead of database tables.         | Derived Queries are methods in Spring Data JPA repositories whose **names define the query automatically**. |
-| **Query Writing**   | Written explicitly using `@Query` annotation or `EntityManager.createQuery()`.                                | Written by defining **method names** in repository interface following Spring conventions.                  |
-| **Complexity**      | Can handle **complex queries** including joins, aggregation, subqueries, and functions.                       | Best for **simple queries** (like findBy, countBy, existsBy). Complex queries may become unreadable.        |
-| **Annotation**      | Often requires `@Query` annotation (optional if using EntityManager).                                         | No annotation needed; method name itself defines the query.                                                 |
-| **Example**         | `java @Query("SELECT u FROM User u WHERE u.email = :email") User findByEmail(@Param("email") String email); ` | `java User findByEmail(String email); `                                                                     |
-| **Flexibility**     | High flexibility; you can write any JPQL statement.                                                           | Limited flexibility; constrained by method naming conventions.                                              |
-| **Readability**     | Medium; query is written as a string (can be long).                                                           | High for simple queries; very readable if method names are simple.                                          |
-| **Maintainability** | Easier to modify complex queries, as you can directly edit JPQL.                                              | Harder for complex queries because long method names become cumbersome.                                     |
-| **Return Types**    | Can return single entity, list, DTO projection, or scalar values.                                             | Can return entity, list, count, boolean, or optional types.                                                 |
-
-##########################################
- (33) What is Criteria API in Hibernate ?
-##########################################
-The Criteria API in Hibernate (and JPA) is a programmatic way to build database queries instead of writing raw HQL/JPQL.
-
-
-#############################################
-(34) How Hibernate manages transactions ?
-###############################################
-
-In short, Hibernate manages transactions through JDBC connections (or JTA in enterprise apps) and its own Transaction API.
-
-Here’s the flow:
-- Open Session → Hibernate gets a database connection.
-- Begin Transaction → session.beginTransaction() tells Hibernate to disable auto-commit and start a DB transaction.
-- Perform Operations → Hibernate executes SQL (INSERT/UPDATE/DELETE/SELECT) but delays actual commit.
-- Commit / Rollback : 
-     tx.commit() → flushes changes to DB and commits the transaction.
-     tx.rollback() → undoes all pending operations.
-- Close Session → Hibernate releases the connection back to the pool.
+Q9. What is Spring Data JPA?
+  - Spring Data JPA makes working with JPA easier by eliminating boilerplate code required for common database operations like saving, updating, deleting, and      finding entities.
+  - By default, Spring Data JPA uses Hibernate as the ORM (Object Relational Mapping) tool in Spring Boot applications (unless you configure another JPA            provider manually).
 
 
 
+Q4. How to handle optimistic vs pessimistic locking in Hibernate?
 
 
+
+Q0. How do you integrate Spring Boot with Hibernate/JPA?
+👉 Candidate:
+
+Use spring-boot-starter-data-jpa.
+
+Configure application.properties with DB details.
+
+Create entities, repositories (JpaRepository), and Spring Boot auto-configures EntityManager.
 
 
 
