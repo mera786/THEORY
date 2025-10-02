@@ -1,55 +1,68 @@
                                SPRING BOOT QUEZ
-
-(1) Basics of Spring Boot :
+(1) Core Concepts (DI, IoC, Beans, MVC) :
+                       Q1. What is Dependency Injection (DI) in Spring Boot?
+                       Q2. Why use DI?
+                       Q3. What is Spring IoC?
+                       Q4. Difference Between BeanFactory and ApplicationContext ?
+                       Q5. Explain Bean life cycle?
+                       Q6. What is Spring MVC?
+                       Q7. Explain technical flow of Spring Boot project?
+                       Q8. How will you use external library in Spring Boot project?
+                       Q9. How many ways to do dependency injection?
+                       Q10. Explain difference between constructor injection vs setter injection?
+                       Q11. Explain scope of Bean in Spring?
+                       Q12. Difference between @Autowired vs new keyword?
+(2) Basics of Spring Boot :
                         Q1. What is Spring Boot?
                         Q2. What are the main features of Spring Boot?
                         Q3. What is the difference between Spring and Spring Boot?
                         Q4. What are Spring Boot Starters?
                         Q5. How do you create a Spring Boot project?
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-(2) Configuration :
+                        Q6. Explain working of Spring Boot?
+                        Q7. What are spring-boot-starter-parent?
+                        Q8. What are the key dependencies of Spring Boot?
+                        Q9. What are the different modules in Spring?
+                        Q10. Explain difference between Spring Boot vs Spring Cloud?
+                        Q11. How many requests can a Spring Boot project handle simultaneously?
+                        Q12. Can we override or replace the embedded Tomcat server in Spring Boot?
+                        Q13. Can we disable the default web server in the Spring Boot application?
+                        Q14. How to disable a specific auto-configuration class?
+                        Q15. What is Web Services?
+                        Q16. Can we create a RESTful API without using @RestController annotation?
+                        Q17. How can we override default properties in Spring Boot?
+(3) Configuration :
                         Q1. How does Spring Boot handle configuration?
                         Q2. What is the difference between application.properties and application.yml?
                         Q3. How can you change the default port in Spring Boot?
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-(3) REST & Controllers  :
-                        Q11. How do you create a REST API in Spring Boot?
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-(4) JPA & Database  :
+                        Q4. Is it possible to change the port of embedded Tomcat server in Spring Boot?
+                        Q5. What is the use of Profiles in Spring Boot?
+(4) REST & Controllers  :
+                        Q1. How do you create a REST API in Spring Boot?
+                        Q2. Difference between POST vs PUT method?
+                        Q3. Difference between GET and POST?
+                        Q4. Difference between PUT and PATCH?
+                        Q5. What is HTTP status code & categories of HTTP codes?
+                        Q6. How many types of HTTP methods?
+                        Q7. What are HTTP Headers?
+                        Q8. Difference between Query Parameter vs Path Parameter?
+(5) JPA & Database  :
                         Q1. How do you connect Spring Boot to a database?
                         Q2. What is the role of Repository in spring boot?
                         Q3. What is the difference between CrudRepository and JpaRepository?
                         Q4. How do you define a custom query in Spring Boot JPA?
-                        Q1.
-
-( ) Monitoring & Management :
+                        Q5. How JpaRepository object is created in Spring Boot even if it is an interface?
+                        Q6. How do you implement pagination in Spring Boot JPA?
+(6) Monitoring & Management :
                         Q1. What is Spring Boot Actuator?
                         Q2. What are the key endpoints provided by Spring Boot Actuator?
                         Q3. HOW WILL YOU CUSTOMIZE THE MANAGEMENT SERVER PORT FOR ACTUATOR?
                         Q4. How do you change the default /actuator base path for Spring Boot Actuator endpoints?
                         Q5. How do you enable/disable specific Actuator endpoints in Spring Boot?
                         Q6. How do you secure Actuator endpoints in Spring Boot?
-                        Q7. How can Actuator integrate with tools like Prometheus and Grafana?
-
-
-()  Security :
+                        Q7. How will you expose your custom endpoints in Spring Actuator?
+                        Q8. What is HTTP Trace in Spring Boot?
+                        Q9. How can Actuator integrate with tools like Prometheus and Grafana?
+(7)  Security :
                         Q1. How do you secure a Spring Boot application?
                         Q2. What is the difference between Authentication and Authorization?
                         Q3. How do you configure custom user details in Spring Security?
@@ -58,13 +71,8 @@
                         Q6. What is a SecurityFilterChain and how do you configure it in Spring Boot?
                         Q7. How do you secure REST APIs in Spring Boot?
                         Q8. How can you restrict access to specific endpoints in Spring Boot?
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-                        Q1.
-( ) JWT   :
+                        Q9. Explain Spring Security internal flow?
+(8) JWT   :
                         Q1. What is JWT?
                         Q2. What are the parts of a JWT?
                         Q3. What is the difference between JWT and session-based authentication?
@@ -82,62 +90,11 @@
                         Q15. How do you refresh JWT tokens?
                         Q16. How do you implement JWT filter in Spring Boot?
                         Q17. How do you test JWT-secured APIs?
-
-
-(5) What is Dependency Injection (DI) in Spring Boot?
-(6) Why Use DI?
-(7) What is Spring IOC?
-(8)  Bean life cycle ?
-(9)  What is Spring MVC?
-(10) EXPLAIN TECHNICAL FOLLOW OF SPRING BOOT PROJECT?
-(11) HOW WILL YOU USE EXTERNAL LIBERARY IN SPRING BOOT PROJECT?
-(12) HOW MANY WAYS TO DO DEPENDENCY INJECTION?
-(13) EXPLAIN DIFFERENCE BETWEEN CONSTRUCTOR INJ VS SETTER INJECTION?
-(14) IS THIS POSSIBLE TO CHANGE THE PORT OF EMBADED TOMCAT SERVER IN SPRING BOOT?
-(15)  EXPLAIN SCOPE OF BEAN IN SPRING ?
-(16) DIFFERENCE BETWEEN POST VS PUT METHOD?
-(17) DIFFERENCE BETWEEN GET AND POST ?
-(18) DIFFERENCE BETWEEN PUT AND PATCH ?
-(19) WHAT IS HTTP STATUS CODE & CATEGORIES OF HTTP CODES?
-
-(21) EXPLAIN WORKING OF SPRING BOOT ?
-
-(23) WHAT ARE SPRING-BOOT-STARTER-PARENT?
-(24) WHAT ARE THE KEY DEPENDENCIES OF SPRING BOOT ?
-(25) WHAT ARE THE DIFFERENT MODULES IN SPRING?
-(26) EXPLAIN DIFFERENCE BETWEEN SPRING BOOT VS SPRING CLOUD?
-(27) HOW MANY REQUEST CAN HANDLE A SPRING BOOT PROJECT SIMULTINEOUSLY?
-(28) CAN WE OVERRIDE OR REPLACE THE EMBADED TOMCAT SERVER IN SPRING BOOT?
-(29) CAN WE DISABLE THE DEFAULT WEB SERVER IN THE SPRING BOOT APPLICATION?
-(30) HOW TO DISABLE A SPECIFIC AUTO-CONFIGURATION CLASS?
-(31) WHAT IS THE USE OF PROFILES IN SPRING BOOT?
-(32) HOW JPAREPOSITORY OBJECTED CREATED IN SPRING BOOT EVENIF IT IS INTERFACE?
-(33) WHAT IS WEBSERVICES?
-(34) HOW MANY TYPES OF HTTP METHOD?
-(35) can we create restful API without using @RestController annotation?
-(36) DIFFERENCE BETWEEN @AUTOWIRED VS NEW KEYWORD?
-(37) HOW CAN WE OVERRIDE DEFAULT PROPERTIES IN SPRING BOOT?
-(38) WHAT ARE HTTP HEADERS?
-(39) DIFFERENCE BETWEEN QUERY PARAMETER VS PATH PARAMETER?
-(40) EXPLAIN SOLID PRINCIPLE ?
-
-(42) HOW WILL YOU EXPOSE YOUR CUSTOM ENDPOINTS IN SPRING ACTUATOR?
-(43) What is HTTP Trace in Spring Boot?
-
-
- SPRING SECURITY
-
-(2) EXPLAIN SPRING SECURITY INTERNAL FOLLOW?
-
-
-
-
-
-
-
-
-
-
-
-
-
+(9) ANNOTATIONS :
+                         a.
+                         a.
+                         a.
+                         a.
+                         a.
+                         a.
+                         a.
