@@ -173,7 +173,25 @@ Detaching an object refers to removing its association with current hibernate se
 -	Close()
 
 Q8. IF I WANT SOME FIELD TO STORE INTO DATABASE AS ENCRYPTED FORM HOW WILL BE DONE?
-You can encrypt a field before saving it and decrypt it when reading. In Hibernate/JPA, this can be done using @Convert with AttributeConverter.
+You can encrypt a field before saving it and decrypt it when reading. In Hibernate/JPA, this can be done using @Convert with AttributeConverter interface 
+which has to incomplete method like, convertToDatabaseColumn(X attribute) , convertToEntityAttribute(Y dbData).
+
+
+Q9. What is the difference between merge() and update()?
+update() → Reattaches a detached entity to the session; throws error if another instance with same ID is already in session.
+merge() → Copies values from a detached entity into a managed one; safe to use even if another instance with same ID exists in session.
+👉 In short: use merge() when unsure, it’s safer than update()
+Note :- 
+detached entity?
+ - An entity becomes detached when it was once managed by Hibernate (inside a Session / Persistence Context) but is now out of it.
+ - Example: After you close the session or commit the transaction, the entity is no longer tracked → that’s a detached entity.
+            Session session1 = sessionFactory.openSession();
+            User user = session1.get(User.class, 1L);  // managed
+            session1.close();                          // now detached
+reattached mean?
+- Hibernate needs the entity to be managed again (inside a new session) so it can track changes and sync them with the database.
+- When you call update(), Hibernate tries to reattach the detached entity to the new session.
+- When you call merge(), Hibernate creates/uses a managed copy in the new session instead of directly reattaching.
 
 
 
@@ -313,20 +331,81 @@ Q9. What is Spring Data JPA?
   - Spring Data JPA makes working with JPA easier by eliminating boilerplate code required for common database operations like saving, updating, deleting, and      finding entities.
   - By default, Spring Data JPA uses Hibernate as the ORM (Object Relational Mapping) tool in Spring Boot applications (unless you configure another JPA            provider manually).
 
+Q10. How Hibernate manages transactions?
+Here are some steps  :
+      - Open a Session — Session session = sessionFactory.openSession();
+      - Begin a Transaction — Transaction tx = session.beginTransaction();
+      - Perform DB operations — session.save()/update()/delete()/query. 
+      - Commit — tx.commit();
+      - Close Session — session.close();
+      - Rollback on error  : When using Spring’s @Transactional, rollback on unchecked exceptions is automatic by default
+Note:- Declarative vs programmatic :-  a. programmatic uses session.beginTransaction()/commit(); 
+                                       b. declarative (recommended in apps) uses @Transactional (Spring/JTA) where the framework manages begin/commit/rollback                                             and propagation.
 
 
-Q4. How to handle optimistic vs pessimistic locking in Hibernate?
+Q11. How do you integrate Spring Boot with Hibernate/JPA?
+  - Use spring-boot-starter-data-jpa.
+  - Configure application.properties with DB details.
+  - Create entities, repositories (JpaRepository), and Spring Boot auto-configures EntityManager.
+
+Q12. How to handle optimistic vs pessimistic locking in Hibernate?
+Optimistic Locking :
+       - Idea → Multiple users can read the same data, but only one can update it successfully. Others fail if data has changed in the meantime.
+       - How → Uses a @Version column (usually int or long) in the entity.
+       - If two users update the same row, Hibernate checks the @Version. If it changed, one update fails with OptimisticLockException.
+- Example in Spring Boot: 
+@Entity
+public class Product {
+    @Id
+    @GeneratedValue
+    private Long id;
+    private String name;
+    private int stock;
+
+    @Version   // Hibernate manages this column automatically
+    private int version;
+}
+
+@Service
+public class ProductService {
+    
+    @Autowired
+    private ProductRepository repo;
+
+    @Transactional
+    public void updateStock(Long productId, int newStock) {
+        Product product = repo.findById(productId).orElseThrow();
+        product.setStock(newStock);  // Hibernate will check @Version when committing
+    }
+}
+Pessimistic Locking :
+       - Idea → “Lock the row in the database so no one else can modify it until I’m done.”
+       - How → Uses database-level locks (SELECT ... FOR UPDATE).
+       - Hibernate → Use @Lock in repository methods or entityManager.lock(...).
+- Example in Spring Boot:
+public interface ProductRepository extends JpaRepository<Product, Long> {
+    @Lock(LockModeType.PESSIMISTIC_WRITE)  // DB row is locked until transaction ends
+    @Query("select p from Product p where p.id = :id")
+    Product findProductForUpdate(@Param("id") Long id);
+}
+
+@Service
+public class ProductService {
+    
+    @Autowired
+    private ProductRepository repo;
+
+    @Transactional
+    public void updateStockWithLock(Long productId, int newStock) {
+        Product product = repo.findProductForUpdate(productId);
+        product.setStock(newStock);  // Row is locked until commit
+    }
+}
 
 
 
-Q0. How do you integrate Spring Boot with Hibernate/JPA?
-👉 Candidate:
 
-Use spring-boot-starter-data-jpa.
 
-Configure application.properties with DB details.
-
-Create entities, repositories (JpaRepository), and Spring Boot auto-configures EntityManager.
 
 
 
