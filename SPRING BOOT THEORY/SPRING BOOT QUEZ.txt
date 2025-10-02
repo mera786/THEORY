@@ -91,10 +91,45 @@
                         Q16. How do you implement JWT filter in Spring Boot?
                         Q17. How do you test JWT-secured APIs?
 (9) ANNOTATIONS :
-                         a.
-                         a.
-                         a.
-                         a.
-                         a.
-                         a.
-                         a.
+                         Q1. What is @SpringBootApplication?
+                         Q2. What is @Component?
+                         Q3. What is @Service?
+                         Q4. What is @Repository?
+                         Q5. What is @Controller?
+                         Q6. What is @RestController?
+                         Q7. What is @Autowired?
+                         Q8. What is @Qualifier?
+                         Q9. What is @Value?
+                         Q10. What is @Configuration?
+                         Q11. What is @Bean?
+                         Q12. What is @EnableAutoConfiguration?
+                         Q13. What is @ComponentScan?
+                         Q14. What is @RequestMapping?
+                         Q15. What is @GetMapping?
+                         Q16. What is @PostMapping?
+                         Q17. What is @PutMapping?
+                         Q18. What is @DeleteMapping?
+                         Q19. What is @PathVariable?
+                         Q20. What is @RequestParam?
+                         Q21. What is @RequestBody?
+                         Q22. What is @ResponseBody?
+                         Q23. What is @CrossOrigin?
+                         Q24. What is @Entity?
+                         Q25. What is @Table?
+                         Q26. What is @Id?
+                         Q27. What is @GeneratedValue?
+                         Q28. What is @Column?
+                         Q29. What is @OneToOne?
+                         Q30. What is @OneToMany?
+                         Q31. What is @ManyToOne?
+                         Q32. What is @ManyToMany?
+                         Q33. What is @JoinColumn?
+                         Q34. What is @Transactional?
+                         Q35. What is @EnableScheduling?
+                         Q36. What is @Scheduled?
+                         Q37. What is @ConfigurationProperties?
+                         Q38. What is @ConditionalOnProperty?
+                         Q39. What is @RestControllerAdvice?
+                         Q40. What is @ExceptionHandler?
+                         Q41. What is @Profile?
+
