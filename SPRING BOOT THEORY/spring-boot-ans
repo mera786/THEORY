@@ -1,10 +1,105 @@
-###############################
-(1) Basics of Spring Boot :
-################################
+(1) Core Concepts (DI, IoC, Beans, MVC) :
+------------------------------------------
+Q1. What is Dependency Injection (DI) in Spring Boot?
+-> Dependency Injection is a design pattern used by Spring Boot to automatically create and manage objects (dependencies) your classes need — without you manually creating them.
+-> Dependency Injection is a technique where objects (dependencies) are injected into a class by the framework (Spring) at runtime
+Anology:
+ - Imagine you're building a house. You don’t make the bricks yourself — you ask someone to provide them. Similarly, Spring Boot provides the objects your app needs.
+
+Q2. Why Use DI?
+ - Loose coupling between components
+ - Automatic lifecycle management (Spring manages the objects)
+
+Q3. What is Spring IoC?
+-> Spring IOC Container is the core of the Spring Framework where the logical implementation of dependency injection done.
+-> It manages the lifecycle and Creation of application objects (called beans).
+-> It creates, configures, and wires objects automatically based on configuration
+-> Helps implement Dependency Injection (DI) easily.
+-> Promotes loose coupling because your classes don’t instantiate their dependencies directly.
+- There are two main types of IoC containers provided by Spring:
+         - BeanFactory
+         - ApplicationContext
+
+Q4. Difference Between BeanFactory and ApplicationContext ?
+BEANFACTORY :
+-------------
+A basic IoC container that is part of the core module in Spring,
+It provides fundamental support for dependency injection and bean lifecycle management.
+Features:
+•	Lazy Initialization: Beans are created only when they are requested.
+•	Lightweight: It is simple and has minimal overhead.
+•	Use Case: Suitable for applications with limited resources or where advanced features like event handling are not required.
+•	Interface: org.springframework.beans.factory.BeanFactory.
+ApplicationContext:
+-------------------
+A more advanced IoC container built on top of the BeanFactory. It includes all BeanFactory features plus additional enterprise-level functionalities.
+Features:
+•	Eager Initialization: Beans are created during container startup by default (except for @Lazy annotated beans)
+•	Advanced Features: Supports internationalization, event propagation, declarative mechanisms, and AOP.
+•	Multiple Implementations:
+                      ->  ClassPathXmlApplicationContext: Loads configuration from an XML file in the classpath.
+                      -> FileSystemXmlApplicationContext: Loads configuration from an XML file in the file system.
+                      -> AnnotationConfigApplicationContext: Loads configuration from Java-based annotations.
+•	Use Case: Preferred for most applications because of its rich feature set
+•	Interface: org.springframework.context.ApplicationContext.
+
+ Q5. Explain Bean life cycle?
+Bean is Created---->Dependencies Injected (@Autowired)----->Execution(Bean is use by the application)------>Destruction of the bean
+
+Q6. What is Spring MVC?
+-> Spring MVC stands for Spring Model-View-Controller.
+—> It's a web framework in the Spring used to build web applications using the MVC design pattern.
+-> How Spring MVC Works:
+         a. User sends a request (/home) or from html form.
+         b. DispatcherServlet (front controller) catches the request.
+         c. Finds the matching controller method using annotations like @GetMapping.
+         d. Executes logic and prepares data (Model).
+         e. Returns a view.
+
+Q7. Explain technical flow of Spring Boot project?
+Postman->controller(DTO CLASS)->service->Repository->database and vice versa
+
+Q8. How will you use external library in Spring Boot project?
+Adding external dependency in pom.xml file and then do further coding.
+
+Q9. How many ways to do dependency injection?
+There are many ways like,
+•	Field based
+•	Constructor based
+•	Setter based
+
+Q10. Explain difference between constructor injection vs setter injection?
+CONSTRUCTOR INJECTION:
+   - It promotes immutablity
+   - Dependencies injected through the constructor are considered mandatory, meaning the object cannot be fully functional without them.
+   - An object created with constructor injection is always in a valid state because all required dependencies are provided at the time of creation.
+   - Considered more testable and predictable because the dependencies are clearly defined and always provided at object creation
+SETTER INJECTION:
+   - Dependencies injected through setters can be optional, allowing you to set them later or not at all depending on the situation.
+   - An object created with setter injection might be in an invalid state initially if not all necessary dependencies are set using setters
+   - Can be less predictable as the state of an object might change depending on when and if the setter methods are called.
+
+Q11. Explain scope of Bean in Spring?
+Scope       	Description                            	Lifetime                     	Use Case
+------------------------------------------------------------------------------------------------------------
+Singleton   	Single instance shared across the container	Entire application lifecycle	Stateless shared beans
+Prototype   	New instance per request                 	Until no longer referenced  	Stateful or per-use beans
+Request     	New instance per HTTP request            	One HTTP request            	Request-scoped web data
+Session     	New instance per HTTP session            	One HTTP session            	Session-scoped user data
+Application 	Single instance across the ServletContext	Entire web application      	Application-wide configurations
+
+Q12. Difference between @Autowired vs new keyword?
+@Autowired provides loose coupling by allowing spring to manage dependencies while new keyword creates tight coupling by directly initiating a class.
+
+
+
+
+
+(2) Basics of Spring Boot :
+-----------------------------
  Q1. What is Spring Boot?
 Spring Boot is an open-source Java-based framework used to create stand-alone applications quickly and easily with minimal configuration.
 Spring Boot Stand-Alone Application:
--------------------------------------------
 -> You just run a main() method like any regular Java program.
 -> It includes an embedded server (e.g., Tomcat) in the application itself.
 -> No need to install or configure any external server separately.
@@ -12,7 +107,6 @@ Spring Boot Stand-Alone Application:
 	a. Starts up the embedded server.
 	b. Deploys your app on it.
 	c. Listens to HTTP requests (like a web server).
-
 Note: Since Spring boot is stand alone application, we package the application as jar file
 
 
@@ -48,10 +142,97 @@ Q5. How do you create a Spring Boot project?
 - Using Spring Boot CLI
 - Using Spring Tool Suite / IntelliJ / Eclipse
 
+Q6. Explain working of Spring Boot?
+- Dependencies: You add required starters (like spring-boot-starter-web) in pom.xml or build.gradle.
+- Auto-Configuration: Spring Boot automatically configures beans, controllers, database connections, etc., based on those dependencies (so you don’t need much XML or manual config).
+- Component Scanning: It scans your project for classes annotated with @Component, @Service, @Repository, @Controller, etc., and registers them in the Spring container.
+- Embedded Server: For web apps, it starts an embedded server (like Tomcat/Jetty) automatically.
+- Run as Standalone: You just run the main class with @SpringBootApplication, and the application is ready.
 
-##########################
-(2) configuration :
-########################
+Q7. What are spring-boot-starter-parent?
+spring-boot-starter-parent is a special starter provided by Spring Boot that acts as the parent for your project in Maven. 
+It simplifies project configuration by providing a set of default settings and versions for dependencies, plugins, and Java compatibility
+ WHAT IT DOES:
+     - Manages Dependency Versions: Ensures consistent and compatible versions of libraries and frameworks, so you don’t have to specify them manually
+     - Default Plugin Configuration: Pre-configures common Maven plugins (like maven-compiler-plugin) for tasks like compiling and packaging.
+     - Default Java Version: Sets a default Java version (e.g., 17 or 8, depending on the Spring Boot version).
+
+Q8. What are the key dependencies of Spring Boot?
+  - Spring-boot-starter-parent
+  - Spring-boot-starter-web
+  - Spring-boot-starter-security
+  - Spring-boot-starter-actuator
+  - Spring-boot-starter-test
+  - Spring-boot-starter-plugin
+
+Q9. What are the different modules in Spring?
+Module        	Includes
+------         ----------
+Core          	Context, Beans, Core, SpEL
+Web           	Spring Web, Spring MVC, WebFlux
+Data Access   	JDBC, ORM (Hibernate, JPA), Transactions
+AOP           	Aspect-Oriented Programming (e.g., Logging, Security)
+Security      	Authentication, Authorization, OAuth2, JWT
+Testing       	Mocking, JUnit/TestNG, Integration Testing
+
+Q10. Explain difference between Spring Boot vs Spring Cloud?
+ - Spring Boot is mainly used for building standalone applications easily with minimal configuration. 
+   It provides features like embedded servers (Tomcat, Jetty), auto-configuration, and starter dependencies to speed up development.
+- Spring Cloud, on the other hand, is used when you build cloud-native or microservices-based applications. 
+  It adds features like service discovery, load balancing, circuit breakers, API Gateway, and centralized configuration to manage multiple services working together.
+
+Q11. How many requests can a Spring Boot project handle simultaneously?
+- Spring Boot project can handle simultaneously request  depends on various factors, including the server configuration, application design, hardware resources 
+- If you use the default embedded Tomcat server, it can handle 200 concurrent requests by default because Tomcat’s default maxThreads = 200.
+- This number can be increased or decreased by changing the configuration in application.properties (e.g., server.tomcat.threads.max=300).
+
+Q12. Can we override or replace the embedded Tomcat server in Spring Boot?
+- By default, Spring Boot uses embedded Tomcat.
+- If we want Jetty (or Undertow), we exclude spring-boot-starter-tomcat and add the respective starter (like spring-boot-starter-jetty).
+- This is done using <exclusion> (Maven)
+
+Q13. Can we disable the default web server in the Spring Boot application?
+yes, spring boot provide a feature to disable the web server in quick configuration. we can use the application.properties file to configure the web application type
+ex:- spring.main.web.application.type=none.
+Use cases: 
+    - Non-web applications : You may want to build a console app, batch process or background service that doesn’t expose REST APIs.
+    - Message-driven applications → For example, using Spring Boot with Kafka,where your app listens to messages instead of HTTP requests.
+    - Microservices support apps → A helper microservice that only processes data/events and doesn’t need a web endpoint.
+
+Q14. How to disable a specific auto-configuration class?
+ You can disable a specific auto-configuration class in Spring Boot using the exclude attribute in @SpringBootApplication annotation.
+ eg-
+@SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
+public class MyApplication {
+}
+Note:- This tells Spring Boot not to load that particular auto-configuration.
+
+Q15. What is Web Services?
+A web service is a software system designed to support compatible machine-to-machine interaction over a network. 
+It can be called from anywhere and accessed using any technology, such as Java, C++, or Python.
+The most common methods for sharing data in web services are:
+SOAP (Simple Object Access Protocol) Web Services:
+•	Data Format: XML (Extensible Markup Language)
+•	Transmission Protocol: HTTP, HTTPS, SMTP, etc.
+REST (Representational State Transfer) Web Services:
+•	Data Format: Typically JSON (JavaScript Object Notation), but also XML or other formats.
+•	Transmission Protocol: HTTP (GET, POST, PUT, DELETE, PATCH)
+
+Q16. Can we create a RESTful API without using @RestController annotation?
+Yes, it is possible to create restful API using combination of @controller and @ResponseBody annotation.
+
+Q17. How can we override default properties in Spring Boot?
+We can override default properties by defining our own values in the application.properties (or application.yml) file. Spring Boot will pick these values instead of the defaults.
+eg -
+server.port=8085
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+
+
+
+
+
+(3) configuration :
+-----------------------
 Q1. How does Spring Boot handle configuration?
 👉 Using application.properties or application.yml.
 
@@ -63,19 +244,110 @@ Q2. What is the difference between application.properties and application.yml?
 Q3. How can you change the default port in Spring Boot?
 👉 In application.properties: server.port=9090
 
+Q4. Is it possible to change the port of embedded Tomcat server in Spring Boot?
+YES, Using server.port=9090 
+
+Q5. What is the use of Profiles in Spring Boot?
+In Spring Boot, profiles are used to define different configurations for different environments (like dev, test, prod).
+We can keep separate property files such as application-dev.properties, application-qa.properties, application-prod.properties, and activate them using spring.profiles.active.
+eg-
+application-dev.properties → use H2 database
+application-prod.properties → use MySQL/Oracle
+Note:- So, profiles help us switch environment-specific settings easily without changing code.
 
 
-###############################
-(3) REST & Controllers  :
-##############################
 
-Q11. How do you create a REST API in Spring Boot?
+
+(4) REST & Controllers  :
+--------------------------
+
+Q1. How do you create a REST API in Spring Boot?
 👉 Use @RestController and map requests with @GetMapping, @PostMapping, etc.
 
+Q2. Difference between POST vs PUT method?
+POST:
+•	Used to create a new resource.
+•	Multiple POST requests may create multiple resources with different identifiers.
+•	Usually returns 201 Created
+PUT:
+•	Used to update an existing resource or create one if it doesn't exist.
+•	Multiple PUT requests with the same data result in the same resource state.
+•	Typically returns 200 OK (for update) or 201 Created (if a new resource was created).
 
-###############################
-(4) JPA & Database  :
-##############################
+Q3. Difference between GET and POST?
+GET:
+•	Retrieves data from the server.
+•	Data is appended to the URL as query parameters.
+•	Data is visible in the URL and can be bookmarked.
+•	Less secure as data is exposed in the URL.
+•	Repeated requests yield the same result.
+•	Typically returns 200 OK.
+POST:
+•	Sends data to the server to create or process resources.
+•	Data is included in the request body.
+•	Data is hidden and not visible in the URL.
+•	More secure as data is sent in the body. However, HTTPS is needed for full security.
+•	Repeated requests may result in multiple actions (e.g., duplicate submissions).
+•	Typically returns 201 Created for successful creation or 200 OK for successful processing.
+
+Q4. Difference between PUT and PATCH?
+PUT:
+•	Used to replace the entire resource with a new representation.
+PATCH:
+•	Used to partially update a resource.
+
+Q5. What is HTTP status code & categories of HTTP codes?
+HTTP status code are three digits numbers which help to communicate whether a request was successfully processed, 
+resulted in an error, or requires further action. CATEGORIES OF HTTP CODES:
+Category	Range    	Description
+---------------------------------------------------------------
+1xx     	100–199 	Informational: Request received, continuing process.
+2xx     	200–299 	Success: Request was successfully processed.
+3xx     	300–399 	Redirection: Client must take additional action.
+4xx     	400–499 	Client Error: Request contains incorrect syntax or cannot be fulfilled.
+5xx     	500–599 	Server Error: Server failed to fulfill a valid request.
+
+Q6. How many types of HTTP methods?
+> get
+> post
+> put
+> patch
+> delete
+> option
+> trace
+> head
+
+Q7. What are HTTP Headers?
+HTTP Headers are key-value pairs sent between the client and server in a request or response.
+They provide extra information (metadata) like content type, authentication, cookies, and caching instructions.
+🔹 Request Headers :
+    - Accept → Tells the server what response formats the client can handle (e.g., application/json).
+    - Authorization → Sends authentication credentials like tokens or API keys (e.g., Bearer token).
+    - Content-Type → Tells the server the format of the request body (e.g., JSON, XML).
+    - User-Agent → Identifies the client making the request (browser, Postman, etc.).
+    - Host → Specifies the domain name (and port) of the target server.
+🔹 Response Headers :
+    - Content-Type → Defines the type of data returned (e.g., application/json).
+    - Content-Length → Size of the response body in bytes.
+    - Set-Cookie → Sends cookies from the server to the client for storage.
+    - Cache-Control → Tells how responses should be cached (e.g., no-store, max-age=3600).
+    - Access-Control-Allow-Origin → Specifies which domains can access the response (CORS).
+
+Q8. Difference between Query Parameter vs Path Parameter?
+| Aspect          | Query Parameter                                        | Path Parameter                                    |
+| --------------- | ------------------------------------------------------ | ------------------------------------------------- |
+| **Definition**  | Extra information sent in the URL, usually optional.   | Part of the URL that identifies a specific item.  |
+| **Position**    | After `?` in the URL, multiple separated by `&`.       | Inside the URL path itself, usually in `{}`.      |
+| **Syntax**      | `?key=value&key2=value2`                               | `/resource/{id}` or `/resource/value`             |
+| **Example**     | `https://example.com/products?category=books&sort=asc` | `https://example.com/products/12345`              |
+| **When to Use** | For optional info like filters, search terms.          | For mandatory info like IDs of a product or user. |
+
+
+
+
+
+(5) JPA & Database  :
+-----------------------
 
 Q1. How do you connect Spring Boot to a database?
 👉 Add spring-boot-starter-data-jpa + DB driver dependency, configure datasource in application.properties.
@@ -85,20 +357,25 @@ Q2. What is the role of Repository in spring boot?
 
 Q3. What is the difference between CrudRepository and JpaRepository?
 - CrudRepository → Basic CRUD methods, findAll() Returns Iterable 
-- JpaRepository → Extends CrudRepository, adds JPA-specific features (pagination, sorting), findAll() list 
+- JpaRepository → Extends CrudRepository, adds JPA-specific features (pagination, sorting), findAll() returns list 
 
 Q4. How do you define a custom query in Spring Boot JPA?
 👉 Using @Query
 
-Q17. How do you implement pagination in Spring Boot JPA?
+Q5. How JpaRepository object is created in Spring Boot even if it is an interface?
+👉 JPA interface object automatically created and managed by Spring. This happens because of Spring Data JPA's dynamic proxy mechanism,
+custom interface extend JpaRepository (or CrudRepository), Spring automatically detects it during the application startup. 
+Once the proxy object is created, it is managed by the Spring container.
+
+Q6. How do you implement pagination in Spring Boot JPA?
 👉 Using Pageable:
 
 
 
 
-################################
-( ) Monitoring & Management :
-###############################
+
+(6) Monitoring & Management :
+-------------------------------
 
 Q1. What is Spring Boot Actuator?
 👉 A tool that provides production-ready features like monitoring, health checks, metrics, and auditing.
@@ -126,14 +403,59 @@ You can manage Actuator endpoints using properties: management.endpoint.health.e
 Q6. How do you secure Actuator endpoints in Spring Boot?
 Using Spring Security (Recommended): Configure access rules in SecurityFilterChain
 
-Q7. How can Actuator integrate with tools like Prometheus and Grafana?
+Q7. How will you expose your custom endpoints in Spring Actuator?
+This can be achieved by the adding following anotations:
+@Endpoint and @Component to class and
+@ReadOperation, @WriteOperation or @DeleteOperation on method level
+
+@ReadOperation maps to httpGet
+@WriteOperation maps to httpPost
+@DeleteOperation maps to httpDelete
+Note : by adding @Bean annotated with @Endpoint , any methods annotated with @ReadOperation , @WriteOperation or @DeleteOperation are
+       automatically exposed over JMX or http.
+eg-
+@Component
+@Endpoint(id="customActuator")
+public class customActuator{
+
+@ReadOperation
+public String returnString(){
+return "hello";
+}
+}
+
+Q8. What is HTTP Trace in Spring Boot?
+HTTP Trace is a Spring Boot Actuator feature that provides detailed information about the recent HTTP requests received by the application. 
+It helps in debugging and monitoring by showing request and response details, including headers, status codes, and execution times.
+The trace includes information like:
+•	HTTP method (GET, POST, etc.)
+•	URL and headers
+•	Response status code
+•	Request and response time
+•	Remote IP address
+How HTTP Trace Works:
+When enabled, Spring Boot captures the last N HTTP requests (default: 100).
+HOW TO Enabling HTTP Trace in Spring Boot?
+For Spring Boot 3.x:
+STEP 1=>  Enable httpexchanges in application.properties: 
+management.endpoints.web.exposure.include=httpexchanges
+STEP 2: Add the required bean
+@Bean
+public HttpExchangeRepository httpExchangeRepository() {
+    return new InMemoryHttpExchangeRepository();
+}
+STEP 3: HIT THE URL (GET) 
+http://localhost:8080/actuator/httpexchanges
+
+
+
+Q9. How can Actuator integrate with tools like Prometheus and Grafana?
 
 
 
 
-#####################
-( ) Security  :
-#####################
+(7) Security  :
+-----------------
 
 Q1. How do you secure a Spring Boot application?
 👉 Add spring-boot-starter-security. By default, it enables basic authentication with a generated password.
@@ -166,11 +488,59 @@ Q8. How can you restrict access to specific endpoints in Spring Boot?
 - Using SecurityFilterChain :  .requestMatchers("/admin/**").hasRole("ADMIN")
 - Using Annotations @PreAuthorize or @Secured at method level : @PreAuthorize("hasRole('ADMIN')")
 
+Q9. Explain Spring Security internal flow?
+Client Request
+       |
+       v
+Security Filter Chain (FilterChainProxy)
+       |
+       v
+Authentication Filter (e.g., UsernamePasswordAuthenticationFilter)
+       |
+       v
+AuthenticationManager
+       |
+       v
+AuthenticationProvider(s) ---> UserDetailsService ---> User Store (DB/In-memory)
+       |
+       v
+Authentication Object (with roles/authorities)
+       |
+       v
+SecurityContextHolder (stores Authentication)
+       |
+       v
+Authorization Filters / AccessDecisionManager
+       |
+       v
+Controller (if access granted)
+       |
+       v
+Response
+       |
+       v
+SecurityContextHolder Cleared (end of request)
+Note:- ONE LINER ANSWER 
+  - Client Request → The user/browser sends a request to the application.
+  - Security Filter Chain → Intercepts the request and applies security checks using multiple filters.
+  - Authentication Filter → Extracts credentials (username/password, token) from the request.
+  - AuthenticationManager → Delegates authentication to the appropriate provider.
+  - AuthenticationProvider → Verifies credentials against the user store (DB, in-memory, etc.).
+  - UserDetailsService → Loads user details like username, password, and roles from the database.
+  - Authentication Object → Holds the authenticated user’s details and granted authorities.
+  - SecurityContextHolder → Stores the Authentication object for the current request/session.
+  - Authorization Filters / AccessDecisionManager → Checks if the user has permission to access the requested resource.
+  - Controller → Handles the request if access is granted.
+  - Response → Sends back the HTTP response to the client.
+  - SecurityContextHolder Cleared → Cleans up the security context at the end of the request to avoid data leaks.
 
 
-#####################
-( ) JWT  :
-#####################
+
+
+
+
+(8) JWT  :
+----------------
 
 Q1. What is JWT?
 JWT (JSON Web Token) is a way of doing token-based authentication. After a user logs in, the server gives a digitally signed token (JWT) instead of keeping a session. 
@@ -274,6 +644,11 @@ Q17. How do you test JWT-secured APIs?
 - Access secured endpoints.
 
 
+
+
+
+(9) ANNOTATIONS :
+------------------
 
 
 
