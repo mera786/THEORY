@@ -650,15 +650,148 @@ Q17. How do you test JWT-secured APIs?
 (9) ANNOTATIONS :
 ------------------
 
+Core Spring Boot / Spring Annotations :
+
+
+Q1. What is @SpringBootApplication?
+A: It marks the main class of a Spring Boot application and enables auto-configuration, component scanning, and configuration.
+
+Q2. What is @Component?
+A: It is used to mark a class as a Spring-managed bean.
+
+Q3. What is @Service?
+A: It is used to mark a class as a service layer bean in Spring.
+
+Q4. What is @Repository?
+A: It is used to mark a class as a DAO (Data Access Object) for database operations.
+
+Q5. What is @Controller?
+A: It is used to mark a class as a Spring MVC controller for handling HTTP requests.
+
+Q6. What is @RestController?
+A: It is a combination of @Controller and @ResponseBody to return JSON or XML responses directly.
+
+Q7. What is @Autowired?
+A: It is used to inject Spring-managed beans automatically.
+
+Q8. What is @Qualifier?
+A: It is used with @Autowired to specify which bean to inject when multiple beans of same type exist.
+
+Q9. What is @Value?
+A: It is used to inject values from properties files into variables.
+
+Q10. What is @Configuration?
+A: It marks a class as a source of Spring bean definitions.
+
+Q11. What is @Bean?
+A: It tells Spring to create a bean for the method it is applied on.
+
+Q12. What is @EnableAutoConfiguration?
+A: It tells Spring Boot to automatically configure beans based on the dependencies in classpath.
+
+Q13. What is @ComponentScan?
+A: It tells Spring where to scan for Spring-managed beans.
+
+
+
+Spring MVC / Web Annotations :
+----------------------------
+
+Q14. What is @RequestMapping?
+A: It maps HTTP requests to controller methods or classes.
+
+Q15. What is @GetMapping?
+A: It maps HTTP GET requests to a method.
+
+Q16. What is @PostMapping?
+A: It maps HTTP POST requests to a method.
+
+Q17. What is @PutMapping?
+A: It maps HTTP PUT requests to a method.
+
+Q18. What is @DeleteMapping?
+A: It maps HTTP DELETE requests to a method.
+
+Q19. What is @PathVariable?
+A: It is used to get value from the URL path.
+
+Q20. What is @RequestParam?
+A: It is used to get value from query parameters.
+
+Q21. What is @RequestBody?
+A: It is used to bind HTTP request body to a Java object.
+
+Q22. What is @ResponseBody?
+A: It is used to send Java object as HTTP response directly in JSON or XML.
+
+Q23. What is @CrossOrigin?
+A: It allows cross-origin requests to a REST API.
 
 
 
 
+Spring Data JPA / Database Annotations :
+------------------------------------------
+
+Q24. What is @Entity?
+A: It marks a class as a database table entity.
+
+Q25. What is @Table?
+A: It specifies the table name for an entity class.
+
+Q26. What is @Id?
+A: It marks a field as the primary key.
+
+Q27. What is @GeneratedValue?
+A: It tells Spring how to generate primary key values automatically.
+
+Q28. What is @Column?
+A: It specifies column name and attributes for a table field.
+
+Q29. What is @OneToOne?
+A: It defines a one-to-one relationship between entities.
+
+Q30. What is @OneToMany?
+A: It defines a one-to-many relationship between entities.
+
+Q31. What is @ManyToOne?
+A: It defines a many-to-one relationship between entities.
+
+Q32. What is @ManyToMany?
+A: It defines a many-to-many relationship between entities.
+
+Q33. What is @JoinColumn?
+A: It defines the foreign key column for relationships.
+
+Q34. What is @Transactional?
+A: It manages database transactions automatically.
 
 
 
 
+Spring Boot Config / Utility Annotations :
+--------------------------------------------
 
+Q35. What is @EnableScheduling?
+A: It enables scheduling tasks in Spring Boot.
+
+Q36. What is @Scheduled?
+A: It runs a method at a scheduled time or interval.
+
+Q37. What is @ConfigurationProperties?
+A: It binds properties from application.properties to a Java class.
+
+Q38. What is @ConditionalOnProperty?
+A: It runs configuration only if a property is present or has a specific value.
+
+Q39. What is @RestControllerAdvice?
+A: It handles exceptions globally and returns custom responses.
+
+Q40. What is @ExceptionHandler?
+A: It handles specific exceptions in a controller or globally.
+
+Q41. What is @Profile?
+A: It activates beans or configurations only for a specific environment.
 
 
 
