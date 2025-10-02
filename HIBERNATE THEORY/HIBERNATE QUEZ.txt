@@ -25,7 +25,7 @@ Primary Keys & Persistence :
            Q6. Difference between save() & persist() method?
            Q7. How can you detach an object in Hibernate?
            Q8. IF I WANT SOME FIELD TO STORE INTO DATABASE AS ENCRYPTED FORM HOW WILL BE DONE?
-                                                                 What is the difference between merge() and update()?
+           Q9. What is the difference between merge() and update()?
 
 Relationships :
 ---------------
@@ -49,8 +49,9 @@ Transactions & Queries :
            Q7. What happens if Dialect is missing?
            Q8. What is Transaction?
            Q9. What is Spring Data JPA?
-           a.              How Hibernate manages transactions?
-           a.
+           Q10. How Hibernate manages transactions?
+           Q11. How do you integrate Spring Boot with Hibernate/JPA?
+           Q12. How to handle optimistic vs pessimistic locking in Hibernate?
 
 
 
