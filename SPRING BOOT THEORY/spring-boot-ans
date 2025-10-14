@@ -932,6 +932,48 @@ Q5. Suppose you need to generate dynamic reports with tables, images, and stylin
             - Purpose: endpoint: Saves user to database.   /  Fetches all users and generates PDF for download.
 
 
+Q6. You need to debug a production issue. How would you set up a custom log file to capture only specific package logs?
+🧩 Step 1 — Add Dependencies :
+  - Spring Boot provides logging via Spring Boot Starter (uses Logback).So, you don’t need extra dependencies for basic logging.
+  - If you want advanced logging, you can use log4j2 dependency
+Spring Boot uses Logback by default. You can customize log files and patterns via application.properties or logback-spring.xml.
+🧩 Step 2 — Create Configuration for Custom Log File
+Option 1 — application.properties (simple) :
+                              # Enable logging to file
+                                       logging.file.name=logs/custom-log.log      # writes logs to logs/custom-log.log.
+                                       Note: 
+                                           - here When the application starts, Spring Boot checks your logging.file.name path.
+                                           - If the directory (logs) does not exist, it automatically creates it in the current working directory (typically the root of your project)
+                                           - Then it creates (or appends to) the file custom-log.log.
+                              # Log level
+                                       logging.level.root=INFO          # only logs DEBUG or above from your package.
+                                       logging.level.com.app=DEBUG 
+                              # Pattern (optional)
+                                       logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n   # custom format for timestamps, log level, and message.
+Option 2 — Advanced: logback-spring.xml (recommended for multiple files)
+   - Create file in src/main/resources/logback-spring.xml:
+   - Purpose:
+           - appender → defines where logs go (file, console, DB, etc.).
+           - logger → define package-specific log levels.
+           - root → default logging for other classes.
+ 🧩 Step 3 — Create Logger in Your Class 
+Spring Boot recommends SLF4J + LoggerFactory:
+ Purpose of Methods:
+       - logger.info() → general info messages.
+       - logger.debug() → debugging details, shown when log level allows.
+       - logger.error() → exceptions or errors.
+🧩 Step 4 — Testing
+       - Run your Spring Boot app.
+       - Call UserService.createUser("John").
+       - Open logs/custom-log.log → see logs like:
+🧩 Step 5 — Optional Enhancements
+   - Multiple log files: one for errors, one for info.
+   - Rolling files: rotate logs daily or by size. Example in logback-spring.xml:
+   - Use @Slf4j Lombok annotation to avoid LoggerFactory boilerplate.
+
+
+
+
 
 
 
