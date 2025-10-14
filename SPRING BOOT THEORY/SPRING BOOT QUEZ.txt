@@ -132,4 +132,40 @@
                          Q39. What is @RestControllerAdvice?
                          Q40. What is @ExceptionHandler?
                          Q41. What is @Profile?
+(10) PROJECT EXPLANATIONS :
+----------------------------
+                         Q1. How do you configure multiple databases in a single Spring Boot project? 
+                         Q2. Given a product Excel sheet, design the backend API to accept file upload, validate, parse, and persist rows. What classes and                                    flows do you build?
+                         Q3. suppose You’ve implemented CRUD operations — can you explain how you handle partial updates in your API? 
+                         Q4. Given two beans implementing the same interface, how will Spring decide which one to inject? tell steps for code implementation?
+                         Q5. Suppose you need to generate dynamic reports with tables, images, and styling. Which library would you use and how tells steps?
+                         Q41. 
+                         Q41. 
+                         Q41. 
+                         Q41. 
+                         Q41. 
+                         Q41. 
+                         Q41. 
+                         Q41. 
+                         Q41. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
