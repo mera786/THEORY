@@ -797,6 +797,143 @@ A: It activates beans or configurations only for a specific environment.
 
 
 
+(10) PROJECT EXPLANATIONS :
+----------------------------
+
+Q1. How do you configure multiple databases in a single Spring Boot project?
+Step 1️⃣ – Add dependencies
+You need dependencies for:
+          - spring-boot-starter-data-jpa
+          - spring-boot-starter-web
+          - mysql-connector-j
+Step 2️⃣ – Define multiple datasource properties 
+In application.properties (or application.yml), define configurations for both databases.
+# Primary database
+             spring.datasource.url=
+            spring.datasource.username=
+            spring.datasource.password=
+            spring.jpa.database-platform=
+# Secondary database
+            second.datasource.url=
+            second.datasource.username=
+            second.datasource.password=
+            second.jpa.database-platform=
+Step 3️⃣ – Create entities,repositories and configuration classes for each database
+🟢 First database configuration
+   - Mark as @Primary
+   - Configure:
+        - DataSource
+        - EntityManagerFactory
+        - TransactionManager
+Use @EnableJpaRepositories with base package com.app.db1.repository
+🔵 Second database configuration
+ - Similar to first, but without @Primary
+ - Use base package com.app.db2.repository
+ - Use different bean names (e.g., SecondEntityManagerFactoryBean)
+Step 5️⃣ – Use Environment or @Value to read properties
+Step 6️⃣ – Annotate beans properly
+- Use @Primary for the main datasource (so Spring knows which one to auto-wire when there’s a conflict).
+- For the secondary datasource, give unique bean names for EntityManagerFactory and TransactionManager.
+Step 7️⃣ – Verify with repository calls
+You can test both connections via REST endpoints or CommandLineRunner:
+
+Q2. Given a product Excel sheet, design the backend API to accept file upload, validate, parse, and persist rows. What classes and flows do you build?
+🔵 Step 1 — Add dependencies
+      - spring-boot-starter-web (REST + file upload)
+      - spring-boot-starter-data-jpa (JPA repositories)
+      - mysql-connector-j (runtime)
+      - org.apache.poi:poi-ooxml (read .xlsx files)
+      - lombok (optional, for DTOs/entities)
+🔵 Step 2 — application.properties (Configuration)
+#Datasource
+         spring.datasource.url=
+         spring.datasource.username=
+         spring.datasource.password=
+         spring.jpa.hibernate.ddl-auto=
+# Multipart file limits
+         spring.servlet.multipart.max-file-size=5MB
+         spring.servlet.multipart.max-request-size=5MB
+🔵 Step 3 — entity (Domain / Model Layer)
+Purpose: Represent your database table as a Java object.
+🔵 Step 4: repository (Data Access Layer)
+Purpose: Interact with the database using Spring Data JPA.
+🔵 Step 5: service (Business Logic Layer)
+Purpose: Core business logic — parse Excel file, validate, and save.
+🔵 Step 6: util (Helper / Utility Layer)
+Purpose: Handle Excel parsing (Apache POI logic).
+🔵 Step 7: controller (Web Layer)
+Purpose: REST API for uploading and retrieving products.
+
+Q3. suppose You’ve implemented CRUD operations — can you explain how you handle partial updates in your API? 
+🔹 Step 1: Controller Layer — Expose @PatchMapping Endpoint
+PATCH → can be send only {email: "new@gmail.com"} and update just that.
+takes body in map and id in pathvariable :
+@PatchMapping("/partial/{id}")
+public ResponseEntity<User> partialUpdate(
+        @RequestBody Map<String, Optional> map, 
+        @PathVariable int id) {
+    User user = userService.updatePartialUserData(map, id);
+    return new ResponseEntity<>(user, HttpStatus.OK);
+}
+🔹 Step 2: Service Layer — Handle Partial Update Logic
+           Step a.: Find the existing user by passing id
+           Step b.: Validate if user exists (!optionalUser.isPresent())
+           Step c.: Iterate over map keys & selectively update fields using foreach for iteration and switch for field selection
+           Step d.: Save updated entity
+
+
+Q4. Given two beans implementing the same interface, how will Spring decide which one to inject? tell steps for code implementation?
+Step 1: Create the Interface :
+   - This is our base interface Animal that defines a method voice().
+🐱 Step 2: Create the Implementation Classes
+      - 1️⃣ Cat Class :
+      - 2️⃣ Dog Class :
+ - Both Cat and Dog implement Animal.
+ - We annotated them with @Service so that Spring will automatically create beans for them
+Step 3: Create the Controller
+     - use this controller to test different injection types — setter and constructor injection.
+🧩 Step 4: Setter Injection Example
+  - public void setAnimal(@Qualifier("cat") Animal animal) : We used @Qualifier("cat") to tell Spring exactly which bean to inject
+  - When we hit: http://localhost:8080/autowire
+  - Output: meow
+🧩 Step 5: Constructor Injection Example 
+    - public AnimalController(@Qualifier("cat") Animal animal) : 
+      This approach is recommended by Spring because it makes the bean immutable and ensures dependency is available at object creation time.
+    - Output: meow
+🧩 Step 6: Remove @Service from Cat class
+             - Spring will not treat Cat as a bean, since no annotation like @Service, @Component, or @Bean is present.
+             - When you start the app, it will throw: UnsatisfiedDependencyException
+🧩 Step 7: Use @Autowired(required = false)
+Case 1 — Constructor Injection :
+                    - @Autowired(required = false)
+                    - public AnimalController(@Qualifier("cat") Animal animal)
+                    - Result : ❌ Still fails (UnsatisfiedDependencyException) Spring must have a bean available to call the constructor.
+Case 2 — Setter Injection with required = false :
+                    - @Autowired(required = false)
+                    - public void setAnimal(@Qualifier("cat") Animal animal) 
+                    - Result: ✅ Application starts successfully
+                    - But when you hit the URL: http://localhost:8080/autowire , it will throw NullPointerException
+
+
+Q5. Suppose you need to generate dynamic reports with tables, images, and styling. Which library would you use and how tells steps?
+🧩 Step 1 — Dependencies you need:
+   - itextpdf : Library for creating PDF files programmatically
+🧩 Step 2 — Database Configuration
+             - Purpose: Connect Spring Boot app to MySQL database.
+🧩 Step 3 — Create Domain Model / Entity
+             - Purpose: Represents a table in MySQL (users table).
+🧩 Step 4 — Repository Layer
+             - Purpose: Provides CRUD operations (save, findAll, findById, delete) without writing SQL.
+🧩 Step 5 — Service Layer
+             - Purpose: Business logic layer.
+🧩 Step 6 — PDF Generation Class (Helper)
+             - Purpose: Converts list of users into a PDF file. /  Returns byte[] → can be sent as HTTP response./ Uses iText to create title, table, fonts, and rows.
+🧩 Step 7 — Controller Layer            
+            - Purpose: endpoint: Saves user to database.   /  Fetches all users and generates PDF for download.
+
+
+
+
 
 
 
