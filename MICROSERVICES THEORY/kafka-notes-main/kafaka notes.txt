@@ -1,19 +1,16 @@
 BASIC  :
-###################
+-----------
 
 Q1. What is Apache Kafka?
---------------------------
 -> Apache Kafka is a tool.
 -> It acts as mediator between services to exchange messages (Message Broker) where Publisher will publish the message and subscriber will consume the message.
 -> Kafka is very useful for real time data exchange.
 
 Q2. Why do we use Kafka?
---------------------------
 👉 We use Kafka to move data quickly from one system to another (real-time data pipelines) and to process data immediately when it comes (real-time streaming).
 e.g., “like YouTube live chat messages"
 
 Q3.Advantages and Disadvantage of kafka ?
--------------------------------------------
 Advantages of Kafka :
 - Scalability – Can easily handle very large amounts of data by adding more servers.
 - Fault Tolerance – Data is replicated (copied) across servers, so even if one fails, data is safe.
@@ -29,7 +26,6 @@ Disadvantages of Kafka :
 
 
 Q4. Explain Kafka Architecture / Key Component of Kafka ?
-----------------------------------------------------------
             a. Zookeeper/Kraft
             b. Kafka Server / Kafka Brokers 
             c. Kafka Topic
@@ -38,18 +34,15 @@ Q4. Explain Kafka Architecture / Key Component of Kafka ?
             f. Subscriber/consumer
 
 Q5. What is Zookeeper in Kafka?
---------------------------------
 Zookeeper (old way)
 👉 It is an external tool that manages the Kafka cluster. It keeps track of which brokers are alive, who is the leader of a partition, and stores cluster metadata.
 
 Q6. What is KRaft in Kafka?
------------------------------
 KRaft (new way)
 👉 It is Kafka’s own built-in system (no need for Zookeeper). It directly manages brokers, topics, partitions, and leaders inside Kafka itself, making Kafka simpler and faster.
 
 
 Q7. What is a Kafka Server / Kafka Brokers  ?
------------------------------------------------
 Kafka Server / Kafka Brokers
 👉 A broker is just a Kafka server (machine running Kafka).
 👉 It stores the messages (data) and sends them to consumers when asked.
@@ -57,7 +50,6 @@ Kafka Server / Kafka Brokers
 
 
 Q8. What is Kafka Topic ?
-----------------------------
 👉 A category/channel where messages are stored.
 Example: Topic orders will have all order-related messages.
 Diagram :
@@ -75,7 +67,6 @@ Diagram :
 
 
 Q9. What is Partitions ?
------------------------------
 A partitions is a sub-section of a Kafka topic,each partition maintains a sequential order of messages, allowing prallel read and write for higher performance.
 Diagram :
 +-----------------------+
@@ -97,12 +88,10 @@ Diagram :
 +-----------------------+
 
 Q10. What is Publisher/producer ?
------------------------------------
 👉 The application that sends data (messages) to Kafka topics.
 Example: E-commerce app sends new order details to Kafka.
 
 Q11. What is Subscriber/consumer ?
-------------------------------------
 👉 The application that reads data from Kafka topics.
 Example: Billing system consumes order messages to generate invoices.
 Diagram :
@@ -125,7 +114,6 @@ Diagram :
                         +-----------------------+
 
 Q12. What is a Consumer Group?
---------------------------------
 👉 A group of consumers that share work of reading from a topic. Each partition is consumed by only one consumer in the group.
 Daigram :
                  +-----------------------+
@@ -144,7 +132,6 @@ Daigram :
 
 
 Q13. What is a Kafka Cluster?
-------------------------------
 -> A Kafka cluster is a group of Kafka brokers working together to manage message storage, distribution, and replication for high-throughput, fault-tolerant messaging.
 Diagram :
 
@@ -211,46 +198,166 @@ eg-2 :
             +===================================================================+
 
 
-Q14. What is a Kafka Producer Acknowledgment (acks)?
---------------------------------------------------------
-👉 A setting to control durability:
-- acks=0 → fire and forget.
-- acks=1 → leader must ack.
-- acks=all → leader + replicas must ack (safest).
 
 
-Q15. What is Kafka Replication?
----------------------------------
-👉 Each partition can be replicated across brokers for fault tolerance. One replica is leader, others are followers.
 
 
-Q16. What is an Offset in Kafka?
+(2) Installation & Setup :
+---------------------------
+
+Q1. How do you install Kafka locally?
+       - Download Kafka from the official Apache site.
+       - Extract the tar file.
+       - Start Zookeeper: bin/zookeeper-server-start.sh config/zookeeper.properties
+       - Start Kafka Broker: bin/kafka-server-start.sh config/server.properties
+
+Q2. What are Kafka prerequisites?
+Java 8+, sufficient memory {RAM (Random Access Memory) on the machine} , Zookeeper (unless using KRaft mode).
+
+Q3. What is the default Kafka port?
+9092.
+
+Q4. How do you secure Kafka?
+here secure Kafka means :
+            - Only authorized users or applications can produce or consume messages.
+            - Messages aren’t intercepted or read by outsiders during transmission.
+            - Sensitive information (like passwords, tokens, or configs) is not exposed.
+There are some security mechanisms :
+| Security Method                     | What it does                                                                                                                        |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| **SSL/TLS encryption**              | Encrypts data in transit between clients (producers/consumers) and brokers so that attackers cannot read messages from the network. |
+| **SASL authentication**             | Ensures only authenticated users or applications can connect to Kafka (like username/password or Kerberos).                         |
+| **ACLs (Access Control Lists)**     | Control which users or apps can read/write to specific topics or perform admin actions.                                             |
+| **Encrypt sensitive configuration** | Keeps credentials (like SASL passwords) safe in config files or environment variables.                                              |
+
+Q5. How do you start and stop Kafka?
+Use kafka-server-start.sh and kafka-server-stop.sh for brokers; zookeeper-server-start.sh / stop for Zookeeper (if applicable). on cmd 
+
+Q6. How do you set up Kafka on Docker?
+For local or small setups, you can use Docker Compose with official Kafka images, configuring brokers, ports, and environment variables. For production-grade deployments, you can use Kubernetes, deploying Kafka and Zookeeper as StatefulSets with PersistentVolumes, configuring services for access, and optionally using Helm charts for easier management.
+
+
+
+
+
+(3) Kafka Producers & Consumers :
 ----------------------------------
-👉 A unique number (like an index) for each message in a partition. Consumers use it to track where they left off.
-Diagram :
-              Topic: orders
-              Partition: 0
 
-+---------+---------+---------+---------+---------+---------+
-| Offset: |    0    |    1    |    2    |    3    |    4    |
-+---------+---------+---------+---------+---------+---------+
-| Message | "A"     | "B"     | "C"     | "D"     | "E"     |
-+---------+---------+---------+---------+---------+---------+
-                                        ↑
-                                  Consumer is here
-                              (Current offset = 3)
+Q1. How do you create a Kafka Producer in Spring Boot?
+Use KafkaTemplate<String, String> and @Bean configuration with ProducerFactory.
+By Following Steps :
+1️⃣ Add dependencies in pom.xml:
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
+2️⃣ Configure Producer in a @Configuration class:
+@Configuration
+public class KafkaProducerConfig {
+    @Bean
+    public ProducerFactory<String, String> producerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // Kafka broker
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class); 
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+    @Bean
+    public KafkaTemplate<String, String> kafkaTemplate() {
+        return new KafkaTemplate<>(producerFactory());
+    }
+}
+Note:- Explanation of stored map data :
+    - configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092"); // 
+                     👍 Specifies the Kafka broker’s address so the producer knows where to send messages.
+    - configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+                     👍 Converts the message key (used for partitioning) from Java type → byte stream before sending to Kafka.
+    - configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+                     👍 Converts the message value (actual message body) from Java type → byte stream before sending to Kafka.
+3️⃣ Send messages using KafkaTemplate:
+@Service
+public class ProducerService {
+    private static final String TOPIC = "my_topic";
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+    public void sendMessage(String key, String message) {
+        kafkaTemplate.send(TOPIC, key, message);
+        System.out.println("Message sent - Key: " + key + ", Value: " + message);
+    }
+}
+4️⃣ Use the Producer in a Controller (optional):
+@RestController
+public class KafkaController {
+    @Autowired
+    private ProducerService producerService;
+    @GetMapping("/send")
+    public String sendMessage(@RequestParam String key, @RequestParam String message) {
+        producerService.sendMessage(key, message);
+        return "Message sent to Kafka with key: " + key;
+    }
+}
+✅ Now you can hit: http://localhost:8080/send?key=user123&message=HelloKafka
 
 
-Q17. What is message key ?
--------------------------------
+Q2. How do you create a Kafka Consumer in Spring Boot?
+Use @KafkaListener(topics="topicName") and ConsumerFactory for configuration.
+🧩 By Following Steps:
+1️⃣ Add dependency in pom.xml:
+<dependency>
+    <groupId>org.springframework.kafka</groupId>
+    <artifactId>spring-kafka</artifactId>
+</dependency>
+2️⃣ Configure Consumer in a @Configuration class:
+@EnableKafka
+@Configuration
+public class KafkaConsumerConfig {
+    @Bean
+    public ConsumerFactory<String, String> consumerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");  // Kafka broker address
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "my_group_id");              // Consumer group ID
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class); 
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        return new DefaultKafkaConsumerFactory<>(props);
+    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, String> factory = 
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+}
+📝 Explanation of stored map data:
+        - ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG
+                    👍 Specifies Kafka broker address from where the consumer will read messages.
+        - ConsumerConfig.GROUP_ID_CONFIG
+                    👍 Defines the consumer group — all consumers with the same ID share the work.
+        - ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG
+                    👍 Converts the message key from byte stream → Java type.
+        - ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG
+                    👍 Converts the message value from byte stream → Java type.
+3️⃣ Create a Consumer Service using @KafkaListener:
+@Service
+public class ConsumerService {
+    @KafkaListener(topics = "my_topic", groupId = "my_group_id")
+    public void consumeMessage(String message) {
+        System.out.println("Received message: " + message);
+    }
+}
+4️⃣ Start your Spring Boot application :
+When you run your application and a message is produced to the topic my_topic, the @KafkaListener method automatically receives and prints it.
+5️⃣ Output Example :
+Received message: HelloKafka
+
+
+Q3. What is a Kafka key / message key , and why is it used?
 -> used for partitioning : kafka uses the message key to decide which partition the message should go to.
 -> ensure ordering :  message with the same key always go to the same partition.
 -> optional : producer can send message with or without a key (if no key, kafka distributes messages in round-robin).
 -> stored with message : the key is stored along with the message in kafka but doesn't effect the message content.
 -> can be any data type: typically a string, but can be any serializable data.
-Diagram :
-
-                                  +----------------------------+
+Diagram :                         +----------------------------+
                                   |           TopicA           |
                                   |                            |
                       |-- KeyA -->|  +----------------------+  |
@@ -262,6 +369,194 @@ Diagram :
                                   |  +----------------------+  |
                                   +----------------------------+
 
+Q4. What is Kafka Producer Acknowledgment (acks) and  the difference between acks=0,1,all in Kafka Producer?
+👉 A setting to control durability:
+- acks= 0   → fire and forget.
+- acks= 1   → leader must ack.
+- acks= all → leader + replicas must ack (safest).
+
+Q5. What is an Offset in Kafka?
+👉 A unique number (like an index) for each message in a partition. Consumers use it to track where they left off.
+Diagram :     Topic: orders
+              Partition: 0
++---------+---------+---------+---------+---------+---------+
+| Offset: |    0    |    1    |    2    |    3    |    4    |
++---------+---------+---------+---------+---------+---------+
+| Message | "A"     | "B"     | "C"     | "D"     | "E"     |
++---------+---------+---------+---------+---------+---------+
+                                        ↑
+                                  Consumer is here
+                              (Current offset = 3)
+Note:- Who assigns it? : The Kafka broker automatically assigns the offset (not you, not the producer), when a message is successfully written to a partition.
+
+Q6. What is the between assigning and committing offsets in Kafka?
+⚙️ There are two different concepts here:
+| Action             | Who Does It            | Purpose                                                                                                          |
+| -------------------| -----------------------| ---------------------------------------------------------------------------------------------------------------- |
+| **Assign Offset**  | ✅ **Kafka Broker**   | Happens **automatically** when a message is written to a partition. It gives each record a unique offset number. |
+| **Commit Offset**  | ✅ **Kafka Consumer** | Happens when a consumer **confirms** that it has successfully processed a message (so it won’t be re-read).      |
+
+Q7. How do you commit offsets in Kafka?
+Offsets are committed to keep track of which messages a consumer has already read.
+It can be done in two ways:
+       1️⃣ Automatically – Kafka commits offsets on its own when enable.auto.commit=true.
+                👉 This means after reading messages, Kafka automatically saves your progress so you don’t read the same message again.
+       2️⃣ Manually – You can commit offsets yourself using Acknowledgment.acknowledge().
+                👉 This gives you full control — you decide when a message is considered successfully processed before saving the offset.
+Steps for 🔧 Manual Offset Commit in Spring Boot :
+ Step 1: When you set : spring.kafka.consumer.enable-auto-commit=false
+                👉 you’re telling Kafka: “Don’t automatically mark messages as read. I’ll do it myself after processing.”
+Step 2: Update application.properties :
+                    spring.kafka.consumer.enable-auto-commit=false
+                    spring.kafka.listener.ack-mode=manual_immediate
+                                - Explanation:
+                                           - enable-auto-commit=false → disables auto commit.
+                                           - ack-mode=manual_immediate → tells Spring Kafka you’ll acknowledge manually, and commit immediately.
+Step 3: Update your Kafka Listener :
+Use the Acknowledgment object provided by Spring Kafka:
+@Service
+public class ConsumerService {
+    @KafkaListener(topics = "my_topic", groupId = "my_group")
+    public void consumeMessage(String message, Acknowledgment acknowledgment) {
+        try {
+            System.out.println("Received Message: " + message);
+            // ✅ Process your message here
+            // (e.g., save to DB, send email, etc.)
+
+            // ✅ Manually commit the offset only after successful processing
+            acknowledgment.acknowledge();
+        } catch (Exception e) {
+            System.err.println("Error while processing message: " + e.getMessage());
+            // ❌ No acknowledgment here → offset not committed → message will be retried
+        }
+    }
+
+
+Q8. What is the difference between Kafka’s at-most-once, at-least-once, and exactly-once delivery?
+These terms describe how Kafka ensures that consumers see messages, especially when failures occur.It’s part of Kafka consumer-producer reliability configuration, not the basic sending logic.
+these are Delivery Semantics :
+| Delivery Type     | Meaning                                                                                                                   | Message Behavior                                              |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| **At-most-once**  | Messages are sent **once at most**, but may **never reach the consumer** if a failure occurs.                             | ❌ Some messages **may be lost** (never delivered).          |
+| **At-least-once** | Messages are **guaranteed to be delivered**, but if failure happens before commit, Kafka may **resend** the same message. | ⚠️ Messages **may be duplicated** (delivered more than once).|
+| **Exactly-once**  | Messages are delivered **once and only once**, using Kafka **transactions**.                                              | ✅ No message lost, no duplication.                          |
+
+
+
+
+
+
+
+
+(4) Kafka & Spring Boot Integration :
+--------------------------------------
+
+Q1. How to configure Kafka in Spring Boot?
+Steps to Configure Kafka in Spring Boot :
+ - Add Dependencies
+        👉 Include spring-kafka in your pom.xml (Maven) or build.gradle (Gradle).
+ - Configure Application Properties
+        👉 Set Kafka broker address, consumer group ID, and other producer/consumer properties in application.properties or application.yml.
+ - Create Producer Configuration
+        👉 Define a @Configuration class with a ProducerFactory and KafkaTemplate bean.
+ - Create Consumer Configuration
+        👉 Define a @Configuration class with a ConsumerFactory and ConcurrentKafkaListenerContainerFactory bean.
+ - Create Producer Service
+        👉 Autowire KafkaTemplate and use it to send messages to a topic.
+ - Create Consumer Service
+        👉 Use @KafkaListener on a method to receive messages from a topic.
+ - Run & Test
+        👉 Start your Spring Boot application and test sending/receiving messages.
+
+Q2. How do you create multiple consumers for the same topic?
+Steps to Create Multiple Consumers for the Same Topic
+ - Create the Kafka Topic
+       - Make sure the topic has multiple partitions.
+            👉 ⚠️ Each partition can be consumed by only one consumer in a consumer group at a time.
+ - Define Consumer Group
+            👉 Assign the same group.id in application.properties or application.yml for all consumers.
+            👉 Consumers with the same group ID share partitions.
+ - Create Multiple Consumer Services
+            👉 Implement multiple @KafkaListener methods or multiple classes.
+             👉 All should listen to the same topic.
+ - Set Up Consumer Factory (Optional)
+            👉 Configure ConsumerFactory and ConcurrentKafkaListenerContainerFactory if custom settings are needed.
+ - Start Application
+            👉 Spring Boot automatically assigns partitions to consumers in the same group.
+            👉 Messages are load balanced across the consumers.
+ - Test
+            👉 Produce messages to the topic and observe that multiple consumers process messages in parallel, each handling different partitions.
+
+
+Q3. How to send messages asynchronously in Spring Boot Kafka?
+here asynchronously meaning :
+In Kafka, sending messages asynchronously means that your program doesn’t wait for Kafka to confirm that the message was received. Instead, Your program sends the message and moves on, handling success or failure later via a callback.
+Steps to Send Messages Asynchronously :
+      - Use KafkaTemplate.send()
+             - The send() method always returns a ListenableFuture, which allows async processing.
+      - Attach a Callback
+             - Use .addCallback() on the ListenableFuture to handle success or failure of message delivery.
+Example :
+@Autowired
+private KafkaTemplate<String, String> kafkaTemplate;
+private static final String TOPIC = "my_topic";
+public void sendMessageAsync(String key, String message) {
+    kafkaTemplate.send(TOPIC, key, message).addCallback(
+        success -> System.out.println("Message sent successfully: " + message),
+        failure -> System.err.println("Failed to send message: " + failure.getMessage())
+    );
+}
+How it Works :
+         - send() → sends the message asynchronously.
+         - .addCallback() → lets you react when Kafka successfully stores the message or fails.
+         - The calling thread doesn’t block, so your app continues executing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q15. What is Kafka Replication?
+---------------------------------
+👉 Each partition can be replicated across brokers for fault tolerance. One replica is leader, others are followers.
 
 
 Q18. What is Kafka Serialization?
@@ -306,9 +601,7 @@ Q25. How do you monitor Kafka?
 --------------------------------
 👉 Using Prometheus, Grafana, Confluent Control Center, Kafka Manager, or Spring Boot Actuator + Micrometer.
 
-Q26. How do you integrate Kafka with Spring Boot?
---------------------------------------------------
-👉 Using spring-kafka dependency, with @KafkaListener for consumers and KafkaTemplate for producer.
+
 
 
 Q27. What is Kafka UI ?
