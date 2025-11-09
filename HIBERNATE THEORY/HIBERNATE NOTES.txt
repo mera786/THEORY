@@ -325,6 +325,37 @@ there are 4 properties (ACID) of a transactions :
 | **C – Consistency** | Keeps the database in a valid, expected state before & after execution. |
 | **I – Isolation**   | Each transaction is separate; no mixing of data between them.           |
 | **D – Durability**  | Once saved (committed), the change stays even after power failure.      |
+Note:- 
+Spring Boot manages transactions using Spring’s Transaction Management It works on top of:
+          - JPA / Hibernate
+          - JDBC
+          - JTA (Java Transaction API)
+🧩 How to Enable Transaction Management :
+In Spring Boot, you usually don’t even need to do this manually But if you’re using plain Spring, you can explicitly enable it with: @EnableTransactionManagement
+Spring Boot auto-enables it when you use spring-boot-starter-data-jpa.
+Use of @Transactional :
+You simply annotate a method or a class with @Transactional. where readOnly=false by default.
+🔍 Transaction Propagation and Isolation :
+🔸 Propagation :
+-----------------
+Defines how transactions behave when one transactional method calls another.
+| Propagation            | Behavior                                                         |
+| ---------------------- | ---------------------------------------------------------------- |
+| `REQUIRED` *(default)* | Join existing transaction or create a new one if none exists     |
+| `REQUIRES_NEW`         | Always start a new transaction                                   |
+| `SUPPORTS`             | Run in existing transaction if available, else non-transactional |
+| `MANDATORY`            | Must run in a transaction (throws exception if none)             |
+| `NEVER`                | Must *not* run in a transaction                                  |
+🔸 Isolation :
+---------------
+Defines how much one transaction is isolated from others.
+| Isolation Level    | Description                                       |
+| ------------------ | ------------------------------------------------- |
+| `READ_UNCOMMITTED` | Can read uncommitted changes (dirty reads)        |
+| `READ_COMMITTED`   | Only read committed data (default for most DBs)   |
+| `REPEATABLE_READ`  | Prevents non-repeatable reads                     |
+| `SERIALIZABLE`     | Highest isolation — full consistency, but slowest |
+
 
 
 Q9. What is Spring Data JPA?
