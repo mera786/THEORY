@@ -370,6 +370,158 @@ Once the proxy object is created, it is managed by the Spring container.
 Q6. How do you implement pagination in Spring Boot JPA?
 👉 Using Pageable:
 
+Q7. Transaction State Diagram in DBMS ?
+                                                                                    ______________________
+                                                                   ________________|                      |
+                                                                  |                |Transaction Succeeded |
+                                                                  |                |______________________|
+                                 ____________            Commit   |
+          intial state          |            |                    |
+------------------------------->|Transaction |--------------------|
+           BEGIN                |____________|                    |
+                                                        RollBack  |                  ______________________
+                                                                  |_________________|                      |
+                                                                                    |Transaction Failed    |
+                                                                                    |______________________|
+
+Let's Understand the use case of transaction :
+INVENTORY TABLE :
++----+---------+--------+----------------+
+| id |  name   | price  | available_stock|
++----+---------+--------+----------------+
+|  1 | Laptop  | 25000  |      10        |
+|  2 | Mobile  | 10000  |      15        |
+|  3 | Watch   |  1500  |      20        |
++----+---------+--------+----------------+
+ORDERS TABLE :
++----+------+----------+--------+
+| id | pId  | quantity | amount |
++----+------+----------+--------+
+|  1 |  1   |    2     | 50000  |
+|  2 |  3   |    1     | 1500   |
++----+------+----------+--------+
+Note:- when transaction succeeded then update the inventory table like,
+INVENTORY TABLE :
++----+---------+--------+----------------+
+| id |  name   | price  | available_stock|
++----+---------+--------+----------------+
+|  1 | Laptop  | 25000  |      8         |
+|  2 | Mobile  | 10000  |      15        |
+|  3 | Watch   |  1500  |      19        |
++----+---------+--------+----------------+
+
+Q8. What is a Transaction?
+A transaction is a small unit of work in a database that contains one or more operations (insert, update, delete) which must be completed fully or not completed at all.
+
+Q9. Why do we need Transactions?
+We need transactions to ensure:
+✔ 1. Data Safety (No data loss)
+              If something fails (power cut, server crash), data will not be half-updated.
+✔ 2. Consistency (Correct data always)
+              After the transaction, the database remains in a correct state.
+✔ 3. No Partial Updates
+Example:
+              Order placed but stock not reduced ❌
+              Money deducted but not received ❌
+ Transactions prevent such problems.
+✔ 4. Rollback Support
+              If something goes wrong, we can go back to the previous safe state.
+
+✔ 5. Reliability in Multi-user Systems
+              Many people using the system at the same time won’t break the data.
+
+Q10. What are All Attributes of @Transactional annotation ?
+@Transactional(
+    propagation = Propagation.REQUIRED,
+    isolation = Isolation.DEFAULT,
+    timeout = -1,
+    readOnly = false,
+    rollbackFor = {},
+    rollbackForClassName = {},
+    noRollbackFor = {},
+    noRollbackForClassName = {},
+    transactionManager = "",
+    label = {}
+)
+
+ * What is readOnly ?
+readOnly is a attribute used for setting in the @Transactional annotation that tells Spring,
+✔ readOnly = false (DEFAULT) :
+                     - This is the default option. Means the transaction can read AND write.
+                     - Suitable for:
+                                       INSERT
+                                       UPDATE
+                                       DELETE
+✔ readOnly = true :
+                     - The transaction is for reading only.
+                     - Spring optimizes the transaction for better performance:
+                                                        Hibernate won’t track entity changes → faster.
+                     - If you try to save/update/delete, some databases will stop you or it may throw an exception.
+
+ * What is Propagation ? 
+When one @Transactional method calls another @Transactional method, how should the inner method behave?
+            Should it use the same transaction?
+            Or create a new one?
+            Or run without a transaction?
+Propagation Types :
+✔ REQUIRED = Use existing transaction if present. If not present → create a new one.
+✔ REQUIRES_NEW = Always create a NEW transaction. Even if methodA already has a transaction.
+✔ SUPPORTS = If caller has a transaction → join it. If caller has no transaction → run without one.
+✔ NOT_SUPPORTED = Always run without a transaction. If caller has a transaction → suspend it.
+✔ MANDATORY = Caller must have a transaction. If not → throw exception.
+✔ NEVER = Caller must NOT have a transaction. If caller has one → throw exception.
+✔ NESTED = Starts a nested transaction (savepoint). Rollback inside nested transaction will not affect outer transaction.
+
+* What is Isolation ?
+How much one transaction is protected from other transactions running at the SAME time.
+Ex- Imagine 2 people are reading/updating the SAME database row at the SAME time. like,
+Transaction A → Reading balance
+Transaction B → Updating balance
+What happens if both run together?
+👉 If we don't control this, data becomes WRONG.
+So the Isolation level decides how safely transactions run when multiple users access the same data at the same time.
+Isolation Levels :
+✔ Isolation.DEFAULT = Use whatever isolation level the database already uses by default. For MySQL, the default isolation level = REPEATABLE_READ
+           Note:- Inside one transaction, if you read a row once, you will always get the same value, even if another transaction changes and commits that row.
+✔ 
+✔ 
+✔ 
+✔ 
+✔ 
+✔ 
+✔ 
+✔ 
+
+* What is timeout ?
+Specifies maximum time in seconds a transaction can run.
+   Default: -1 (no timeout)
+   Example: timeout = 10
+If transaction exceeds time → rollback.
+
+* What is rollbackFor ?
+Specifies exceptions that must trigger rollback.
+ Ex- rollbackFor = { IOException.class, SQLException.class }
+
+* What is noRollbackFor ?
+Exceptions that should NOT trigger rollback.
+Ex - noRollbackFor = IllegalArgumentException.class
+
+* What is transactionManager ?
+Specify which transaction manager to use when multiple exist.
+ Ex- transactionManager = "orderTxManager"
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
