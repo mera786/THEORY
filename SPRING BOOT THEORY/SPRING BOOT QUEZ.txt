@@ -52,6 +52,15 @@
                         Q4. How do you define a custom query in Spring Boot JPA?
                         Q5. How JpaRepository object is created in Spring Boot even if it is an interface?
                         Q6. How do you implement pagination in Spring Boot JPA?
+                        Q7. Transaction State Diagram in DBMS ?
+                        Q8. What is a Transaction?
+                        Q9. Why do we need Transactions?
+                        Q10. What are All Attributes of @Transactional annotation ?
+                        Q7.
+                        Q7.
+                        Q7.
+                        Q7.
+                        Q7.
 (6) Monitoring & Management :
                         Q1. What is Spring Boot Actuator?
                         Q2. What are the key endpoints provided by Spring Boot Actuator?
