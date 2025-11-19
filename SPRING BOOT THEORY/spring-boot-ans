@@ -92,6 +92,62 @@ Q12. Difference between @Autowired vs new keyword?
 @Autowired provides loose coupling by allowing spring to manage dependencies while new keyword creates tight coupling by directly initiating a class.
 
 
+Q13. Explain spring vs springboot vs Spring MVC vs Spring AOP vs Spring Batch vs Spring cloud vs Spring scheduler?
+
+🌱 Spring Framework (Spring)
+➡️ Main parent framework
+➡️ Provides core features like Dependency Injection (DI) and Inversion of Control (IoC)
+➡️ Helps you build Java applications easily without writing too much boilerplate code.
+💡 Think of it as the base foundation for everything in Spring.
+
+🚀 Spring Boot
+➡️ Built on top of Spring Framework
+➡️ Makes Spring development very easy
+➡️ Removes configuration headache
+➡️ Provides auto-configuration, embedded server, starter dependencies
+💡 Think of it as Spring + automatic setup + fast development
+💡 You don't configure much — Spring Boot does it for you.
+
+🌐 Spring MVC (Model-View-Controller)
+➡️ A module inside Spring for building web applications
+➡️ Helps you create REST APIs, web controllers, views, request mappings, etc.
+💡 Think of it as Spring module that handles HTTP requests and builds websites/APIs.
+
+✂️ Spring AOP (Aspect Oriented Programming)
+➡️ Helps add common logic at multiple places without repeating code
+➡️ Used for logging, security, transactions, performance tracking
+💡 Example: You want to log every method call → Instead of writing log code in each method, write it once in AOP.
+
+📦 Spring Batch
+➡️ Used for processing large amounts of data
+➡️ Supports reading → processing → writing data in batches
+➡️ Used in scheduled jobs like:
+         - Daily report generation
+         - Processing millions of records
+         - Database to database copy
+💡 Think of it as Spring for heavy background jobs or big data processing.
+
+☁️ Spring Cloud
+➡️ Tools for building microservices
+➡️ Helps services communicate, discover each other, and stay reliable
+➡️ Provides:
+         - API Gateway
+         - Service Discovery (Eureka)
+         - Config Server
+         - Load Balancing
+         - Circuit Breaker
+💡 Think of it as Spring for distributed / cloud-based microservices architecture.
+
+⏰ Spring Scheduler
+➡️ Helps you run tasks automatically at specific times
+➡️ Uses @Scheduled annotation
+Examples:
+         - Run every 10 seconds
+         - Run every night at 2 AM
+         - Run every Monday
+💡 Think of it as Spring alarm clock for running tasks on schedule.
+
+
 
 
 
