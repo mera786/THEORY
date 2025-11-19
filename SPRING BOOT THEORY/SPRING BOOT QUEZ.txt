@@ -12,6 +12,7 @@
                        Q10. Explain difference between constructor injection vs setter injection?
                        Q11. Explain scope of Bean in Spring?
                        Q12. Difference between @Autowired vs new keyword?
+                       Q13. Explain spring vs springboot vs Spring MVC vs Spring AOP vs Spring Batch vs Spring cloud vs Spring scheduler?
 (2) Basics of Spring Boot :
                         Q1. What is Spring Boot?
                         Q2. What are the main features of Spring Boot?
