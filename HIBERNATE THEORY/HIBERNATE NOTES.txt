@@ -29,8 +29,8 @@ Q3. Difference between Hibernate and JPA?
    - Hibernate is a framework that implements JPA and also provides extra features beyond JPA.
    - Example: @Entity, @Id are JPA annotations, while @CreationTimestamp, @UpdateTimestamp are Hibernate-specific.
 Note:
-🔹 JPA = What to do
-🔹 Hibernate = How to do it (plus extra power e.g., caching, criteria queries, better dialect support, lazy loading strategies)
+🔹 JPA = What to do  / kya APIs aur rules hone chahiye.
+🔹 Hibernate = How to do it / internally kaise implement kiya jayega.(plus extra power e.g., caching, criteria queries, better dialect support, lazy loading strategies)
 
 Q4. What is an Entity in JPA/Hibernate?
    - An Entity is a Java class mapped to a database table.
